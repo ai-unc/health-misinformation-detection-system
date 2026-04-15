@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MAVEN | Maternal Health Misinformation Detection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&amp;family=Newsreader:ital,wght@0,400;0,600;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#e6e2de",
+                        "surface-tint": "#cdc6b0",
+                        "surface-container-highest": "#363432",
+                        "on-secondary-fixed": "#311300",
+                        "surface-container": "#211f1d",
+                        "on-background": "#e6e2de",
+                        "primary-fixed-dim": "#cdc6b0",
+                        "inverse-on-surface": "#32302e",
+                        "on-primary": "#343021",
+                        "secondary-fixed-dim": "#ffb787",
+                        "tertiary": "#c5f5d3",
+                        "on-primary-fixed-variant": "#4b4736",
+                        "surface-container-high": "#2b2a27",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#ffb787",
+                        "on-primary-fixed": "#1f1c0e",
+                        "surface-variant": "#363432",
+                        "on-secondary": "#512400",
+                        "on-secondary-container": "#ffa76b",
+                        "outline": "#959086",
+                        "inverse-primary": "#635e4c",
+                        "secondary-fixed": "#ffdcc7",
+                        "on-tertiary-fixed-variant": "#244f37",
+                        "surface-container-low": "#1d1b19",
+                        "secondary-container": "#793a00",
+                        "primary-fixed": "#eae2cb",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#723600",
+                        "on-tertiary-fixed": "#002111",
+                        "on-surface-variant": "#ccc6bb",
+                        "tertiary-fixed": "#beeecd",
+                        "background": "#141311",
+                        "inverse-surface": "#e6e2de",
+                        "tertiary-fixed-dim": "#a3d1b2",
+                        "primary": "#f1e9d2",
+                        "on-error": "#690005",
+                        "outline-variant": "#4a463e",
+                        "primary-container": "#d4cdb6",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#5b5745",
+                        "tertiary-container": "#a9d8b8",
+                        "on-tertiary-container": "#355f46",
+                        "surface-bright": "#3b3936",
+                        "surface-container-lowest": "#0f0e0c",
+                        "on-tertiary": "#0a3822",
+                        "surface-dim": "#141311",
+                        "surface": "#141311"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Newsreader"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .sharp-0 { border-radius: 0px !important; }
+        .badge-radius { border-radius: 3px !important; }
+        .text-justify-custom { text-align: justify; text-justify: inter-word; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0);   }
+        }
+        .card-enter {
+            animation: cardEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes shimmer {
+            0%   { transform: translateX(-200%); }
+            100% { transform: translateX(200%);  }
+        }
+        .shimmer-bar {
+            position: relative;
+            overflow: hidden;
+            background: #363432;
+        }
+        .shimmer-bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(241,233,210,0.18), transparent);
+            animation: shimmer 1.4s ease-in-out infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-center px-6 py-6 bg-[#141311]">
+<div class="max-w-xl w-full flex flex-col items-center gap-1">
+<div class="flex items-center gap-3">
+<!-- <span class="material-symbols-outlined text-[#F1E9D2]" data-icon="menu_book">menu_book</span> --->
+<h1 class="font-headline font-black text-3xl text-[#F1E9D2] tracking-widest uppercase">MAVEN</h1>
+</div>
+<p class="font-body italic text-xs tracking-wide text-[#959086] opacity-80 uppercase">Maternal Assertion Verification and Evidence Network</p>
+</div>
+</header>
+<main class="pt-32 pb-24 px-6 max-w-xl mx-auto flex flex-col gap-12">
+<!-- Input Area -->
+<section class="flex flex-col gap-6">
+<div class="relative aspect-square w-full bg-primary shadow-[0_20px_50px_rgba(241,233,210,0.15)]">
+<textarea id="text-input" class="w-full h-full p-8 bg-transparent border-none focus:ring-0 text-on-primary-fixed font-body italic text-lg resize-none placeholder:text-on-primary-fixed-variant/50" placeholder="Paste maternal health text here..."></textarea>
+<div class="absolute bottom-0 right-0 p-4">
+<span id="char-count" class="font-label text-[10px] uppercase tracking-tighter text-on-primary-fixed-variant opacity-40">Character Count: 0</span>
+</div>
+</div>
+<button id="analyze-btn" class="w-full py-5 bg-surface-container-highest text-primary font-label font-medium uppercase tracking-widest transition-all duration-300 hover:bg-on-surface hover:text-surface-dim active:scale-[0.98] sharp-0">
+                Analyze Manuscript
+            </button>
+</section>
+<!-- Output Area & Results -->
+<section class="flex flex-col gap-8">
+<div class="flex items-center justify-between border-b border-outline-variant/15 pb-2">
+<h2 class="font-headline font-bold text-sm tracking-widest text-outline uppercase">Analysis Archives</h2>
+<span id="status-label" class="font-label text-[10px] text-tertiary-container uppercase tracking-widest">Ready</span>
+</div>
+<!-- Scrollable Panel -->
+<div id="output-panel" class="flex flex-col gap-6 bg-[#161410] min-h-[400px] relative">
+<div id="cards-container" class="flex flex-col gap-6 relative z-10"></div>
+<!-- Watermark Empty State -->
+<div id="watermark" class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+<span class="font-headline font-black text-[14vw] text-outline opacity-[0.03] rotate-[-15deg] select-none uppercase">MAVEN ARCHIVE</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#141311] border-t border-[#959086]/15">
+<p class="font-body italic text-sm text-[#959086]">© 2026 MAVEN ARCHIVE. ALL RIGHTS RESERVED.</p>
+<div class="flex gap-6">
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Citations</a>
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Methodology</a>
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Privacy</a>
+</div>
+</footer>
+
+<script>
+const textarea      = document.getElementById('text-input');
+const charCount     = document.getElementById('char-count');
+const analyzeBtn    = document.getElementById('analyze-btn');
+const cardsContainer = document.getElementById('cards-container');
+const watermark     = document.getElementById('watermark');
+const statusLabel   = document.getElementById('status-label');
+
+// ── Character count ────────────────────────────────────────────────────
+textarea.addEventListener('input', () => {
+    charCount.textContent = `Character Count: ${textarea.value.length}`;
+});
+
+// ── Analyze ────────────────────────────────────────────────────────────
+analyzeBtn.addEventListener('click', async () => {
+    const text = textarea.value.trim();
+    if (!text) return;
+
+    setLoading(true);
+    cardsContainer.innerHTML = '';
+
+    try {
+        const res  = await fetch('/analyze', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ text }),
+        });
+        const data = await res.json();
+
+        if (data.error) {
+            renderError(data.error);
+        } else {
+            watermark.style.display = 'none';
+            renderResults(data);
+        }
+    } catch (err) {
+        renderError('Pipeline connection failed. Ensure the server is running.');
+    } finally {
+        setLoading(false);
+    }
+});
+
+// ── Loading state ──────────────────────────────────────────────────────
+function setLoading(on) {
+    if (on) {
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<div class="shimmer-bar w-full h-1"></div>';
+        analyzeBtn.classList.add('py-[22px]');
+        analyzeBtn.classList.remove('py-5');
+        statusLabel.textContent = 'Analyzing…';
+    } else {
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = 'Analyze Manuscript';
+        analyzeBtn.classList.remove('py-[22px]');
+        analyzeBtn.classList.add('py-5');
+    }
+}
+
+// ── Error card ─────────────────────────────────────────────────────────
+function renderError(message) {
+    statusLabel.textContent = 'Error';
+    watermark.style.display = 'none';
+    cardsContainer.innerHTML = `
+        <article class="bg-[#1E1C19] border border-[#2A2824] border-l-4 border-l-[#7A3A2A] p-6">
+            <p class="font-body italic text-[13.5px] leading-relaxed text-on-surface-variant">${escapeHtml(message)}</p>
+        </article>`;
+}
+
+// ── Results ────────────────────────────────────────────────────────────
+function renderResults(data) {
+    const { chunks, summary } = data;
+
+    statusLabel.textContent =
+        `${summary.flagged} of ${summary.total} Flagged`;
+
+    // Summary row
+    const summaryEl = document.createElement('div');
+    summaryEl.className = 'flex items-center justify-between pb-2 border-b border-outline-variant/10';
+    summaryEl.innerHTML = `
+        <span class="font-label text-[10px] text-outline uppercase tracking-widest">${summary.total} Chunk${summary.total !== 1 ? 's' : ''} Analyzed</span>
+        <span class="font-label text-[10px] ${summary.flagged > 0 ? 'text-secondary' : 'text-tertiary-fixed-dim'} uppercase tracking-widest">
+            Mean Risk ${(summary.mean_score * 100).toFixed(1)}%
+        </span>`;
+    cardsContainer.appendChild(summaryEl);
+
+    chunks.forEach((chunk, i) => {
+        const card = buildCard(chunk, i);
+        cardsContainer.appendChild(card);
+    });
+}
+
+// ── Card builder ───────────────────────────────────────────────────────
+function buildCard(chunk, index) {
+    const flagged      = chunk.flagged;
+    const scorePercent = (chunk.misinfo_score * 100).toFixed(1);
+
+    const article = document.createElement('article');
+    article.className = [
+        'bg-[#1E1C19] border border-[#2A2824] p-6 relative overflow-hidden card-enter',
+        flagged ? 'border-l-4 border-l-[#793A00]' : '',
+    ].join(' ');
+    article.style.animationDelay = `${index * 20}ms`;
+
+    const badgeClass = flagged
+        ? 'bg-[#793A00] text-[#ffa76b]'
+        : 'bg-[#a9d8b8] text-[#355f46]';
+    const badgeText  = flagged ? 'FLAGGED' : 'VERIFIED';
+
+    const barStyle = `width: ${scorePercent}%`;
+    const barClass = flagged
+        ? 'absolute h-full left-0 bg-gradient-to-r from-[#a9d8b8] via-[#ffb787] to-[#793A00]'
+        : 'absolute h-full left-0 bg-[#a9d8b8]';
+
+    const misinfoColor = flagged ? 'text-secondary' : 'text-tertiary';
+
+    article.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex flex-col">
+                <span class="font-label text-[10px] uppercase tracking-tighter text-outline-variant">Report ID: ${String(index).padStart(4, '0')}</span>
+                <span class="font-label text-[11px] uppercase tracking-widest ${flagged ? 'text-secondary-fixed-dim' : 'text-tertiary-fixed-dim'}">
+                    Mode: ${chunk.chunk_mode}
+                </span>
+            </div>
+            <span class="badge-radius ${badgeClass} px-2 py-1 font-label font-bold text-[9px] tracking-widest uppercase">${badgeText}</span>
+        </div>
+        <p class="text-[13.5px] leading-relaxed text-on-surface-variant font-body mb-6 line-clamp-4">${escapeHtml(chunk.chunk)}</p>
+        <div class="grid grid-cols-4 gap-2 mb-6">
+            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
+                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">AUTH</span>
+                <span class="font-label text-xs font-bold text-on-surface">${chunk.authority_sim.toFixed(2)}</span>
+            </div>
+            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
+                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">MISINFO</span>
+                <span class="font-label text-xs font-bold ${misinfoColor}">${chunk.misinfo_sim.toFixed(2)}</span>
+            </div>
+            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
+                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">DELTA</span>
+                <span class="font-label text-xs font-bold text-on-surface">${chunk.claim_delta.toFixed(2)}</span>
+            </div>
+            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
+                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">ISO</span>
+                <span class="font-label text-xs font-bold text-on-surface">${chunk.isolation_score.toFixed(2)}</span>
+            </div>
+        </div>
+        <div class="w-full h-1 bg-surface-container-highest relative">
+            <div class="${barClass}" style="${barStyle}"></div>
+        </div>
+        <div class="mt-2 flex justify-end">
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">${scorePercent}% Risk</span>
+        </div>`;
+
+    return article;
+}
+
+// ── Utility ────────────────────────────────────────────────────────────
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(text));
+    return div.innerHTML;
+}
+</script>
+</body></html>
