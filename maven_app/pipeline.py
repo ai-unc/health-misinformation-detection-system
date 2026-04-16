@@ -1,5 +1,5 @@
 """
-MAVEN Pipeline — extracted from MAVEN_AI_UNC_SPR2026.ipynb
+MAVEN Pipeline: extracted from MAVEN_AI_UNC_SPR2026.ipynb
 Exposes score_text() as the single public entry point.
 """
 
@@ -17,14 +17,14 @@ from sklearn.ensemble import IsolationForest
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 
-# ── Constants ──────────────────────────────────────────────────────────────
+# Constants 
 SENTENCE_THRESHOLD  = 300
 PARAGRAPH_THRESHOLD = 3_000
 EMBED_DIM           = 768
 FLAG_THRESHOLD      = 0.60
 DEVICE              = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-# ── Anchor sets — replace with domain-validated claims before Milestone 1 ──
+# Anchor sets. TODO: replace with domain-validated claims before Milestone 1 
 AUTHORITY_ANCHORS: List[str] = [
     'Prenatal folic acid supplementation significantly reduces the risk of neural tube defects.',
     'The CDC and WHO recommend influenza vaccination during any trimester of pregnancy.',
@@ -51,13 +51,13 @@ MISINFO_ANCHORS: List[str] = [
     'Natural childbirth without any medical intervention is always the safest option.',
 ]
 
-# ── Model loading (once at import time) ───────────────────────────────────
+# Model loading (once at import time) 
 print(f'[MAVEN] Loading PubMedBERT on {DEVICE}...')
 _model = SentenceTransformer('NeuML/pubmedbert-base-embeddings', device=DEVICE)
 print('[MAVEN] Model loaded.')
 
 
-# ── Text segmentation ─────────────────────────────────────────────────────
+# Text segmentation 
 def _approx_tokens(text: str) -> int:
     return len(text.split())
 
@@ -106,7 +106,7 @@ def chunk_text(
     return dispatch[mode](), mode
 
 
-# ── Embedding ─────────────────────────────────────────────────────────────
+# Embedding 
 def embed(texts: List[str], batch_size: int = 32, show_progress: bool = False) -> np.ndarray:
     if not texts:
         return np.empty((0, EMBED_DIM))
@@ -119,7 +119,7 @@ def embed(texts: List[str], batch_size: int = 32, show_progress: bool = False) -
     )
 
 
-# ── Centroids & Isolation Forest (built once) ─────────────────────────────
+# Centroids & Isolation Forest (built once) 
 def _l2(v: np.ndarray) -> np.ndarray:
     return v / (np.linalg.norm(v) + 1e-10)
 
@@ -136,7 +136,7 @@ _iso_forest.fit(_authority_embs)
 print('[MAVEN] Anchors ready.')
 
 
-# ── Marker computation ────────────────────────────────────────────────────
+# Marker computation 
 def compute_markers(chunk_embs: np.ndarray) -> dict:
     auth_sim    = (chunk_embs @ _authority_centroid.T).flatten()
     misinfo_sim = (chunk_embs @ _misinfo_centroid.T).flatten()
@@ -154,7 +154,7 @@ def compute_markers(chunk_embs: np.ndarray) -> dict:
     }
 
 
-# ── Public API ────────────────────────────────────────────────────────────
+# Public API 
 def score_text(
     text: str,
     chunk_mode: str = 'auto',
