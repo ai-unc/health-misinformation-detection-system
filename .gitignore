@@ -1,0 +1,70 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python packaging artifacts
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Logs
+*.log
+logs/
+
+# ML model weights (large binaries — use HuggingFace Hub instead)
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.pkl
+
+# HuggingFace / sentence-transformers local cache
+.cache/
+huggingface/
+
+# NLTK downloaded corpora (re-downloaded on first run)
+nltk_data/
+
+# pip stray files (e.g. from `pip install =2.1` typos)
+=*
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Anchor embedding cache (regenerated on first import of pipeline.py)
+maven_app/anchors/_cache/
+
+# UI mockup templates (local design artifacts)
+MAVEN_UI_templates/
+
+# Email attachments / personal files
+perinatal_knowledge_base/Fw_*

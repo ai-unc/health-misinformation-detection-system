@@ -1,0 +1,65 @@
+{
+  "unattributed_risk": [
+    "There are hidden long-term risks to this procedure that doctors will not tell you about.",
+    "Many women suffer side effects from this medication but the data is being suppressed.",
+    "Studies have shown serious harms, but the sources are never named.",
+    "Hospitals do not disclose the real complication rates of this intervention.",
+    "Independent researchers warn of dangers the medical establishment ignores.",
+    "This treatment causes problems that mainstream science refuses to investigate."
+  ],
+  "not_aligned_with_guidelines": [
+    "You should refuse the routine glucose tolerance test during pregnancy.",
+    "Skip the Group B Strep screening at 36 weeks because it is unnecessary.",
+    "There is no need to follow ACOG recommendations on prenatal care visits.",
+    "Standard induction protocols at 41 weeks are outdated and should be ignored.",
+    "Mainstream guidelines on breastfeeding cessation are wrong about medications.",
+    "The recommended vaccine schedule during pregnancy is not based on real evidence."
+  ],
+  "promotes_alternative_medicine": [
+    "Replace prenatal vitamins with herbal teas and whole foods only.",
+    "Use essential oils instead of medication to manage gestational diabetes.",
+    "Homeopathic remedies are safer and more effective than insulin during pregnancy.",
+    "Chiropractic adjustments can turn a breech baby and avoid the need for medical intervention.",
+    "Castor oil and natural induction methods are preferable to Pitocin.",
+    "Postpartum depression should be treated with adaptogens, not antidepressants."
+  ],
+  "exaggerated_risk": [
+    "Epidurals during labour cause permanent paralysis in many women.",
+    "Ultrasounds during pregnancy damage the developing fetal brain.",
+    "Cesarean sections always result in lifelong autoimmune disease in the child.",
+    "Pitocin during labour causes severe long-term harm to the baby.",
+    "Vitamin K injections at birth dramatically increase the risk of childhood leukemia.",
+    "Hospital births put the mother and baby at far greater risk than home birth."
+  ],
+  "discourages_evidence_based": [
+    "Decline the Tdap vaccine offered during the third trimester.",
+    "Refuse continuous fetal monitoring because it leads to unnecessary cesareans.",
+    "Do not consent to delayed cord clamping unless you understand the hidden risks.",
+    "Skip the postpartum depression screening because the questions are biased.",
+    "Refuse hepatitis B vaccination of your newborn at the hospital.",
+    "Decline the routine eye ointment given to newborns immediately after birth."
+  ],
+  "undermines_medical_trust": [
+    "OB-GYNs only recommend cesareans because they are paid more for surgical deliveries.",
+    "Hospitals push induction for scheduling convenience, not patient safety.",
+    "Doctors do not really know what causes preeclampsia and are guessing.",
+    "The medical system treats pregnant women as profit centres, not patients.",
+    "Pharmaceutical companies suppress research that contradicts their products.",
+    "Mainstream maternity care is built on outdated patriarchal assumptions."
+  ],
+  "inaccurate_biological_mechanism": [
+    "Plan B causes abortion by detaching an implanted embryo from the uterus.",
+    "IUDs work by repeatedly aborting fertilized eggs every month.",
+    "Breastfeeding alone is reliable contraception for the entire first year postpartum.",
+    "A baby cannot feel pain during labour because the nervous system is not developed.",
+    "Vaccines bypass the placenta and inject toxins directly into the fetus.",
+    "Hormonal contraceptives accumulate in the body and cause permanent infertility."
+  ],
+  "other": [
+    "Real mothers do not need pain relief during childbirth.",
+    "A natural birth is the only way to truly bond with your baby.",
+    "If you needed a cesarean you failed at giving birth.",
+    "Modern motherhood has been ruined by overmedicalization.",
+    "Trust your body and ignore the constant testing during pregnancy."
+  ]
+}

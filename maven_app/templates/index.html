@@ -108,6 +108,25 @@
             background: linear-gradient(90deg, transparent, rgba(241,233,210,0.18), transparent);
             animation: shimmer 1.4s ease-in-out infinite;
         }
+
+        .analysis-panel {
+            transition: opacity 200ms ease-out;
+        }
+
+        [hidden] { display: none !important; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card-enter,
+            .shimmer-bar::after {
+                animation: none !important;
+            }
+            .analysis-panel {
+                transition: none !important;
+            }
+            * {
+                transition-duration: 0ms !important;
+            }
+        }
     </style>
 <style>
     body {
@@ -130,12 +149,12 @@
 <!-- Input Area -->
 <section class="flex flex-col gap-6">
 <div class="relative aspect-square w-full bg-primary shadow-[0_20px_50px_rgba(241,233,210,0.15)]">
-<textarea id="text-input" class="w-full h-full p-8 bg-transparent border-none focus:ring-0 text-on-primary-fixed font-body italic text-lg resize-none placeholder:text-on-primary-fixed-variant/50" placeholder="Paste maternal health text here..."></textarea>
+<textarea id="text-input" class="w-full h-full p-8 bg-transparent border-none focus:ring-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-on-primary-fixed focus-visible:outline-offset-[-8px] text-on-primary-fixed font-body italic text-lg resize-none placeholder:text-on-primary-fixed-variant/50" placeholder="Paste maternal health text here..."></textarea>
 <div class="absolute bottom-0 right-0 p-4">
 <span id="char-count" class="font-label text-[10px] uppercase tracking-tighter text-on-primary-fixed-variant opacity-40">Character Count: 0</span>
 </div>
 </div>
-<button id="analyze-btn" class="w-full py-5 bg-surface-container-highest text-primary font-label font-medium uppercase tracking-widest transition-all duration-300 hover:bg-on-surface hover:text-surface-dim active:scale-[0.98] sharp-0">
+<button id="analyze-btn" class="w-full py-5 bg-surface-container-highest text-primary font-label font-medium uppercase tracking-widest transition-all duration-300 hover:bg-on-surface hover:text-surface-dim active:scale-[0.98] sharp-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
                 Analyze Manuscript
             </button>
 </section>
@@ -157,21 +176,32 @@
 </main>
 <!-- Footer -->
 <footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#141311] border-t border-[#959086]/15">
-<p class="font-body italic text-sm text-[#959086]">© 2026 MAVEN ARCHIVE. ALL RIGHTS RESERVED.</p>
+<p class="font-body italic text-sm text-[#959086]">© 2026 MAVEN. ALL RIGHTS RESERVED.</p>
 <div class="flex gap-6">
-<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Citations</a>
-<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Methodology</a>
-<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] transition-all" href="#">Privacy</a>
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-all" href="#">Citations</a>
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-all" href="#">Methodology</a>
+<a class="font-body italic text-sm text-[#959086] no-underline hover:text-[#F1E9D2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-all" href="#">Privacy</a>
 </div>
 </footer>
 
 <script>
-const textarea      = document.getElementById('text-input');
-const charCount     = document.getElementById('char-count');
-const analyzeBtn    = document.getElementById('analyze-btn');
+const textarea       = document.getElementById('text-input');
+const charCount      = document.getElementById('char-count');
+const analyzeBtn     = document.getElementById('analyze-btn');
 const cardsContainer = document.getElementById('cards-container');
-const watermark     = document.getElementById('watermark');
-const statusLabel   = document.getElementById('status-label');
+const watermark      = document.getElementById('watermark');
+const statusLabel    = document.getElementById('status-label');
+
+const MISINFO_TYPE_LABELS = {
+    unattributed_risk:               'Unattributed Risk',
+    not_aligned_with_guidelines:     'Off-Guideline',
+    promotes_alternative_medicine:   'Alternative Medicine',
+    exaggerated_risk:                'Exaggerated Risk',
+    discourages_evidence_based:      'Discourages Evidence-Based Care',
+    undermines_medical_trust:        'Undermines Medical Trust',
+    inaccurate_biological_mechanism: 'Inaccurate Biology',
+    other:                           'Other',
+};
 
 // ── Character count ────────────────────────────────────────────────────
 textarea.addEventListener('input', () => {
@@ -207,6 +237,21 @@ analyzeBtn.addEventListener('click', async () => {
     }
 });
 
+// ── Expand/collapse analysis panels (event delegation) ─────────────────
+cardsContainer.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-expand]');
+    if (!btn) return;
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    panel.hidden = isOpen;
+    const glyph = btn.querySelector('[data-expand-glyph]');
+    if (glyph) glyph.textContent = isOpen ? '—' : '↓';
+    const label = btn.querySelector('[data-expand-label]');
+    if (label) label.textContent = isOpen ? 'Expand Analysis' : 'Collapse Analysis';
+});
+
 // ── Loading state ──────────────────────────────────────────────────────
 function setLoading(on) {
     if (on) {
@@ -240,89 +285,173 @@ function renderResults(data) {
     statusLabel.textContent =
         `${summary.flagged} of ${summary.total} Flagged`;
 
-    // Summary row
+    const allVerified = summary.total > 0 && summary.flagged === 0;
+    const rightLabel = allVerified
+        ? '<span class="font-label text-[10px] text-tertiary-fixed-dim uppercase tracking-widest">All Chunks Verified</span>'
+        : `<span class="font-label text-[10px] ${summary.flagged > 0 ? 'text-secondary' : 'text-tertiary-fixed-dim'} uppercase tracking-widest">
+               Mean Risk ${(summary.mean_score * 100).toFixed(1)}%
+           </span>`;
+
     const summaryEl = document.createElement('div');
     summaryEl.className = 'flex items-center justify-between pb-2 border-b border-outline-variant/10';
     summaryEl.innerHTML = `
         <span class="font-label text-[10px] text-outline uppercase tracking-widest">${summary.total} Chunk${summary.total !== 1 ? 's' : ''} Analyzed</span>
-        <span class="font-label text-[10px] ${summary.flagged > 0 ? 'text-secondary' : 'text-tertiary-fixed-dim'} uppercase tracking-widest">
-            Mean Risk ${(summary.mean_score * 100).toFixed(1)}%
-        </span>`;
+        ${rightLabel}`;
     cardsContainer.appendChild(summaryEl);
 
     chunks.forEach((chunk, i) => {
-        const card = buildCard(chunk, i);
-        cardsContainer.appendChild(card);
+        cardsContainer.appendChild(buildCard(chunk, i));
     });
 }
 
 // ── Card builder ───────────────────────────────────────────────────────
 function buildCard(chunk, index) {
-    const flagged      = chunk.flagged;
-    const scorePercent = (chunk.misinfo_score * 100).toFixed(1);
-
     const article = document.createElement('article');
-    article.className = [
-        'bg-[#1E1C19] border border-[#2A2824] p-6 relative overflow-hidden card-enter',
-        flagged ? 'border-l-4 border-l-[#793A00]' : '',
-    ].join(' ');
+    article.className = cardClasses(chunk.flagged);
     article.style.animationDelay = `${index * 20}ms`;
 
+    article.innerHTML = [
+        renderHeader(chunk, index),
+        renderChunkBody(chunk),
+        renderScorePills(chunk),
+        renderRiskBar(chunk),
+        chunk.flagged ? renderExpandAnalysis(chunk, index) : '',
+    ].join('');
+
+    return article;
+}
+
+function cardClasses(flagged) {
+    const base = 'bg-[#1E1C19] border border-[#2A2824] p-6 relative overflow-hidden card-enter';
+    return flagged
+        ? `${base} border-l-4 border-l-[#793A00]`
+        : `${base} opacity-80 hover:opacity-100 transition-opacity`;
+}
+
+function renderHeader(chunk, index) {
+    const flagged    = chunk.flagged;
     const badgeClass = flagged
         ? 'bg-[#793A00] text-[#ffa76b]'
         : 'bg-[#a9d8b8] text-[#355f46]';
     const badgeText  = flagged ? 'FLAGGED' : 'VERIFIED';
 
-    const barStyle = `width: ${scorePercent}%`;
+    const secondaryText  = flagged
+        ? `Detected: ${escapeHtml(fmtTypeLabel(chunk.misinfo_type))}`
+        : `Mode: ${escapeHtml(chunk.chunk_mode)}`;
+    const secondaryColor = flagged ? 'text-secondary-fixed-dim' : 'text-tertiary-fixed-dim';
+
+    return `
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex flex-col">
+                <span class="font-label text-[10px] uppercase tracking-tighter text-outline-variant">Report ID: ${String(index).padStart(4, '0')}</span>
+                <span class="font-label text-[11px] uppercase tracking-widest ${secondaryColor}">${secondaryText}</span>
+            </div>
+            <span class="badge-radius ${badgeClass} px-2 py-1 font-label font-bold text-[9px] tracking-widest uppercase">${badgeText}</span>
+        </div>`;
+}
+
+function renderChunkBody(chunk) {
+    return `<p class="text-[13.5px] leading-relaxed text-on-surface-variant font-body mb-6 line-clamp-4">${escapeHtml(chunk.chunk)}</p>`;
+}
+
+function renderScorePills(chunk) {
+    const flagged      = chunk.flagged;
+    const misinfoColor = flagged ? 'text-secondary' : 'text-tertiary';
+
+    const delta        = chunk.claim_delta;
+    const deltaRounded = Math.round(delta * 100);
+    const deltaColor   = deltaRounded > 0 ? 'text-tertiary-fixed-dim'
+                       : deltaRounded < 0 ? 'text-secondary-fixed-dim'
+                       : 'text-on-surface';
+
+    const pill = (label, value, valueClass = 'text-on-surface') => `
+        <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
+            <span class="font-label text-[9px] text-outline uppercase tracking-tighter">${label}</span>
+            <span class="font-label text-xs font-bold ${valueClass}">${value}</span>
+        </div>`;
+
+    return `
+        <div class="grid grid-cols-4 gap-2 mb-6">
+            ${pill('AUTH',    fmtPct(chunk.authority_sim))}
+            ${pill('MISINFO', fmtPct(chunk.misinfo_sim), misinfoColor)}
+            ${pill('DELTA',   fmtPct(delta, { signed: true }), deltaColor)}
+            ${pill('ISO',     fmtPct(chunk.isolation_score))}
+        </div>`;
+}
+
+function renderRiskBar(chunk) {
+    const flagged      = chunk.flagged;
+    const scorePercent = (chunk.misinfo_score * 100).toFixed(1);
     const barClass = flagged
         ? 'absolute h-full left-0 bg-gradient-to-r from-[#a9d8b8] via-[#ffb787] to-[#793A00]'
         : 'absolute h-full left-0 bg-[#a9d8b8]';
 
-    const misinfoColor = flagged ? 'text-secondary' : 'text-tertiary';
-
-    article.innerHTML = `
-        <div class="flex justify-between items-start mb-4">
-            <div class="flex flex-col">
-                <span class="font-label text-[10px] uppercase tracking-tighter text-outline-variant">Report ID: ${String(index).padStart(4, '0')}</span>
-                <span class="font-label text-[11px] uppercase tracking-widest ${flagged ? 'text-secondary-fixed-dim' : 'text-tertiary-fixed-dim'}">
-                    Mode: ${chunk.chunk_mode}
-                </span>
-            </div>
-            <span class="badge-radius ${badgeClass} px-2 py-1 font-label font-bold text-[9px] tracking-widest uppercase">${badgeText}</span>
-        </div>
-        <p class="text-[13.5px] leading-relaxed text-on-surface-variant font-body mb-6 line-clamp-4">${escapeHtml(chunk.chunk)}</p>
-        <div class="grid grid-cols-4 gap-2 mb-6">
-            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
-                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">AUTH</span>
-                <span class="font-label text-xs font-bold text-on-surface">${chunk.authority_sim.toFixed(2)}</span>
-            </div>
-            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
-                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">MISINFO</span>
-                <span class="font-label text-xs font-bold ${misinfoColor}">${chunk.misinfo_sim.toFixed(2)}</span>
-            </div>
-            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
-                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">DELTA</span>
-                <span class="font-label text-xs font-bold text-on-surface">${chunk.claim_delta.toFixed(2)}</span>
-            </div>
-            <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
-                <span class="font-label text-[9px] text-outline uppercase tracking-tighter">ISO</span>
-                <span class="font-label text-xs font-bold text-on-surface">${chunk.isolation_score.toFixed(2)}</span>
-            </div>
-        </div>
+    return `
         <div class="w-full h-1 bg-surface-container-highest relative">
-            <div class="${barClass}" style="${barStyle}"></div>
+            <div class="${barClass}" style="width: ${scorePercent}%"></div>
         </div>
         <div class="mt-2 flex justify-end">
             <span class="font-label text-[10px] text-outline uppercase tracking-widest">${scorePercent}% Risk</span>
         </div>`;
+}
 
-    return article;
+function renderExpandAnalysis(chunk, index) {
+    const panelId = `analysis-${index}`;
+    const bucket  = bucketConfidence(chunk.misinfo_type_confidence ?? 0);
+    const rawConf = (chunk.misinfo_type_confidence ?? 0).toFixed(2);
+
+    return `
+        <div class="mt-4 flex justify-end">
+            <button type="button"
+                    data-expand
+                    aria-expanded="false"
+                    aria-controls="${panelId}"
+                    class="font-label text-[10px] uppercase tracking-widest text-primary/60 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-colors">
+                <span data-expand-label>Expand Analysis</span> <span data-expand-glyph>—</span>
+                <span class="sr-only">for chunk ${index + 1}</span>
+            </button>
+        </div>
+        <div id="${panelId}" hidden class="analysis-panel mt-6 bg-surface-container-low px-6 py-8 flex flex-col gap-8">
+            <div>
+                <span class="font-label text-[9px] uppercase tracking-widest text-outline-variant">Matched Claim</span>
+                <p class="mt-2 font-body italic text-[13.5px] leading-relaxed text-on-surface-variant">${escapeHtml(chunk.matched_claim ?? '')}</p>
+            </div>
+            <div>
+                <span class="font-label text-[9px] uppercase tracking-widest text-outline">Evidence</span>
+                <p class="mt-2 font-body text-[13.5px] leading-relaxed text-on-surface">${escapeHtml(chunk.evidence_correction ?? '')}</p>
+            </div>
+            <div>
+                <span class="badge-radius ${bucket.cls} px-2 py-1 font-label font-bold text-[9px] tracking-widest uppercase"
+                      title="cosine sim ${rawConf}">
+                    ${escapeHtml(fmtTypeLabel(chunk.misinfo_type))} · ${bucket.label}
+                </span>
+            </div>
+        </div>`;
+}
+
+// ── Formatting helpers ─────────────────────────────────────────────────
+function fmtPct(x, opts = {}) {
+    const pct = Math.round(x * 100);
+    if (!opts.signed) return `${pct}%`;
+    if (pct > 0) return `+${pct}%`;
+    if (pct < 0) return `\u2212${Math.abs(pct)}%`;
+    return '0%';
+}
+
+function fmtTypeLabel(id) {
+    return MISINFO_TYPE_LABELS[id] ?? (id ?? 'Unclassified');
+}
+
+function bucketConfidence(c) {
+    if (c >= 0.45) return { label: 'HIGH', cls: 'bg-secondary-container text-on-secondary-container' };
+    if (c >= 0.35) return { label: 'MED',  cls: 'bg-surface-container-high text-on-surface' };
+    return                { label: 'LOW',  cls: 'bg-surface-container text-outline' };
 }
 
 // ── Utility ────────────────────────────────────────────────────────────
 function escapeHtml(text) {
     const div = document.createElement('div');
-    div.appendChild(document.createTextNode(text));
+    div.appendChild(document.createTextNode(text ?? ''));
     return div.innerHTML;
 }
 </script>

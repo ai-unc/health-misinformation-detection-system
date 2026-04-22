@@ -1,0 +1,372 @@
+[
+  {
+    "claim": "You must 'eat for two' during pregnancy.",
+    "evidence": "No. Caloric needs remain unchanged in the first trimester; only 200–300 additional kcal/day are needed in the second and third trimesters — roughly a small snack. Focus should be on nutrient density, not caloric doubling. Overeating increases risk of gestational diabetes, preeclampsia, and excessive gestational weight gain (ACOG; USPSTF behavioural counselling guidance).",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "All seafood must be avoided during pregnancy.",
+    "evidence": "No. FDA (2024 guidance) recommends 2–3 servings/week of low-mercury fish (salmon, sardines, tilapia, canned light tuna). Fish provides essential omega-3 DHA critical for fetal brain development. Blanket avoidance causes nutritional deficits. High-mercury fish (shark, swordfish, king mackerel, tilefish) should be avoided.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "All caffeine must be eliminated entirely.",
+    "evidence": "No. ACOG recommends <200 mg/day; WHO recommends <300 mg/day. Evidence does not support zero-caffeine requirements; blanket prohibition creates unnecessary anxiety without reducing risk.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Eating peanuts during pregnancy causes peanut allergy in the child.",
+    "evidence": "Disproven. Maternal peanut consumption does NOT increase child peanut allergy risk (Canadian Medical Association Journal, 2018). Early introduction of peanut-containing foods to infants is now recommended by AAP as allergy prevention.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Heartburn during pregnancy means the baby will have lots of hair.",
+    "evidence": "False. No mechanistic basis for this persistent folk belief. Fetal hair is determined by genetics.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "You should not dye your hair during pregnancy.",
+    "evidence": "Not supported by evidence. Systematic reviews find no evidence of harm from routine hair dye use in pregnancy. Professional chemical treatments in poorly ventilated spaces warrant caution in the first trimester but broad prohibition is not evidence-based.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Exercise during pregnancy is dangerous and should be avoided.",
+    "evidence": "False. ACOG recommends 150 minutes/week of moderate-intensity aerobic activity for uncomplicated pregnancies. Exercise reduces gestational diabetes risk, improves mood, and is associated with easier labour and faster postpartum recovery. Exercise is contraindicated only in specific high-risk conditions.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Lifting arms above the head causes the umbilical cord to wrap around the baby's neck (nuchal cord).",
+    "evidence": "No evidence. Nuchal cord occurs in ~25–30% of births and is not associated with maternal arm position. This myth causes unnecessary movement restriction.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Sex during pregnancy causes miscarriage or harms the baby.",
+    "evidence": "Generally false for uncomplicated pregnancies. Sexual activity is safe throughout pregnancy in the absence of specific contraindications (placenta praevia, preterm labour risk, ruptured membranes). The fetus is protected by amniotic fluid and the mucus plug.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Morning sickness only happens in the morning and ends by 12 weeks.",
+    "evidence": "Misleading. Nausea and vomiting of pregnancy can occur at any time of day and persists beyond the first trimester in ~20% of cases. Hyperemesis gravidarum (severe NVP requiring hospitalisation) can last the entire pregnancy. This myth contributes to under-treatment and symptom dismissal.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Mild cramping and spotting in early pregnancy always mean miscarriage.",
+    "evidence": "Inaccurate and anxiety-provoking. Implantation bleeding and mild cramping from uterine growth are common and not predictive of miscarriage. However, heavy bleeding and significant pain warrant immediate evaluation.",
+    "domain": "antenatal"
+  },
+  {
+    "claim": "Your baby will come when they're ready — induction is always unnecessary and harmful.",
+    "evidence": "False and dangerous. The ARRIVE trial (NEJM, 2018; Grobman et al.; n=6,106) demonstrated that elective induction at 39 weeks in low-risk nulliparous women REDUCED (not increased) caesarean delivery rates (19.4% vs. 22.2%) and hypertensive disorders of pregnancy. This finding is one of the most frequently inverted claims in social media birth content.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Induction with Pitocin causes more painful, dangerous contractions than natural labour.",
+    "evidence": "Partially distorted. Oxytocin (Pitocin) induction produces physiologically similar contractions to spontaneous labour. Pain perception is subjective and individual. The narrative that induced labour is categorically more traumatic is not evidence-based.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Membrane sweeping causes infection or harm and should be refused.",
+    "evidence": "Not supported. Membrane sweeping (stretch and sweep) is a low-risk procedure associated with higher rates of spontaneous labour onset within 48 hours and reduced need for formal induction. Cochrane reviews confirm its safety and efficacy.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "If you get an epidural, you will end up with a c-section.' (Widely shared TikTok/Instagram claim, documented Collective Care 2025)",
+    "evidence": "False. Epidural analgesia is NOT significantly associated with increased caesarean risk in low-risk pregnancies. Cochrane Review (Anim-Somuah et al.; updated) confirms association with longer second stage but not increased caesarean delivery. The causal claim is an inversion of a weak correlation.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Epidurals harm the baby through drug exposure.",
+    "evidence": "Not supported by evidence. Epidural medications are delivered into the epidural space with minimal systemic absorption. Studies do not show clinically significant adverse neonatal outcomes attributable to epidural analgesia. ACOG affirms the patient's right to effective pain relief in labour without a requirement for justification.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Choosing an epidural means you failed at natural birth or are weak.",
+    "evidence": "Harmful social stigma with no medical basis. Evidence supports that untreated severe pain in labour is associated with PTSD, negative birth experiences, and reluctance to give birth again. The framing of pain management as moral failure is a documented social harm. ACOG and ACNM both support patient's right to choose any evidence-based pain management option.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "All caesarean sections are the result of unnecessary medical intervention or profit motives.",
+    "evidence": "Overstated and harmful. While caesarean overuse is documented, caesarean delivery is life-saving when clinically indicated (placenta praevia, umbilical cord prolapse, fetal distress, malpresentation). Blanket distrust of caesarean recommendation causes patients to resist appropriate care.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "VBAC is always more dangerous than repeat caesarean.",
+    "evidence": "Inaccurate for many patients. VBAC has a success rate of ~60–80% in appropriate candidates. The risk of uterine rupture (0.5–1%) is real but manageable in appropriate settings. ACOG-SMFM OCC supports VBAC as a reasonable option for eligible women.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "You cannot breastfeed successfully after a caesarean.",
+    "evidence": "False. Caesarean delivery does not prevent breastfeeding. Early skin-to-skin contact and lactation support are achievable after caesarean. Breastfeeding challenges post-caesarean (delayed milk coming in, pain affecting positioning) are real but addressable with proper support.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Vitamin K injection causes leukaemia or is a pharmaceutical conspiracy.",
+    "evidence": "No evidence of harm. Vitamin K prophylaxis at birth prevents vitamin K deficiency bleeding (VKDB), a rare but potentially fatal or brain-damaging condition. Multiple large studies have found no association with childhood leukaemia. This misinformation has directly caused preventable deaths (AAP policy statement).",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "The hepatitis B vaccine at birth is unnecessary for newborns.",
+    "evidence": "False. Perinatal transmission from mother to infant is a primary route of chronic hepatitis B infection. The birth dose prevents 70–95% of perinatal transmission (AAP, CDC, WHO all recommend the birth dose).",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "Delayed cord clamping is dangerous and slows the birth team.",
+    "evidence": "False. WHO and ACOG recommend delayed cord clamping (1–3 minutes for term infants) as standard of care. Benefits: increased iron stores, reduced anaemia risk, potential neurodevelopmental benefits. Does not cause complications in term births.",
+    "domain": "intrapartum"
+  },
+  {
+    "claim": "You should be back to normal by 6 weeks postpartum.",
+    "evidence": "The '6-week clearance' is a historical artefact, not an evidence-based benchmark. ACOG CO #736 (2018) explicitly replaces it with a 12-week care model. Pelvic floor recovery, hormonal stabilisation, emotional adjustment, and breastfeeding establishment continue well beyond 6 weeks. Sexual health research documents significant dysfunction persisting at 18 months in 20% of women (PMC qualitative study, 2022).",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Urinary leakage after birth is something you just have to accept.",
+    "evidence": "Harmful normalisation. Urinary incontinence is common but not inevitable and is highly treatable. Pelvic floor physiotherapy has Grade A evidence for improvement or resolution (NICE/ACOG). Normalising incontinence without offering treatment represents a clinical failure. ACOG and AWHONN both include pelvic floor assessment as a component of comprehensive postpartum care.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Postpartum hair loss means something is wrong and you need supplements.",
+    "evidence": "Postpartum telogen effluvium (affecting 40–50% of women, typically 3–6 months postpartum) is a normal physiological consequence of the hormonal shift at delivery. It is self-limiting, resolves without treatment in most cases by 12 months. Thyroid disease should be excluded if severe or prolonged. Biotin supplements have limited specific evidence for postpartum telogen effluvium.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "You can resume all exercise including running as soon as you feel ready.",
+    "evidence": "Return to high-impact exercise requires gradual progression and pelvic floor readiness assessment. IJSPT systematic review (2022) found >1/3 of postpartum runners experience pain or urinary incontinence on return, suggesting pelvic floor physiotherapy assessment before high-impact activity is clinically indicated, not self-reported comfort alone.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Diastasis recti always requires surgery.",
+    "evidence": "False. Most diastasis recti responds to specialised physiotherapy and targeted exercise. Surgical repair (abdominoplasty) is reserved for severe cases that do not respond to conservative management. The majority of women with diastasis recti do not require surgical intervention.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "You will immediately bond with your baby and feel overwhelming love at birth.",
+    "evidence": "The 'love at first sight' bonding narrative is a cultural myth causing significant harm. Research shows bonding develops over time and is not always instantaneous. The absence of immediate overwhelming love does not indicate PPD, failure as a parent, or lack of love for the baby. Matrescence (the normal developmental transition of becoming a mother, coined by Dana Raphael 1973; revived by Aurelie Athan PhD, Columbia) includes ambivalence as a normal feature. ACOG CPG #4 (2023) and PSI both address the harm of this myth in preventing honest emotional disclosure.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Feeling sad, anxious, or overwhelmed is just 'baby blues' and will resolve on its own.",
+    "evidence": "Baby blues (70–80%, resolving by 2 weeks, hormonal, self-limiting) must be distinguished from PPD (10–20%, requiring treatment, persisting beyond 2 weeks or presenting after 2 weeks). Symptoms lasting beyond 2 weeks, presenting after 2 weeks, involving inability to function, thoughts of self-harm, or inability to care for the baby are NOT baby blues. They are clinical disorders requiring assessment and treatment. ACOG CPG #4 and USPSTF Grade B mandate proactive screening.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "A good mother instinctively knows what to do and doesn't need help or support.",
+    "evidence": "This harmful cultural myth suppresses help-seeking across all domains. The 'strong Black woman' schema (Watson & Hunter, 2016; cited in Birthing Beautiful Communities doula study, 2024) specifically suppresses help-seeking in Black women, contributing to racial disparities in PPD identification and treatment. ACNM, ACOG, and AWHONN all explicitly endorse structured support as standard of care.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Intrusive thoughts about harming your baby mean you are dangerous and should not be left alone with your child.",
+    "evidence": "Ego-dystonic intrusive thoughts (thoughts that horrify the person experiencing them) are a hallmark of postpartum OCD and anxiety — NOT an indication of danger or intent. Women experiencing these thoughts are typically highly distressed precisely because the thoughts are contrary to their values. ACOG CPG #4 and PSI explicitly distinguish perinatal OCD from actual risk. Perinatal OCD is highly responsive to CBT/ERP treatment.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "If sex is painful after birth, something is permanently wrong with you.",
+    "evidence": "Dyspareunia is extremely common postpartum (40% at 3 months; 20% at 18 months). It has well-understood physiological causes (hypoestrogenism, perineal trauma, pelvic floor dysfunction) and evidence-based treatments (topical oestrogen, pelvic floor physiotherapy, lubricants). Persistent dyspareunia warrants evaluation and treatment, not acceptance. Physiotherapy is underutilised and highly effective. This claim prevents women from seeking effective care.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Low libido after birth means your relationship is in trouble.",
+    "evidence": "Reduced libido in the fourth trimester is physiological (hypoestrogenism, sleep deprivation, prolactin, pain), not primarily relational. Current Sexual Health Reports (2022) documents that discordant desire does not predict relational distress when couples communicate openly. Reduced sexual frequency after birth is normative, not pathological.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "The '6-week rule' for sex is evidence-based and must be strictly followed.",
+    "evidence": "The traditional 6-week abstinence recommendation is based on historical tissue-healing estimates for episiotomies, not on trial evidence. Current guidance (ACOG/AWHONN) supports individualised, symptom-guided return to sexual activity, which means some women can safely resume before 6 weeks and others should wait longer.",
+    "domain": "fourth_trimester"
+  },
+  {
+    "claim": "Emergency contraception (Plan B/morning-after pill) causes abortion.",
+    "evidence": "FALSE. Plan B and other levonorgestrel emergency contraceptive pills work primarily by PREVENTING OVULATION. Even the FDA updated the Plan B label in 2022 to clarify this primary mechanism. EC cannot affect an established pregnancy. This misinformation fuelled the Supreme Court case Burwell v. Hobby Lobby (2014) and 2024 state legislation in Missouri and Louisiana restricting EC access (KFF Health Misinformation Monitor, 2024). ACOG, SFP, and CDC all define EC as contraception, not as causing abortion.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "IUDs cause abortions.",
+    "evidence": "FALSE. IUDs prevent fertilisation primarily by preventing sperm from reaching and fertilising an egg. Even in the rare event fertilisation might occur, the medical definition of pregnancy begins at implantation, not fertilisation. ACOG, SFP, and WHO all define IUDs as contraceptives, not abortifacients. This misinformation has directly restricted access to IUDs under state laws (KFF Monitor, 2024).",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Hormonal contraception causes permanent infertility.",
+    "evidence": "Not supported by evidence. Return to fertility after stopping reversible hormonal contraceptives is typically rapid (1–3 months for pills/patch/ring/implant). DMPA (Depo-Provera) is the exception: return to fertility may take 12–18 months, which is temporary, not permanent. Large studies find no long-term effect on fertility from any currently available hormonal contraceptive. This myth is documented on social media by anti-hormonal wellness influencers (KFF Monitor, 2024).",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Hormonal contraception causes severe depression / mental illness.",
+    "evidence": "Oversimplified and frequently exaggerated. Evidence on hormonal contraceptives and mood is mixed. A large Danish cohort (JAMA Psychiatry, 2016) found modest associations; effect sizes were small and causation not demonstrated. Many women report mood improvements on hormonal contraception. KFF Monitor (2024) documents wellness influencers dramatically overstating this association. ACOG and SFP guidance: discuss individual risk-benefit with each patient; no categorical prohibitions.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Natural family planning methods are just as effective as hormonal contraception.",
+    "evidence": "Not accurate as a general statement. Fertility awareness-based methods (FABMs) range widely in effectiveness: perfect use of symptothermal method achieves ~0.4% failure rate; typical use failure rates are 2–23% depending on method and user. This compares to <1% for LARCs (IUD, implant) with both perfect and typical use. FABMs require consistent, precise practice; they are not equivalent to hormonal methods for the general population.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Medication abortion (mifepristone + misoprostol) is dangerous and frequently causes death.",
+    "evidence": "FALSE. Mifepristone/misoprostol has been FDA-approved since 2000 and is among the most studied medications in reproductive medicine. Serious complications occur in <0.5% of cases. Deaths are extremely rare. The KFF Monitor (2024) documented extensive misinformation following the 2022 Dobbs decision, including misrepresentation of deaths caused by delayed emergency care (due to abortion restrictions, not the medications themselves) as evidence of medication danger.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "You don't need contraception until you have your first postpartum period.",
+    "evidence": "FALSE and potentially dangerous. Ovulation occurs BEFORE the first postpartum menstrual period. In non-breastfeeding women, first ovulation occurs on average 45–94 days postpartum but can occur as early as 25 days. Women who rely on menstruation resumption as a signal to initiate contraception have no protection in the interval between first ovulation and first period. This is among the most clinically consequential postpartum contraception myths.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Breastfeeding reliably prevents pregnancy.",
+    "evidence": "Partially false without qualifications. Lactational Amenorrhoea Method (LAM) is approximately 98% effective ONLY when ALL THREE criteria are simultaneously met: exclusive on-demand breastfeeding day and night, amenorrhoea, and infant under 6 months. Without all three criteria, pregnancy is possible. This myth is a documented major barrier to postpartum contraception uptake (SFP, CDC US SPR 2024).",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "IUDs placed immediately after delivery are too likely to fall out and should be avoided.",
+    "evidence": "Misleadingly framed. Immediate postpartum IUD insertion does have a higher expulsion rate (~20%) than interval insertion (~5%). However, overall effectiveness when accounting for expulsion is still superior to not using contraception, and many patients who plan interval insertion do not return. SMFM Consult #48 endorses IPP LARC as safe and effective. Expulsion risk must be disclosed in counselling but should not be categorically discouraged.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Reversible contraception will prevent you from getting pregnant when you want to in the future.",
+    "evidence": "FALSE. All reversible contraceptive methods allow return to fertility after discontinuation. This myth particularly discourages LARC use in women who intend future pregnancy. ACOG, SFP, and SMFM all explicitly state that reversible LARCs (IUD, implant) do not cause permanent infertility.",
+    "domain": "family_planning"
+  },
+  {
+    "claim": "Black patients feel less pain than White patients due to biological differences.",
+    "evidence": "Scientifically false and documented as a harmful clinical myth (Hoffman et al., PNAS, 2016). Medical students and residents who endorsed false biological beliefs about racial differences (e.g., 'Black skin is thicker') were more likely to under-rate Black patients' pain and under-prescribe analgesics. This myth directly causes undertreated pain in perinatal settings, particularly in labour.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Race-based VBAC calculators accurately predict outcomes.",
+    "evidence": "Challenged and being replaced. SMFM is developing race-neutral VBAC calculators; Canadian and Swedish research groups have validated VBAC algorithms without race corrections that perform equivalently. Using race as a biological proxy in clinical algorithms is a form of institutionalised racial stereotyping (ACOG CO on implicit bias).",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Maternal mortality disparities between Black and White women are primarily explained by health behaviours and pre-existing conditions.",
+    "evidence": "Substantially false. Structural racism, implicit bias, residential segregation, and discrimination in care settings independently predict adverse maternal outcomes even after controlling for clinical comorbidities and socioeconomic factors (Hailu et al. SR, Health Place, 2022; CDC PMSS data).",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Asking patients about depression will upset or distress them.",
+    "evidence": "False. Qualitative research shows patients are willing and often relieved to be asked. Perinatal women who received no feedback after completing a screening tool interpreted it as dismissal. Provider avoidance of mental health screening is often attributed to patient sensitivity but is not supported by evidence.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Screening for PPD is sufficient — the screen itself constitutes care.",
+    "evidence": "False. Screening without follow-up, feedback, referral pathways, and care linkage is clinically indefensible. Only 25% of patients who completed a validated screening tool had results discussed with them (PMC qualitative study, 2022). A positive screen with no action creates a false sense that care was provided.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Perinatal depression and anxiety will resolve spontaneously after birth / after the newborn phase.",
+    "evidence": "False for a significant proportion. ~20% of women with PPD still have depression at one year postpartum; 13% at two years. Without treatment, PPD is associated with chronic relapsing depression, functional impairment, adverse child developmental outcomes, and increased suicide risk.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "The comprehensive 6-week postpartum visit is sufficient to identify all postpartum needs.",
+    "evidence": "Inadequate and refuted by evidence. AHRQ (2023) and ACOG both note the 6-week visit is too late for many complications. 65% of pregnancy-related deaths occur postpartum, with a significant proportion before 6 weeks. The 6-week timeframe is historical, not evidence-based. ACOG now recommends initial contact within 3 weeks.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "If the birth was uncomplicated, postpartum follow-up doesn't need to be intensive.",
+    "evidence": "Dangerously false. Postpartum haemorrhage, hypertensive crises, pulmonary embolism, mental health crises, and breastfeeding complications can all occur in patients with uncomplicated deliveries. Over 80% of pregnancy-related deaths are preventable (CDC MMR data). 'Uncomplicated delivery' does not justify reduced postpartum vigilance.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "The fourth trimester concept is merely rebranding; clinical care doesn't need to change.",
+    "evidence": "Contradicted by evidence. ACOG CO #736 represents a paradigm shift: postpartum care should be an 'ongoing process, rather than a single encounter.' Columbia World Projects (Milbank Quarterly, 2023) documents that 1/3 of pregnancy-related deaths occur 1 week to 1 year postpartum, and more than half are preventable — directly implicating the fragmented care model that the fourth trimester framework aims to replace.",
+    "domain": "clinical_provider"
+  },
+  {
+    "claim": "Implicit bias training (IBT) effectively eliminates racial bias in clinical decision-making.",
+    "evidence": "Overstated. Science Advances SR (2024; 77 studies): Most IBT trainings lack specificity; evidence for behavioural change from training alone is limited. Institutional and protocol-level interventions are necessary alongside individual training. California's Dignity in Pregnancy and Childbirth Act mandates IBT for perinatal clinicians but the evidence base for IBT effectiveness remains limited.",
+    "domain": "clinical_guidelines"
+  },
+  {
+    "claim": "Telehealth prenatal care is lower quality and less safe than in-person care.",
+    "evidence": "Not supported by current evidence. Studies from the COVID-19 era show telehealth integration for low-risk prenatal care did not increase adverse outcomes. ACOG PATH 2025 specifically endorses telehealth as appropriate for certain monitoring and educational visits.",
+    "domain": "clinical_guidelines"
+  },
+  {
+    "claim": "Group prenatal care (CenteringPregnancy) is only for high-risk patients.",
+    "evidence": "Incorrect. CenteringPregnancy is designed for all risk levels and has shown superior outcomes across populations, with greatest benefit for minority and low-income patients. It is not a service of last resort. ACOG PATH 2025 and ACNM both endorse group care.",
+    "domain": "clinical_guidelines"
+  },
+  {
+    "claim": "Postpartum contraception counselling should wait until the 6-week visit.",
+    "evidence": "Evidence-based practice contradicts this. Contraceptive counselling during prenatal care PLUS hospital provision (where eligible) produces 4.25x higher LARC uptake than no counselling (Ann Intern Med SR, 2022). Many patients do not attend the 6-week visit — delaying all counselling until then leaves them without contraceptive protection during the highest-risk period for unintended pregnancy.",
+    "domain": "clinical_guidelines"
+  },
+  {
+    "claim": "You should 'bounce back' to your pre-pregnancy body and life quickly after birth.",
+    "evidence": "Harmful cultural myth with no evidence basis. The 'bounce back' narrative is particularly prevalent in social media and celebrity culture. It creates unrealistic expectations about physical recovery, weight, and return to normal function. Evidence supports that postpartum recovery takes months to years. This myth contributes to body image distress, excessive exercise too soon postpartum, and failure to seek help for ongoing physical symptoms.",
+    "domain": "social_motherhood"
+  },
+  {
+    "claim": "Motherhood is naturally blissful; feelings of ambivalence, frustration, or grief mean you are a bad mother.",
+    "evidence": "False and harmful. Matrescence (coined Dana Raphael, 1973; popularised Alexandra Sacks MD) describes the profound bio-psycho-social-political-spiritual transition of becoming a mother. Ambivalence, loss, and identity conflict are normal features of this developmental transition. The 'natural bliss' narrative suppresses disclosure of negative emotions and contributes to delayed PPD recognition.",
+    "domain": "social_motherhood"
+  },
+  {
+    "claim": "Women who need support after birth are weak; 'good mothers' manage on their own.",
+    "evidence": "Harmful cultural myth reinforcing isolation. The 'strong Black woman' schema (Watson & Hunter, 2016) and equivalent norms in multiple cultures suppress help-seeking. Research (Rice et al., Sage, 2024) documents that internalised 'strength' norms specifically predict delayed PPD help-seeking among Black women.",
+    "domain": "social_motherhood"
+  },
+  {
+    "claim": "Postpartum isolation is normal — new parents should stay home and recover quietly.",
+    "evidence": "Partially harmful when used to normalise pathological isolation. Social isolation is a strong predictor of PPD. WHO recommends social support mobilisation from early pregnancy onward. Cultural practices that restrict new mothers from seeking connection without providing family support are associated with worse mental health outcomes.",
+    "domain": "social_motherhood"
+  },
+  {
+    "claim": "Sleep deprivation is just 'part of having a baby' and mothers should not complain or seek help.",
+    "evidence": "Normalisation of a genuine health hazard. Sleep deprivation at postpartum levels is associated with impaired cognition, immune suppression, exacerbated depression and anxiety, impaired wound healing, and glucose dysregulation. AAP patient safety guidance warns against driving while severely sleep-deprived. This is a modifiable risk factor for PPD, not an unchangeable given.",
+    "domain": "social_motherhood"
+  },
+  {
+    "claim": "Babies should be put to sleep on their stomach to prevent choking / because they sleep better that way.",
+    "evidence": "False and dangerous. Back sleeping is the single most important safe sleep recommendation (AAP 2022, updated 2025, 159 scientific studies). Prone (stomach) sleeping significantly increases SIDS risk. This is among the most dangerous family-transmitted myths; grandparents frequently cite 'we always put babies on their stomachs and they were fine.'",
+    "domain": "social_family"
+  },
+  {
+    "claim": "Adding cereal to bottles helps babies sleep longer (common family advice).",
+    "evidence": "Not evidence-based and potentially harmful. Solid foods before 4–6 months are associated with increased obesity, allergy, and choking risk. Adding cereal to bottles does not reliably improve infant sleep and may cause overfeeding. AAP recommends exclusive breastfeeding or formula for 6 months.",
+    "domain": "social_family"
+  },
+  {
+    "claim": "Honey is safe for infants and soothes colic.",
+    "evidence": "False and dangerous. Honey must NEVER be given to infants under 12 months due to risk of infant botulism, which can be fatal. This persisting intergenerational myth continues to cause preventable harm.",
+    "domain": "social_family"
+  },
+  {
+    "claim": "Letting babies 'cry it out' causes lifelong psychological harm and destroys attachment.",
+    "evidence": "Overstated. Randomised controlled trials and longitudinal studies have not found that controlled crying/extinction sleep training methods cause harm to infant attachment, stress response, or mental health (Cochrane reviews). The emotional intensity of the debate online does not match the actual evidence.",
+    "domain": "social_family"
+  },
+  {
+    "claim": "Co-sleeping (bed sharing) is natural and always safe.",
+    "evidence": "Partially false. The AAP does not recommend bed-sharing due to suffocation risk, particularly with soft bedding, parental alcohol or sedative use, and prematurity. AAP 2022 (updated 2025) states 'AAP cannot support bed-sharing under any circumstances' as a policy position, while acknowledging that harm-reduction education is necessary for families who do bed-share. General endorsement of co-sleeping as universally safe is contradicted by evidence.",
+    "domain": "social_family"
+  },
+  {
+    "claim": "Following mommy influencers on social media accurately reflects what postpartum life will be like.",
+    "evidence": "Systematically false. Influencer content presents a curated, commercialised version of motherhood not representative of typical postpartum experience. Exposure is associated with negative social comparison, body image concerns, and unrealistic expectations. Influencer content on parenting and pregnancy is entirely unregulated (BMJ Open scoping review protocol, 2024).",
+    "domain": "social_media"
+  },
+  {
+    "claim": "Online parenting communities are safe spaces that provide accurate, supportive information.",
+    "evidence": "Oversimplified. While online communities provide genuine peer support, they are also documented sites of 'mom-shaming,' misinformation spread, and harmful group pressure on feeding and sleep decisions. Mothers are shifting to LLMs over Facebook parenting groups specifically to avoid judgment (arXiv, 2026).",
+    "domain": "social_media"
+  },
+  {
+    "claim": "Social support is only about emotional connection; practical help is less important.",
+    "evidence": "Not supported by evidence. All four dimensions of social support (emotional, instrumental/practical, informational, appraisal) independently predict better perinatal mental health outcomes. Instrumental support (help with meals, childcare, household tasks) is specifically associated with lower PPD rates and is frequently underprovided. AHRQ SR (2023) documents that postpartum care is frequently fragmented precisely because practical needs go unaddressed.",
+    "domain": "social_media"
+  },
+  {
+    "claim": "Fathers/partners naturally need less support and adjust more easily to parenthood.",
+    "evidence": "Not supported. 5–10% of fathers experience perinatal depression; 5–15% experience perinatal anxiety (MMHLA Fact Sheet, 2023). Paternal mental illness independently affects maternal mental health and child development. Partners' own informational needs about pregnancy and postpartum are largely unaddressed in current care models.",
+    "domain": "social_help_seeking"
+  },
+  {
+    "claim": "Doulas are only for natural birth advocates or wealthy mothers.",
+    "evidence": "False. Doula support is associated with reduced caesarean rates and improved maternal satisfaction across birth settings and birth preferences. Community doula programmes specifically serve low-income communities and communities of colour (Birthing Beautiful Communities, Rice et al., Sage, 2024). Medicaid coverage for doulas is expanding across U.S. states.",
+    "domain": "social_help_seeking"
+  },
+  {
+    "claim": "Peer support groups for PPD are less effective than professional mental health treatment.",
+    "evidence": "Partially false. Peer support is a distinct and valuable modality, not merely a substitute for professional care. Qualitative study (BMC Pregnancy & Childbirth, 2022; n=25) found peer support provided what professional services often cannot: validation through lived experience. Peer support functions as a bridge to formal care and standalone support for sub-threshold symptoms.",
+    "domain": "social_help_seeking"
+  }
+]
