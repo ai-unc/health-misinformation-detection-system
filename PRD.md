@@ -8,7 +8,10 @@
 
 ## 1. Purpose
 
-Build an NLP-driven classifier that automatically detects health misinformation in a targeted maternal health corpus and exposes the model through a lightweight dashboard or API endpoint for real-time text flagging.
+Build an NLP-driven classifier that automatically detects health misinformation in a targeted maternal health corpus. MAVEN is delivered as two artifacts that share the same underlying pipeline:
+
+- **Flask app** (`maven_app/`) — the primary inference interface; accepts arbitrary text and returns a misinformation score and flag via a web UI
+- **Jupyter notebook** (`MAVEN_AI_UNC_SPR2026.ipynb`) — a documented, reproducible walkthrough of the pipeline intended for Colab-based review, presentation, and handoff
 
 ---
 
@@ -90,7 +93,7 @@ Build an NLP-driven classifier that automatically detects health misinformation 
 
 | ID | Requirement | Priority |
 |---|---|---|
-| I1 | Build an MVP dashboard **or** REST API endpoint that accepts raw text and returns a misinformation flag + confidence score | Must |
+| I1 | Flask app accepts raw text and returns a misinformation flag + confidence score via web UI; notebook documents the same pipeline for reproducible review | Must |
 | I2 | Interface must process new input in real time (< 5 s response for a single text input) | Must |
 | I3 | Interface must be demonstrable without local GPU (CPU inference acceptable for demo) | Must |
 | I4 | Provide a brief user guide for operating the interface | Should |
@@ -140,9 +143,9 @@ Build an NLP-driven classifier that automatically detects health misinformation 
 ---
 
 ### Milestone 3 — Week 6: MVP Interface
-- [ ] Build dashboard or API endpoint for real-time text flagging
-- [ ] Validate end-to-end: input text → classification output
-- [ ] Deploy to shareable environment (Colab, HuggingFace Spaces, or hosted API)
+- [ ] Complete Flask app for real-time text flagging
+- [ ] Validate end-to-end: input text → classification output in both Flask app and notebook
+- [ ] Deploy Flask app to a shareable environment; ensure notebook runs cleanly on Colab
 
 **Gate:** A non-technical reviewer can flag text using the interface without local setup.
 
@@ -174,6 +177,6 @@ Build an NLP-driven classifier that automatically detects health misinformation 
 |---|---|---|
 | Q1 | What are the precise metric thresholds that define acceptable model performance? | Dr. Bazzano + team |
 | Q2 | Which sources will comprise the maternal health corpus? (Candidates include Wikipedia, Harvard Health, PubMed, WHO, CDC, and others.) | Research team |
-| Q3 | Dashboard (frontend) vs. REST API — which interface form factor is preferred for the final demo? | Dr. Bazzano |
+| Q3 | Should the Flask app be deployed publicly (e.g., HuggingFace Spaces, Render) or run locally for the final demo? | Dr. Bazzano |
 | Q4 | Are there IRB or data-use constraints on any scraped or labeled data? | Dr. Bazzano |
 | Q5 | What counts as the "maternal health" label boundary — postpartum, prenatal, both, broader women's health? | Dr. Bazzano + team |

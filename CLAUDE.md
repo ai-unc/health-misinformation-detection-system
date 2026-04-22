@@ -4,21 +4,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A health misinformation detection system for the UNC Department of Maternal and Child Health (MCH), Spring 2026. The primary deliverable is `MAVEN_AI_UNC_SPR2026.ipynb`, a Google Colab notebook.
+A health misinformation detection system for the UNC Department of Maternal and Child Health (MCH), Spring 2026. MAVEN exists in two forms that share the same underlying pipeline:
+
+- **Flask app** (`maven_app/`) — the runnable inference interface; accepts text input and returns misinformation scores via a web UI
+- **Jupyter notebook** (`MAVEN_AI_UNC_SPR2026.ipynb`) — documented walkthrough of the same pipeline; the primary deliverable for Colab-based review and reproducibility
 
 **Colab link:** https://colab.research.google.com/drive/1F4g-JPFI6RhhFU2QdoYmiPrOZwoQNAcX?usp=sharing
 
 **PRD:** `PRD.md` — authoritative source for scope, requirements, and milestones.
 
+## Running the Flask App
+
+```bash
+cd maven_app
+pip install -r requirements.txt
+python app.py
+```
+
+The app runs at `http://localhost:5000` and exposes a web UI for real-time text flagging.
+
 ## Running the Notebook
 
-This project is designed to run on **Google Colab**, not locally. Open the Colab link above or upload the `.ipynb` to Colab. Dependencies are installed via `!pip install` cells at the top of each section.
+The notebook is designed to run on **Google Colab**. Open the Colab link above or upload the `.ipynb` to Colab. Dependencies are installed via `!pip install` cells at the top of each section.
 
 For local development: `jupyter notebook MAVEN_AI_UNC_SPR2026.ipynb`
 
+## Flask App Structure
+
+```
+maven_app/
+  app.py              # Flask routes and request handling
+  pipeline.py         # Shared inference pipeline (chunk → embed → score)
+  requirements.txt
+  anchors/            # Authority and misinfo anchor JSON files
+  templates/          # Jinja2 HTML templates
+  tests/              # End-to-end and calibration tests
+```
+
 ## Notebook Structure
 
-The notebook contains the maternal health misinformation detection pipeline, organized into four sections:
+The notebook documents the pipeline with narrative explanations, organized into four sections:
 
 1. **Pipeline Overview** — architecture diagram and scale-handling strategy
 2. **Text Segmentation** — `chunk_text()` dispatches to sentence / paragraph / sliding-window based on token count
