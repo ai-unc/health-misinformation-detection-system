@@ -154,6 +154,60 @@ def test_transcribe_url_cleanup():
     print('  ✓ shutil.rmtree called even when _transcribe raises')
 
 
+# ── TEST 5 ─────────────────────────────────────────────────────────────────────
+
+def test_flask_transcribe_route():
+    print('\n=== TEST 5: /transcribe Flask route ===')
+    import json
+    from app import app  # loads PubMedBERT — takes ~30-60s on cold cache
+
+    client = app.test_client()
+
+    # Missing URL → 400
+    r = client.post('/transcribe', json={})
+    assert r.status_code == 400, f'Expected 400, got {r.status_code}'
+    assert b'No URL provided' in r.data
+    print('  ✓ missing URL → 400')
+
+    # Non-TikTok URL → 400
+    r = client.post('/transcribe', json={'url': 'https://youtube.com/watch?v=abc'})
+    assert r.status_code == 400, f'Expected 400, got {r.status_code}'
+    assert b'does not appear to be a TikTok link' in r.data
+    print('  ✓ non-TikTok URL → 400')
+
+    # Valid URL (mocked internals) → 200 with correct shape
+    fake = TranscriptResult(
+        text='Raspberry leaf tea is safe.',
+        segments=[{'start': 0.0, 'end': 3.2, 'text': 'Raspberry leaf tea is safe.'}],
+        duration=3.2,
+    )
+    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+         patch.object(transcription, '_transcribe', return_value=fake):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/123'})
+    assert r.status_code == 200, f'Expected 200, got {r.status_code}: {r.data}'
+    body = json.loads(r.data)
+    assert body['transcript_text'] == 'Raspberry leaf tea is safe.'
+    assert body['segments'] == [{'start': 0.0, 'end': 3.2, 'text': 'Raspberry leaf tea is safe.'}]
+    assert body['duration'] == 3.2
+    print('  ✓ valid TikTok URL → 200 with transcript_text, segments, duration')
+
+    # No-speech error → 422
+    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+         patch.object(transcription, '_transcribe',
+                      side_effect=RuntimeError('No speech detected in audio.')):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/456'})
+    assert r.status_code == 422, f'Expected 422, got {r.status_code}'
+    print('  ✓ no-speech → 422')
+
+    # Generic download error → 500
+    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+         patch.object(transcription, '_transcribe',
+                      side_effect=RuntimeError('network timeout')):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/789'})
+    assert r.status_code == 500, f'Expected 500, got {r.status_code}'
+    print('  ✓ generic RuntimeError → 500')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -171,6 +225,7 @@ def main():
         tr_dir.mkdir()
         test_transcribe(tr_dir)
     test_transcribe_url_cleanup()
+    test_flask_transcribe_route()
     print('\nALL TESTS PASSED')
 
 
