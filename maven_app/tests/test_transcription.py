@@ -119,12 +119,12 @@ def test_transcribe(tmp_path):
     assert result.segments == [{'start': 0.12, 'end': 2.57, 'text': 'Hello world'}]
     print('  ✓ _transcribe returns correct TranscriptResult')
 
-    # Empty transcript → RuntimeError with exact message (used by Flask route to return 422)
+    # Empty transcript → NoSpeechError with exact message (used by Flask route to return 422)
     mock_model.transcribe.return_value = ([], mock_info)
     with patch.object(transcription, '_get_model', return_value=mock_model):
         try:
             _transcribe(dummy_audio)
-            assert False, 'Expected RuntimeError'
+            assert False, 'Expected NoSpeechError'
         except transcription.NoSpeechError as e:
             assert str(e) == 'No speech detected in audio.'
             print('  ✓ empty transcript raises RuntimeError("No speech detected in audio.")')
