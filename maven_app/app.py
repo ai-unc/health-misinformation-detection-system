@@ -2,6 +2,7 @@ import math
 
 from flask import Flask, render_template, request, jsonify
 from pipeline import score_text
+from transcription import NoSpeechError, transcribe_url
 
 app = Flask(__name__)
 
@@ -59,6 +60,30 @@ def analyze():
     }
 
     return jsonify({'chunks': chunks, 'summary': summary})
+
+
+@app.route('/transcribe', methods=['POST'])
+def transcribe():
+    data = request.get_json(silent=True) or {}
+    url = (data.get('url') or '').strip()
+
+    if not url:
+        return jsonify({'error': 'No URL provided.'}), 400
+
+    try:
+        result = transcribe_url(url)
+    except ValueError as exc:
+        return jsonify({'error': str(exc)}), 400
+    except NoSpeechError as exc:
+        return jsonify({'error': str(exc)}), 422
+    except Exception as exc:
+        return jsonify({'error': str(exc)}), 500
+
+    return jsonify({
+        'transcript_text': result.text,
+        'segments':        result.segments,
+        'duration':        result.duration,
+    })
 
 
 if __name__ == '__main__':

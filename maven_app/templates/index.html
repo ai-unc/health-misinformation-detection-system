@@ -148,11 +148,43 @@
 <main class="pt-32 pb-24 px-6 max-w-xl mx-auto flex flex-col gap-12">
 <!-- Input Area -->
 <section class="flex flex-col gap-6">
+<!-- URL bar -->
+<div class="flex gap-2">
+  <input
+    id="url-input"
+    type="url"
+    class="flex-1 min-w-0 px-4 py-3 bg-surface-container border border-outline-variant/20 font-label text-xs text-on-surface placeholder:text-outline/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
+    placeholder="TikTok URL (optional)"
+  />
+  <button
+    id="transcribe-btn"
+    disabled
+    class="px-5 py-3 bg-surface-container-highest text-primary font-label font-medium uppercase tracking-widest text-[10px] transition-all duration-300 hover:bg-on-surface hover:text-surface-dim active:scale-[0.98] sharp-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:opacity-30 disabled:pointer-events-none"
+  >Transcribe</button>
+</div>
 <div class="relative aspect-square w-full bg-primary shadow-[0_20px_50px_rgba(241,233,210,0.15)]">
 <textarea id="text-input" class="w-full h-full p-8 bg-transparent border-none focus:ring-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-on-primary-fixed focus-visible:outline-offset-[-8px] text-on-primary-fixed font-body italic text-lg resize-none placeholder:text-on-primary-fixed-variant/50" placeholder="Paste maternal health text here..."></textarea>
 <div class="absolute bottom-0 right-0 p-4">
 <span id="char-count" class="font-label text-[10px] uppercase tracking-tighter text-on-primary-fixed-variant opacity-40">Character Count: 0</span>
 </div>
+</div>
+<!-- Transcript reference panel (hidden until transcription completes) -->
+<div id="transcript-panel" hidden class="bg-surface-container-low border border-outline-variant/10">
+  <button
+    id="transcript-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="transcript-segments"
+    class="w-full flex items-center justify-between px-4 py-3 font-label text-[10px] uppercase tracking-widest hover:bg-surface-container transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+  >
+    <span class="text-tertiary-fixed-dim">Transcript Reference</span>
+    <span id="transcript-meta" class="text-outline"></span>
+  </button>
+  <div
+    id="transcript-segments"
+    hidden
+    class="px-4 pb-4 pt-3 flex flex-col gap-3 max-h-48 overflow-y-auto no-scrollbar border-t border-outline-variant/10"
+  ></div>
 </div>
 <button id="analyze-btn" class="w-full py-5 bg-surface-container-highest text-primary font-label font-medium uppercase tracking-widest transition-all duration-300 hover:bg-on-surface hover:text-surface-dim active:scale-[0.98] sharp-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
                 Analyze Manuscript
@@ -192,6 +224,15 @@ const cardsContainer = document.getElementById('cards-container');
 const watermark      = document.getElementById('watermark');
 const statusLabel    = document.getElementById('status-label');
 
+const urlInput         = document.getElementById('url-input');
+const transcribeBtn    = document.getElementById('transcribe-btn');
+const transcriptPanel  = document.getElementById('transcript-panel');
+const transcriptToggle = document.getElementById('transcript-toggle');
+const transcriptMeta   = document.getElementById('transcript-meta');
+const transcriptSegs   = document.getElementById('transcript-segments');
+
+let isAnalyzing = false;
+
 const MISINFO_TYPE_LABELS = {
     unattributed_risk:               'Unattributed Risk',
     not_aligned_with_guidelines:     'Off-Guideline',
@@ -207,6 +248,109 @@ const MISINFO_TYPE_LABELS = {
 textarea.addEventListener('input', () => {
     charCount.textContent = `Character Count: ${textarea.value.length}`;
 });
+
+// ── Enable Transcribe when URL is non-empty ────────────────────────────
+urlInput.addEventListener('input', () => {
+    transcribeBtn.disabled = !urlInput.value.trim();
+});
+
+// ── Transcribe ─────────────────────────────────────────────────────────
+transcribeBtn.addEventListener('click', async () => {
+    const url = urlInput.value.trim();
+    if (!url) return;
+
+    setTranscribeLoading(true);
+    transcriptPanel.hidden = true;
+
+    try {
+        const res  = await fetch('/transcribe', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ url }),
+        });
+        const data = await res.json();
+
+        if (data.error) {
+            statusLabel.textContent = 'Transcription failed';
+            renderTranscribeError(data.error);
+        } else if (!data.transcript_text || !data.segments) {
+            statusLabel.textContent = 'Transcription failed';
+            renderTranscribeError('Unexpected server response.');
+        } else {
+            textarea.value = data.transcript_text;
+            charCount.textContent = `Character Count: ${data.transcript_text.length}`;
+            renderTranscriptPanel(data);
+            statusLabel.textContent = 'Transcript ready';
+        }
+    } catch (_err) {
+        statusLabel.textContent = 'Connection failed';
+        renderTranscribeError('Transcription failed — ensure the server is running.');
+    } finally {
+        setTranscribeLoading(false);
+    }
+});
+
+// ── Transcript panel toggle ────────────────────────────────────────────
+transcriptToggle.addEventListener('click', () => {
+    const isOpen = transcriptToggle.getAttribute('aria-expanded') === 'true';
+    transcriptToggle.setAttribute('aria-expanded', String(!isOpen));
+    transcriptSegs.hidden = isOpen;
+    transcriptMeta.textContent = transcriptMeta.textContent.replace(
+        isOpen ? '▴' : '▾',
+        isOpen ? '▾' : '▴'
+    );
+});
+
+// ── Transcribe loading state ───────────────────────────────────────────
+function setTranscribeLoading(on) {
+    transcribeBtn.disabled = true;
+    analyzeBtn.disabled    = on;
+    textarea.readOnly      = on;
+
+    if (on) {
+        transcribeBtn.innerHTML = '<div class="shimmer-bar w-full h-1 py-[8px]"></div>';
+    } else {
+        transcribeBtn.innerHTML = urlInput.value.trim() ? 'Retranscribe' : 'Transcribe';
+        transcribeBtn.disabled  = !urlInput.value.trim();
+        if (!isAnalyzing) { analyzeBtn.disabled = false; }
+        textarea.readOnly       = false;
+    }
+}
+
+// ── Render transcript reference panel ─────────────────────────────────
+function renderTranscriptPanel(data) {
+    const mins   = Math.floor(data.duration / 60);
+    const secs   = Math.round(data.duration % 60);
+    const durStr = `${mins}:${String(secs).padStart(2, '0')}`;
+    transcriptMeta.textContent = `${durStr} · ${data.segments.length} segments ▾`;
+
+    transcriptSegs.innerHTML = data.segments.map(seg =>
+        `<div class="flex gap-3 items-baseline">
+            <span class="font-label text-[9px] text-outline uppercase tracking-tighter whitespace-nowrap">${fmtTime(seg.start)} – ${fmtTime(seg.end)}</span>
+            <span class="font-body italic text-[12px] text-on-surface-variant leading-snug">${escapeHtml(seg.text)}</span>
+        </div>`
+    ).join('');
+
+    transcriptPanel.hidden = false;
+    transcriptToggle.setAttribute('aria-expanded', 'false');
+    transcriptSegs.hidden = true;
+}
+
+// ── Transcribe error display ───────────────────────────────────────────
+function renderTranscribeError(message) {
+    watermark.style.display = 'none';
+    cardsContainer.innerHTML = `
+        <article class="bg-[#1E1C19] border border-[#2A2824] border-l-4 border-l-[#7A3A2A] p-6">
+            <p class="font-body italic text-[13.5px] leading-relaxed text-on-surface-variant">${escapeHtml(message)}</p>
+        </article>`;
+}
+
+// ── Seconds → M:SS ────────────────────────────────────────────────────
+function fmtTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+}
 
 // ── Analyze ────────────────────────────────────────────────────────────
 analyzeBtn.addEventListener('click', async () => {
@@ -230,7 +374,7 @@ analyzeBtn.addEventListener('click', async () => {
             watermark.style.display = 'none';
             renderResults(data);
         }
-    } catch (err) {
+    } catch (_err) {
         renderError('Pipeline connection failed. Ensure the server is running.');
     } finally {
         setLoading(false);
@@ -255,12 +399,14 @@ cardsContainer.addEventListener('click', (e) => {
 // ── Loading state ──────────────────────────────────────────────────────
 function setLoading(on) {
     if (on) {
+        isAnalyzing = true;
         analyzeBtn.disabled = true;
         analyzeBtn.innerHTML = '<div class="shimmer-bar w-full h-1"></div>';
         analyzeBtn.classList.add('py-[22px]');
         analyzeBtn.classList.remove('py-5');
         statusLabel.textContent = 'Analyzing…';
     } else {
+        isAnalyzing = false;
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = 'Analyze Manuscript';
         analyzeBtn.classList.remove('py-[22px]');
