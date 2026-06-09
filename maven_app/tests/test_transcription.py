@@ -146,8 +146,9 @@ def test_transcribe_url_cleanup():
          patch.object(transcription, '_transcribe', side_effect=RuntimeError('boom')):
         try:
             transcribe_url('https://www.tiktok.com/@user/video/123')
-        except RuntimeError:
-            pass
+            assert False, 'Expected RuntimeError to propagate'
+        except RuntimeError as e:
+            assert str(e) == 'boom'
 
     mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
     print('  ✓ shutil.rmtree called even when _transcribe raises')
