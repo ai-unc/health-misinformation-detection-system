@@ -117,7 +117,7 @@ def test_transcribe(tmp_path):
         try:
             _transcribe(dummy_audio)
             assert False, 'Expected RuntimeError'
-        except RuntimeError as e:
+        except transcription.NoSpeechError as e:
             assert str(e) == 'No speech detected in audio.'
             print('  ✓ empty transcript raises RuntimeError("No speech detected in audio.")')
 
@@ -194,7 +194,7 @@ def test_flask_transcribe_route():
     # No-speech error → 422
     with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
          patch.object(transcription, '_transcribe',
-                      side_effect=RuntimeError('No speech detected in audio.')):
+                      side_effect=transcription.NoSpeechError('No speech detected in audio.')):
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/456'})
     assert r.status_code == 422, f'Expected 422, got {r.status_code}'
     print('  ✓ no-speech → 422')

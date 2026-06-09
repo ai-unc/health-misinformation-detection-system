@@ -14,6 +14,10 @@ _TIKTOK_RE = re.compile(r'https?://(www\.)?tiktok\.com/')
 _model = None  # lazy-loaded on first call to _get_model()
 
 
+class NoSpeechError(RuntimeError):
+    """Raised when transcription produces no speech output."""
+
+
 @dataclass
 class TranscriptResult:
     text: str
@@ -83,7 +87,7 @@ def _transcribe(audio_path: Path) -> TranscriptResult:
         texts.append(seg.text.strip())
     full_text = ' '.join(t for t in texts if t)
     if not full_text.strip():
-        raise RuntimeError('No speech detected in audio.')
+        raise NoSpeechError('No speech detected in audio.')
     return TranscriptResult(
         text=full_text,
         segments=segments,

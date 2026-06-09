@@ -2,7 +2,7 @@ import math
 
 from flask import Flask, render_template, request, jsonify
 from pipeline import score_text
-from transcription import transcribe_url
+from transcription import NoSpeechError, transcribe_url
 
 app = Flask(__name__)
 
@@ -74,11 +74,10 @@ def transcribe():
         result = transcribe_url(url)
     except ValueError as exc:
         return jsonify({'error': str(exc)}), 400
+    except NoSpeechError as exc:
+        return jsonify({'error': str(exc)}), 422
     except RuntimeError as exc:
-        msg = str(exc)
-        if msg == 'No speech detected in audio.':
-            return jsonify({'error': msg}), 422
-        return jsonify({'error': msg}), 500
+        return jsonify({'error': str(exc)}), 500
 
     return jsonify({
         'transcript_text': result.text,
