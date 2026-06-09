@@ -33,7 +33,28 @@ def transcribe_url(url: str) -> TranscriptResult:
 
 
 def _download_audio(url: str, tmp_dir: str) -> Path:
-    raise NotImplementedError
+    """Download TikTok audio to tmp_dir as mp3. Raises RuntimeError on failure."""
+    output_template = str(Path(tmp_dir) / '%(id)s.%(ext)s')
+    result = subprocess.run(
+        [
+            'yt-dlp',
+            '--extract-audio',
+            '--audio-format', 'mp3',
+            '--output', output_template,
+            '--no-playlist',
+            '--quiet',
+            url,
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        msg = result.stderr.strip() or f'yt-dlp exited with code {result.returncode}'
+        raise RuntimeError(f'Download failed: {msg}')
+    mp3_files = list(Path(tmp_dir).glob('*.mp3'))
+    if not mp3_files:
+        raise RuntimeError('Download failed: no audio file produced.')
+    return mp3_files[0]
 
 
 def _get_model():

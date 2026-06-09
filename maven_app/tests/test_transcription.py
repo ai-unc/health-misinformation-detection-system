@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import transcription
 from transcription import TranscriptResult, transcribe_url
+from transcription import _download_audio
 
 
 # ── TEST 1 ─────────────────────────────────────────────────────────────────────
@@ -41,10 +42,46 @@ def test_url_validation():
     print('  ✓ valid TikTok URL passes validation and returns TranscriptResult')
 
 
+# ── TEST 2 ─────────────────────────────────────────────────────────────────────
+
+def test_download_audio(tmp_path):
+    print('\n=== TEST 2: _download_audio ===')
+
+    # Success: simulate yt-dlp creating an mp3
+    def fake_run(cmd, **kwargs):
+        output_tpl = cmd[cmd.index('--output') + 1]
+        out_dir = Path(output_tpl).parent
+        (out_dir / 'fakevideo.mp3').touch()
+        return MagicMock(returncode=0, stderr='')
+
+    with patch('transcription.subprocess.run', side_effect=fake_run):
+        result = _download_audio('https://www.tiktok.com/@user/video/123', str(tmp_path))
+    assert result.suffix == '.mp3'
+    assert result.exists()
+    print('  ✓ success path returns mp3 Path')
+
+    # Failure: yt-dlp non-zero exit → RuntimeError with stderr
+    with patch('transcription.subprocess.run',
+               return_value=MagicMock(returncode=1, stderr='Video unavailable')):
+        try:
+            _download_audio('https://www.tiktok.com/@user/video/bad', str(tmp_path))
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert 'Video unavailable' in str(e)
+            print('  ✓ yt-dlp failure raises RuntimeError containing stderr')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
-    test_url_validation()
+    import tempfile as _tf
+    import pathlib as _pl
+    with _tf.TemporaryDirectory() as _td:
+        _tmp = _pl.Path(_td)
+        test_url_validation()
+        dl_dir = _tmp / 'dl_test'
+        dl_dir.mkdir()
+        test_download_audio(dl_dir)
     print('\nALL TESTS PASSED')
 
 
