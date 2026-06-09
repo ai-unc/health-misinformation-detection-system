@@ -12,31 +12,54 @@ from pathlib import Path
 from typing import List
 
 _TIKTOK_RE = re.compile(r'https?://([a-zA-Z0-9-]+\.)?tiktok\.com/')
-_model = None  # lazy-loaded on first call to _get_model()
-_ffmpeg_injected = False  # ensures PATH injection runs only once
+_model = None       # lazy-loaded on first call to _get_model()
+_ffmpeg_exe = None  # resolved once; '' means fall back to system ffmpeg
 
 
 def _ensure_ffmpeg() -> str:
-    """Return the directory containing ffmpeg and ensure it is on PATH.
+    """Return the path to a usable ffmpeg executable and inject its directory into PATH.
 
-    Uses imageio-ffmpeg's bundled binary if available, falling back to
-    whatever ffmpeg the system provides. Returns the ffmpeg directory path.
+    imageio-ffmpeg ships its binary under a version-suffixed name such as
+    'ffmpeg-win-x86_64-v7.1.exe' rather than the standard 'ffmpeg.exe' that
+    both yt-dlp and faster-whisper look for.  This function copies it to a
+    stable temp directory under the standard name so both callers work.
+
+    Returns the full path to the normalized binary, or '' if unavailable.
     """
-    global _ffmpeg_injected
+    global _ffmpeg_exe
+    if _ffmpeg_exe is not None:
+        return _ffmpeg_exe
+
     try:
+        import platform
         import imageio_ffmpeg
-        ffmpeg_bin = imageio_ffmpeg.get_ffmpeg_exe()
-        ffmpeg_dir = str(Path(ffmpeg_bin).parent)
+
+        src = Path(imageio_ffmpeg.get_ffmpeg_exe())
+        if not src.exists():
+            raise FileNotFoundError(src)
+
+        exe_suffix = '.exe' if platform.system() == 'Windows' else ''
+        norm_dir = Path(tempfile.gettempdir()) / 'maven_ffmpeg'
+        norm_dir.mkdir(exist_ok=True)
+        dst = norm_dir / f'ffmpeg{exe_suffix}'
+
+        if not dst.exists():
+            shutil.copy2(str(src), str(dst))
+            if not exe_suffix:          # Unix needs execute bit
+                dst.chmod(0o755)
+
+        _ffmpeg_exe = str(dst)
+
+        # PATH injection lets faster-whisper find 'ffmpeg' via subprocess
+        norm_dir_str = str(norm_dir)
+        existing = os.environ.get('PATH', '')
+        if norm_dir_str not in existing:
+            os.environ['PATH'] = norm_dir_str + os.pathsep + existing
+
     except Exception:
-        return ''  # rely on system ffmpeg
+        _ffmpeg_exe = ''  # fall back to system ffmpeg
 
-    if not _ffmpeg_injected:
-        existing_path = os.environ.get('PATH', '')
-        if ffmpeg_dir not in existing_path:
-            os.environ['PATH'] = ffmpeg_dir + os.pathsep + existing_path
-        _ffmpeg_injected = True
-
-    return ffmpeg_dir
+    return _ffmpeg_exe
 
 
 class NoSpeechError(RuntimeError):
@@ -63,7 +86,7 @@ def transcribe_url(url: str) -> TranscriptResult:
 
 def _download_audio(url: str, tmp_dir: str) -> Path:
     """Download TikTok audio to tmp_dir as mp3. Raises RuntimeError on failure."""
-    ffmpeg_dir = _ensure_ffmpeg()
+    ffmpeg_exe = _ensure_ffmpeg()
     output_template = str(Path(tmp_dir) / '%(id)s.%(ext)s')
     cmd = [
         'yt-dlp',
@@ -74,8 +97,10 @@ def _download_audio(url: str, tmp_dir: str) -> Path:
         '--quiet',
         '--impersonate', 'chrome',
     ]
-    if ffmpeg_dir:
-        cmd += ['--ffmpeg-location', ffmpeg_dir]
+    if ffmpeg_exe:
+        # Pass binary path directly (not parent dir) so yt-dlp uses it regardless
+        # of filename — yt-dlp treats a file path as the ffmpeg executable itself.
+        cmd += ['--ffmpeg-location', ffmpeg_exe]
     cmd.append(url)
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
