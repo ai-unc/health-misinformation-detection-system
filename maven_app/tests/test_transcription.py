@@ -122,6 +122,37 @@ def test_transcribe(tmp_path):
             print('  ✓ empty transcript raises RuntimeError("No speech detected in audio.")')
 
 
+# ── TEST 4 ─────────────────────────────────────────────────────────────────────
+
+def test_transcribe_url_cleanup():
+    print('\n=== TEST 4: transcribe_url temp file cleanup ===')
+
+    fake_result = TranscriptResult(text='test', segments=[], duration=1.0)
+
+    # Cleanup on success
+    with patch('transcription.shutil.rmtree') as mock_rmtree, \
+         patch('transcription.tempfile.mkdtemp', return_value='/fake/tmp'), \
+         patch.object(transcription, '_download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
+         patch.object(transcription, '_transcribe', return_value=fake_result):
+        transcribe_url('https://www.tiktok.com/@user/video/123')
+
+    mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
+    print('  ✓ shutil.rmtree called after successful transcription')
+
+    # Cleanup on failure
+    with patch('transcription.shutil.rmtree') as mock_rmtree, \
+         patch('transcription.tempfile.mkdtemp', return_value='/fake/tmp'), \
+         patch.object(transcription, '_download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
+         patch.object(transcription, '_transcribe', side_effect=RuntimeError('boom')):
+        try:
+            transcribe_url('https://www.tiktok.com/@user/video/123')
+        except RuntimeError:
+            pass
+
+    mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
+    print('  ✓ shutil.rmtree called even when _transcribe raises')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -138,6 +169,7 @@ def main():
         tr_dir = _tmp / 'tr_test'
         tr_dir.mkdir()
         test_transcribe(tr_dir)
+    test_transcribe_url_cleanup()
     print('\nALL TESTS PASSED')
 
 
