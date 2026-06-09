@@ -58,8 +58,34 @@ def _download_audio(url: str, tmp_dir: str) -> Path:
 
 
 def _get_model():
-    raise NotImplementedError
+    """Load WhisperModel once at first call; return cached instance thereafter."""
+    global _model
+    if _model is None:
+        from faster_whisper import WhisperModel
+        print('[MAVEN] Loading Whisper small model (one-time, ~244 MB)...')
+        _model = WhisperModel('small', device='cpu', compute_type='int8')
+        print('[MAVEN] Whisper model ready.')
+    return _model
 
 
 def _transcribe(audio_path: Path) -> TranscriptResult:
-    raise NotImplementedError
+    """Transcribe audio_path. Raises RuntimeError if no speech is detected."""
+    model = _get_model()
+    segments_iter, info = model.transcribe(str(audio_path), beam_size=5)
+    segments = []
+    texts = []
+    for seg in segments_iter:
+        segments.append({
+            'start': round(seg.start, 2),
+            'end':   round(seg.end, 2),
+            'text':  seg.text.strip(),
+        })
+        texts.append(seg.text.strip())
+    full_text = ' '.join(t for t in texts if t)
+    if not full_text.strip():
+        raise RuntimeError('No speech detected in audio.')
+    return TranscriptResult(
+        text=full_text,
+        segments=segments,
+        duration=round(info.duration, 2),
+    )

@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import transcription
 from transcription import TranscriptResult, transcribe_url
 from transcription import _download_audio
+from transcription import _transcribe
 
 
 # ── TEST 1 ─────────────────────────────────────────────────────────────────────
@@ -83,6 +84,44 @@ def test_download_audio(tmp_path):
             print('  ✓ zero-exit but no mp3 raises RuntimeError')
 
 
+# ── TEST 3 ─────────────────────────────────────────────────────────────────────
+
+def test_transcribe(tmp_path):
+    print('\n=== TEST 3: _transcribe ===')
+
+    dummy_audio = tmp_path / 'audio.mp3'
+    dummy_audio.write_bytes(b'\x00' * 100)
+
+    mock_seg       = MagicMock()
+    mock_seg.start = 0.0
+    mock_seg.end   = 2.5
+    mock_seg.text  = '  Hello world  '
+
+    mock_info          = MagicMock()
+    mock_info.duration = 2.5
+
+    mock_model = MagicMock()
+    mock_model.transcribe.return_value = ([mock_seg], mock_info)
+
+    with patch.object(transcription, '_get_model', return_value=mock_model):
+        result = _transcribe(dummy_audio)
+
+    assert result.text == 'Hello world'
+    assert result.duration == 2.5
+    assert result.segments == [{'start': 0.0, 'end': 2.5, 'text': 'Hello world'}]
+    print('  ✓ _transcribe returns correct TranscriptResult')
+
+    # Empty transcript → RuntimeError with exact message (used by Flask route to return 422)
+    mock_model.transcribe.return_value = ([], mock_info)
+    with patch.object(transcription, '_get_model', return_value=mock_model):
+        try:
+            _transcribe(dummy_audio)
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert str(e) == 'No speech detected in audio.'
+            print('  ✓ empty transcript raises RuntimeError("No speech detected in audio.")')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -96,6 +135,9 @@ def main():
         dl_dir = _tmp / 'dl_test'
         dl_dir.mkdir()
         test_download_audio(dl_dir)
+        tr_dir = _tmp / 'tr_test'
+        tr_dir.mkdir()
+        test_transcribe(tr_dir)
     print('\nALL TESTS PASSED')
 
 
