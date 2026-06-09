@@ -76,7 +76,7 @@ def transcribe():
         return jsonify({'error': str(exc)}), 400
     except NoSpeechError as exc:
         return jsonify({'error': str(exc)}), 422
-    except RuntimeError as exc:
+    except Exception as exc:
         return jsonify({'error': str(exc)}), 500
 
     return jsonify({

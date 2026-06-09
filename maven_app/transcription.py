@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
-_TIKTOK_RE = re.compile(r'https?://(www\.)?tiktok\.com/')
+_TIKTOK_RE = re.compile(r'https?://([a-zA-Z0-9-]+\.)?tiktok\.com/')
 _model = None  # lazy-loaded on first call to _get_model()
 
 

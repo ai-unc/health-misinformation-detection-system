@@ -42,6 +42,14 @@ def test_url_validation():
     assert result.text == 'hi'
     print('  ✓ valid TikTok URL passes validation and returns TranscriptResult')
 
+    # vm.tiktok.com short link (mobile share) → must also pass validation
+    with patch.object(transcription, '_download_audio', return_value=Path('/tmp/fake.mp3')), \
+         patch.object(transcription, '_transcribe',
+                      return_value=TranscriptResult(text='hi', segments=[], duration=1.0)):
+        result = transcribe_url('https://vm.tiktok.com/ZMhAbcDef/')
+    assert result.text == 'hi'
+    print('  ✓ vm.tiktok.com short URL passes validation and returns TranscriptResult')
+
 
 # ── TEST 2 ─────────────────────────────────────────────────────────────────────
 
@@ -206,6 +214,13 @@ def test_flask_transcribe_route():
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/789'})
     assert r.status_code == 500, f'Expected 500, got {r.status_code}'
     print('  ✓ generic RuntimeError → 500')
+
+    # FileNotFoundError (yt-dlp not installed) → 500
+    with patch.object(transcription, '_download_audio',
+                      side_effect=FileNotFoundError('yt-dlp not found')):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/789'})
+    assert r.status_code == 500, f'Expected 500, got {r.status_code}'
+    print('  ✓ FileNotFoundError (yt-dlp not installed) → 500')
 
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────
