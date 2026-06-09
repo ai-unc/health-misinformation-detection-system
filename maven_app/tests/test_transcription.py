@@ -70,10 +70,24 @@ def test_download_audio(tmp_path):
             assert 'Video unavailable' in str(e)
             print('  ✓ yt-dlp failure raises RuntimeError containing stderr')
 
+    # Edge case: yt-dlp exits 0 but produces no mp3 (e.g., format conversion failure)
+    empty_dir = tmp_path / 'empty'
+    empty_dir.mkdir()
+    with patch('transcription.subprocess.run',
+               return_value=MagicMock(returncode=0, stderr='')):
+        try:
+            _download_audio('https://www.tiktok.com/@user/video/empty', str(empty_dir))
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert 'no audio file produced' in str(e)
+            print('  ✓ zero-exit but no mp3 raises RuntimeError')
+
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
+    import sys as _sys, io as _io
+    _sys.stdout = _io.TextIOWrapper(_sys.stdout.buffer, encoding='utf-8')
     import tempfile as _tf
     import pathlib as _pl
     with _tf.TemporaryDirectory() as _td:
