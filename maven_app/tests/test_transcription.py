@@ -93,12 +93,12 @@ def test_transcribe(tmp_path):
     dummy_audio.write_bytes(b'\x00' * 100)
 
     mock_seg       = MagicMock()
-    mock_seg.start = 0.0
-    mock_seg.end   = 2.5
+    mock_seg.start = 0.123456
+    mock_seg.end   = 2.5678
     mock_seg.text  = '  Hello world  '
 
     mock_info          = MagicMock()
-    mock_info.duration = 2.5
+    mock_info.duration = 2.56789
 
     mock_model = MagicMock()
     mock_model.transcribe.return_value = ([mock_seg], mock_info)
@@ -107,8 +107,8 @@ def test_transcribe(tmp_path):
         result = _transcribe(dummy_audio)
 
     assert result.text == 'Hello world'
-    assert result.duration == 2.5
-    assert result.segments == [{'start': 0.0, 'end': 2.5, 'text': 'Hello world'}]
+    assert result.duration == 2.57
+    assert result.segments == [{'start': 0.12, 'end': 2.57, 'text': 'Hello world'}]
     print('  ✓ _transcribe returns correct TranscriptResult')
 
     # Empty transcript → RuntimeError with exact message (used by Flask route to return 422)
