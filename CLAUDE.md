@@ -61,6 +61,24 @@ The notebook documents the pipeline with narrative explanations, organized into 
 | `pandas` | Tabular results (DataFrames) |
 | `wikipedia-api` | Wikipedia article fetching |
 
+## Running Tests
+
+Tests are plain Python scripts, not pytest. Run from `maven_app/`:
+
+```bash
+cd maven_app
+python tests/test_transcription.py
+```
+
+`from app import app` in test files triggers PubMedBERT model loading (~30-60s on cold cache).
+On Windows, test `main()` functions wrap stdout in UTF-8 to handle Unicode output: `sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')`.
+
+## TikTok Transcription — Dependency Gotchas
+
+- `curl_cffi` must be `>=0.10,<0.15` — yt-dlp rejects 0.15+ with `ImportError` at import time
+- `imageio-ffmpeg` ships its binary as `ffmpeg-win-x86_64-v7.1.exe`, not `ffmpeg.exe` — `transcription._ensure_ffmpeg()` normalizes this by copying it to `%TEMP%\maven_ffmpeg\ffmpeg.exe` on first use
+- TikTok downloads require `--impersonate chrome` (handled automatically); without `curl_cffi` installed, all targets show as unavailable
+
 ## Pipeline Entry Point
 
 `score_text(text)` in the final code cell is the end-to-end function. It accepts any string, auto-selects a chunking strategy, embeds with PubMedBERT, computes four misinformation markers, and returns a `pd.DataFrame` with columns: `chunk`, `authority_sim`, `misinfo_sim`, `claim_delta`, `isolation_score`, `misinfo_score`, `flagged`.
