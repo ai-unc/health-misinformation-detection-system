@@ -35,6 +35,9 @@ For local development: `jupyter notebook MAVEN_AI_UNC_SPR2026.ipynb`
 maven_app/
   app.py              # Flask routes and request handling
   pipeline.py         # Shared inference pipeline (chunk → embed → score)
+  tiktok.py           # Shared TikTok plumbing: URL validation, ffmpeg, yt-dlp helpers
+  transcription.py    # Audio mode: TikTok audio → faster-whisper transcript
+  text_extraction.py  # Text mode: frame OCR (RapidOCR) + video description
   requirements.txt
   anchors/            # Authority and misinfo anchor JSON files
   templates/          # Jinja2 HTML templates
@@ -60,6 +63,7 @@ The notebook documents the pipeline with narrative explanations, organized into 
 | `requests` + `beautifulsoup4` + `lxml` | Web scraping |
 | `pandas` | Tabular results (DataFrames) |
 | `wikipedia-api` | Wikipedia article fetching |
+| `rapidocr-onnxruntime` | Frame OCR for TikTok text mode |
 
 ## Running Tests
 
@@ -76,7 +80,7 @@ On Windows, test `main()` functions wrap stdout in UTF-8 to handle Unicode outpu
 ## TikTok Transcription — Dependency Gotchas
 
 - `curl_cffi` must be `>=0.10,<0.15` — yt-dlp rejects 0.15+ with `ImportError` at import time
-- `imageio-ffmpeg` ships its binary as `ffmpeg-win-x86_64-v7.1.exe`, not `ffmpeg.exe` — `transcription._ensure_ffmpeg()` normalizes this by copying it to `%TEMP%\maven_ffmpeg\ffmpeg.exe` on first use
+- `imageio-ffmpeg` ships its binary as `ffmpeg-win-x86_64-v7.1.exe`, not `ffmpeg.exe` — `tiktok.ensure_ffmpeg()` normalizes this by copying it to `%TEMP%\maven_ffmpeg\ffmpeg.exe` on first use
 - TikTok downloads require `--impersonate chrome` (handled automatically); without `curl_cffi` installed, all targets show as unavailable
 
 ## Pipeline Entry Point

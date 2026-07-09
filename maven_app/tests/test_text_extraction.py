@@ -18,6 +18,7 @@ from text_extraction import (
     NoTextFoundError,
     TextExtractionResult,
     _sample_frames,
+    _ocr_frames,
     extract_text_url,
 )
 
@@ -137,7 +138,10 @@ def test_sample_frames(tmp_path):
     video = tmp_path / 'video.mp4'
     video.write_bytes(b'\x00' * 100)
 
+    captured = {}
+
     def fake_run(cmd, **kwargs):
+        captured['cmd'] = cmd
         # Last arg is the output pattern; fake ffmpeg writing three frames
         out_pattern = Path(cmd[-1])
         for i in (1, 2, 3):
@@ -149,6 +153,10 @@ def test_sample_frames(tmp_path):
         frames = _sample_frames(video, str(tmp_path))
     assert [f.name for f in frames] == ['frame_0001.png', 'frame_0002.png', 'frame_0003.png']
     print('  ✓ returns sorted frame paths')
+
+    cmd = captured['cmd']
+    assert '-t' in cmd and cmd[cmd.index('-t') + 1] == '600'
+    print('  ✓ command caps sampling at MAX_VIDEO_SECONDS via -t 600')
 
     # ffmpeg failure → RuntimeError
     fail_dir = tmp_path / 'fail'
@@ -162,6 +170,34 @@ def test_sample_frames(tmp_path):
         except RuntimeError as e:
             assert 'corrupt file' in str(e)
             print('  ✓ ffmpeg failure raises RuntimeError containing stderr')
+
+
+def test_ocr_frames():
+    print('\n=== TEST: _ocr_frames ===')
+
+    frames = [Path('/fake/frame_0001.png'), Path('/fake/frame_0002.png'), Path('/fake/frame_0003.png')]
+    box = [[0, 0], [10, 0], [10, 10], [0, 10]]
+    responses = {
+        '/fake/frame_0001.png': ([[box, 'Raspberry leaf tea', 0.95],
+                                  [box, '@healthmom', 0.99],
+                                  [box, 'blurry noise', 0.3]], 0.1),
+        '/fake/frame_0002.png': (None, 0.05),
+        '/fake/frame_0003.png': ([[box, 'Raspberry leaf tea', 0.9]], 0.1),
+    }
+
+    def fake_engine(path):
+        return responses[path.replace('\\', '/')]
+
+    with patch.object(text_extraction, '_get_ocr', return_value=fake_engine):
+        results = text_extraction._ocr_frames(frames, 'healthmom')
+
+    assert results == [
+        {'ts': 0, 'lines': [('Raspberry leaf tea', 0.95)]},
+        {'ts': 1, 'lines': []},
+        {'ts': 2, 'lines': [('Raspberry leaf tea', 0.9)]},
+    ]
+    print('  ✓ parses [box, text, score] items, junk-filters, indexes ts from 0')
+    print('  ✓ None OCR result yields an empty-lines frame')
 
 
 # ── TEST 5 ─────────────────────────────────────────────────────────────────────
@@ -324,6 +360,7 @@ def main():
     test_assemble_text()
     with _tf.TemporaryDirectory() as _td:
         test_sample_frames(_pl.Path(_td))
+    test_ocr_frames()
     test_extract_text_url()
     test_flask_transcribe_modes()
     print('\nALL TESTS PASSED')

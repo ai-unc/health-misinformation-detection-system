@@ -83,7 +83,7 @@ def _base_cmd() -> List[str]:
 
 
 def _run(cmd: List[str]) -> subprocess.CompletedProcess:
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if result.returncode != 0:
         msg = result.stderr.strip() or f'yt-dlp exited with code {result.returncode}'
         raise RuntimeError(f'Download failed: {msg}')

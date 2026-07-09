@@ -19,6 +19,7 @@ MIN_CONFIDENCE    = 0.6   # OCR lines below this are noise
 MIN_LINE_CHARS    = 3     # shorter lines are noise
 FUZZY_MATCH_RATIO = 0.9   # SequenceMatcher ratio treating two frames as the same overlay
 FRAME_WIDTH       = 720   # frames scaled to this width before OCR
+MAX_VIDEO_SECONDS = 600   # cap frame sampling; overlays past 10 min are ignored
 
 
 class NoTextFoundError(RuntimeError):
@@ -137,6 +138,8 @@ def _sample_frames(video_path: Path, tmp_dir: str) -> List[Path]:
     """Extract one frame per second as PNGs scaled to FRAME_WIDTH px wide.
 
     Frame N (1-based in filenames) corresponds to second N-1 of the video.
+    Sampling is capped at the first MAX_VIDEO_SECONDS of the video so an
+    unusually long upload can't pin a worker.
     Raises RuntimeError on ffmpeg failure.
     """
     ffmpeg_exe = ensure_ffmpeg() or 'ffmpeg'
@@ -146,9 +149,10 @@ def _sample_frames(video_path: Path, tmp_dir: str) -> List[Path]:
         ffmpeg_exe, '-hide_banner', '-loglevel', 'error',
         '-i', str(video_path),
         '-vf', f'fps=1,scale={FRAME_WIDTH}:-2',
+        '-t', str(MAX_VIDEO_SECONDS),
         str(frames_dir / 'frame_%04d.png'),
     ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if result.returncode != 0:
         msg = result.stderr.strip() or f'ffmpeg exited with code {result.returncode}'
         raise RuntimeError(f'Frame sampling failed: {msg}')

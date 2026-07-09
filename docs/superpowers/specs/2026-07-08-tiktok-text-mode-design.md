@@ -80,7 +80,9 @@ audio mode):
 3. **Download video** as mp4 (shared downloader, impersonation applied).
 4. **Sample frames** with normalized ffmpeg: `fps=1`, scaled to 720 px width.
    TikTok overlays persist for seconds, so 1 fps cannot miss one; a 3-minute
-   video yields ≤ 180 PNGs.
+   video yields ≤ 180 PNGs. Sampling is capped at the first
+   `MAX_VIDEO_SECONDS = 600` seconds so a much longer video can't pin a
+   worker for many minutes.
 5. **OCR each frame** with RapidOCR → `(text line, confidence)` pairs per
    frame; frame index = timestamp in seconds.
 6. **Filter junk** per line: confidence < 0.6, lines shorter than 3 characters,
