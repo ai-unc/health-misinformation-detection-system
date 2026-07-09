@@ -106,3 +106,80 @@ def _assemble_text(description: str, overlay_segments: List[dict]) -> str:
             seen.add(key)
             parts.append(seg['text'])
     return '\n'.join(parts).strip()
+
+
+def extract_text_url(url: str) -> TextExtractionResult:
+    url = validate_url(url)
+    metadata = fetch_metadata(url)
+    description = (metadata.get('description') or '').strip()
+    uploader = (metadata.get('uploader') or '').strip()
+
+    tmp_dir = tempfile.mkdtemp()
+    try:
+        video_path = download_video(url, tmp_dir)
+        frames = _sample_frames(video_path, tmp_dir)
+        frame_results = _ocr_frames(frames, uploader)
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    overlay_segments = group_overlay_segments(frame_results)
+    text = _assemble_text(description, overlay_segments)
+    if not text:
+        raise NoTextFoundError('No overlay text or description found in video.')
+    return TextExtractionResult(
+        description=description,
+        overlay_segments=overlay_segments,
+        text=text,
+    )
+
+
+def _sample_frames(video_path: Path, tmp_dir: str) -> List[Path]:
+    """Extract one frame per second as PNGs scaled to FRAME_WIDTH px wide.
+
+    Frame N (1-based in filenames) corresponds to second N-1 of the video.
+    Raises RuntimeError on ffmpeg failure.
+    """
+    ffmpeg_exe = ensure_ffmpeg() or 'ffmpeg'
+    frames_dir = Path(tmp_dir) / 'frames'
+    frames_dir.mkdir(exist_ok=True)
+    cmd = [
+        ffmpeg_exe, '-hide_banner', '-loglevel', 'error',
+        '-i', str(video_path),
+        '-vf', f'fps=1,scale={FRAME_WIDTH}:-2',
+        str(frames_dir / 'frame_%04d.png'),
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        msg = result.stderr.strip() or f'ffmpeg exited with code {result.returncode}'
+        raise RuntimeError(f'Frame sampling failed: {msg}')
+    return sorted(frames_dir.glob('frame_*.png'))
+
+
+def _get_ocr():
+    """Load the RapidOCR engine once at first call; return cached instance."""
+    global _ocr_engine
+    if _ocr_engine is None:
+        from rapidocr_onnxruntime import RapidOCR
+        print('[MAVEN] Loading RapidOCR engine (one-time)...')
+        _ocr_engine = RapidOCR()
+        print('[MAVEN] RapidOCR engine ready.')
+    return _ocr_engine
+
+
+def _ocr_frames(frames: List[Path], uploader: str) -> List[dict]:
+    """OCR each frame, junk-filtering lines.
+
+    Returns [{'ts': int, 'lines': [(text, confidence), ...]}, ...] — one entry
+    per frame (ts = seconds from video start), ready for group_overlay_segments.
+    """
+    engine = _get_ocr()
+    results = []
+    for idx, frame in enumerate(frames):
+        raw, _elapsed = engine(str(frame))  # [[box, text, score], ...] or None
+        lines = []
+        for item in (raw or []):
+            text, conf = item[1].strip(), float(item[2])
+            if not _is_junk(text, conf, uploader):
+                lines.append((text, conf))
+        results.append({'ts': idx, 'lines': lines})
+    return results

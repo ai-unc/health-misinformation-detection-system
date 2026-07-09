@@ -15,6 +15,10 @@ from text_extraction import (
     _is_junk,
     _normalize,
     group_overlay_segments,
+    NoTextFoundError,
+    TextExtractionResult,
+    _sample_frames,
+    extract_text_url,
 )
 
 
@@ -125,14 +129,133 @@ def test_assemble_text():
     print('  ✓ nothing found produces empty string')
 
 
+# ── TEST 4 ─────────────────────────────────────────────────────────────────────
+
+def test_sample_frames(tmp_path):
+    print('\n=== TEST 4: _sample_frames ===')
+
+    video = tmp_path / 'video.mp4'
+    video.write_bytes(b'\x00' * 100)
+
+    def fake_run(cmd, **kwargs):
+        # Last arg is the output pattern; fake ffmpeg writing three frames
+        out_pattern = Path(cmd[-1])
+        for i in (1, 2, 3):
+            (out_pattern.parent / f'frame_{i:04d}.png').touch()
+        return MagicMock(returncode=0, stderr='')
+
+    with patch('text_extraction.subprocess.run', side_effect=fake_run), \
+         patch.object(text_extraction, 'ensure_ffmpeg', return_value=''):
+        frames = _sample_frames(video, str(tmp_path))
+    assert [f.name for f in frames] == ['frame_0001.png', 'frame_0002.png', 'frame_0003.png']
+    print('  ✓ returns sorted frame paths')
+
+    # ffmpeg failure → RuntimeError
+    fail_dir = tmp_path / 'fail'
+    fail_dir.mkdir()
+    with patch('text_extraction.subprocess.run',
+               return_value=MagicMock(returncode=1, stderr='corrupt file')), \
+         patch.object(text_extraction, 'ensure_ffmpeg', return_value=''):
+        try:
+            _sample_frames(video, str(fail_dir))
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert 'corrupt file' in str(e)
+            print('  ✓ ffmpeg failure raises RuntimeError containing stderr')
+
+
+# ── TEST 5 ─────────────────────────────────────────────────────────────────────
+
+def test_extract_text_url():
+    print('\n=== TEST 5: extract_text_url ===')
+
+    # Non-TikTok URL → ValueError
+    try:
+        extract_text_url('https://www.youtube.com/watch?v=abc123')
+        assert False, 'Expected ValueError'
+    except ValueError as e:
+        assert 'does not appear to be a TikTok link' in str(e)
+        print('  ✓ non-TikTok URL raises ValueError')
+
+    fake_meta = {'description': 'My pregnancy hack! #fyp', 'uploader': 'healthmom'}
+    fake_frames = [Path('/fake/frame_0001.png'), Path('/fake/frame_0002.png')]
+    fake_frame_results = [
+        {'ts': 0, 'lines': [('Raspberry leaf tea', 0.9)]},
+        {'ts': 1, 'lines': [('Raspberry leaf tea', 0.9)]},
+    ]
+
+    # Happy path: description + overlays composed into result
+    with patch.object(text_extraction, 'fetch_metadata', return_value=fake_meta), \
+         patch.object(text_extraction, 'download_video', return_value=Path('/fake/v.mp4')), \
+         patch.object(text_extraction, '_sample_frames', return_value=fake_frames), \
+         patch.object(text_extraction, '_ocr_frames', return_value=fake_frame_results):
+        result = extract_text_url('https://www.tiktok.com/@user/video/123')
+    assert result.description == 'My pregnancy hack! #fyp'
+    assert result.overlay_segments == [{'start': 0.0, 'end': 2.0, 'text': 'Raspberry leaf tea'}]
+    assert result.text == 'My pregnancy hack! #fyp\nRaspberry leaf tea'
+    print('  ✓ happy path composes description + overlay segments + text')
+
+    # Description only (no overlays) still succeeds
+    with patch.object(text_extraction, 'fetch_metadata', return_value=fake_meta), \
+         patch.object(text_extraction, 'download_video', return_value=Path('/fake/v.mp4')), \
+         patch.object(text_extraction, '_sample_frames', return_value=fake_frames), \
+         patch.object(text_extraction, '_ocr_frames', return_value=[]):
+        result = extract_text_url('https://www.tiktok.com/@user/video/123')
+    assert result.text == 'My pregnancy hack! #fyp'
+    assert result.overlay_segments == []
+    print('  ✓ description-only video succeeds')
+
+    # Nothing at all → NoTextFoundError
+    with patch.object(text_extraction, 'fetch_metadata',
+                      return_value={'description': '', 'uploader': 'x'}), \
+         patch.object(text_extraction, 'download_video', return_value=Path('/fake/v.mp4')), \
+         patch.object(text_extraction, '_sample_frames', return_value=[]), \
+         patch.object(text_extraction, '_ocr_frames', return_value=[]):
+        try:
+            extract_text_url('https://www.tiktok.com/@user/video/123')
+            assert False, 'Expected NoTextFoundError'
+        except NoTextFoundError as e:
+            assert str(e) == 'No overlay text or description found in video.'
+            print('  ✓ empty description + no overlays raises NoTextFoundError')
+
+    # Temp dir cleaned up on success and on failure
+    with patch('text_extraction.shutil.rmtree') as mock_rmtree, \
+         patch('text_extraction.tempfile.mkdtemp', return_value='/fake/tmp'), \
+         patch.object(text_extraction, 'fetch_metadata', return_value=fake_meta), \
+         patch.object(text_extraction, 'download_video', return_value=Path('/fake/v.mp4')), \
+         patch.object(text_extraction, '_sample_frames', return_value=fake_frames), \
+         patch.object(text_extraction, '_ocr_frames', return_value=fake_frame_results):
+        extract_text_url('https://www.tiktok.com/@user/video/123')
+    mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
+    print('  ✓ temp dir removed after success')
+
+    with patch('text_extraction.shutil.rmtree') as mock_rmtree, \
+         patch('text_extraction.tempfile.mkdtemp', return_value='/fake/tmp'), \
+         patch.object(text_extraction, 'fetch_metadata', return_value=fake_meta), \
+         patch.object(text_extraction, 'download_video',
+                      side_effect=RuntimeError('Download failed: blocked')):
+        try:
+            extract_text_url('https://www.tiktok.com/@user/video/123')
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert 'blocked' in str(e)
+    mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
+    print('  ✓ temp dir removed even when download fails')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
     import sys as _sys, io as _io
     _sys.stdout = _io.TextIOWrapper(_sys.stdout.buffer, encoding='utf-8')
+    import tempfile as _tf
+    import pathlib as _pl
     test_is_junk()
     test_group_overlay_segments()
     test_assemble_text()
+    with _tf.TemporaryDirectory() as _td:
+        test_sample_frames(_pl.Path(_td))
+    test_extract_text_url()
     print('\nALL TESTS PASSED')
 
 

@@ -11,3 +11,4 @@ faster-whisper
 yt-dlp
 curl_cffi>=0.10,<0.15
 imageio-ffmpeg
+rapidocr-onnxruntime
