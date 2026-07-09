@@ -243,6 +243,75 @@ def test_extract_text_url():
     print('  ✓ temp dir removed even when download fails')
 
 
+# ── TEST 6 ─────────────────────────────────────────────────────────────────────
+
+def test_flask_transcribe_modes():
+    print('\n=== TEST 6: /transcribe mode handling ===')
+    import json
+    from app import app  # loads PubMedBERT — takes ~30-60s on cold cache
+
+    client = app.test_client()
+
+    # Unknown mode → 400
+    r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@u/video/1',
+                                         'mode': 'video'})
+    assert r.status_code == 400, f'Expected 400, got {r.status_code}'
+    assert b'Unknown mode' in r.data
+    print('  ✓ unknown mode → 400')
+
+    # Missing mode defaults to audio
+    fake_audio = MagicMock()
+    fake_audio.text = 'Spoken words.'
+    fake_audio.segments = [{'start': 0.0, 'end': 2.0, 'text': 'Spoken words.'}]
+    fake_audio.duration = 2.0
+    with patch('app.transcribe_url', return_value=fake_audio):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@u/video/1'})
+    assert r.status_code == 200, f'Expected 200, got {r.status_code}: {r.data}'
+    body = json.loads(r.data)
+    assert body['mode'] == 'audio'
+    assert body['text'] == 'Spoken words.'
+    assert body['duration'] == 2.0
+    print('  ✓ missing mode defaults to audio with unified response shape')
+
+    # Text mode → 200 with text-mode shape
+    fake_text = TextExtractionResult(
+        description='My pregnancy hack! #fyp',
+        overlay_segments=[{'start': 0.0, 'end': 2.0, 'text': 'Raspberry leaf tea'}],
+        text='My pregnancy hack! #fyp\nRaspberry leaf tea',
+    )
+    with patch('app.extract_text_url', return_value=fake_text):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@u/video/1',
+                                             'mode': 'text'})
+    assert r.status_code == 200, f'Expected 200, got {r.status_code}: {r.data}'
+    body = json.loads(r.data)
+    assert body['mode'] == 'text'
+    assert body['text'] == 'My pregnancy hack! #fyp\nRaspberry leaf tea'
+    assert body['segments'] == [{'start': 0.0, 'end': 2.0, 'text': 'Raspberry leaf tea'}]
+    assert body['description'] == 'My pregnancy hack! #fyp'
+    assert 'duration' not in body
+    print('  ✓ text mode → 200 with mode/text/segments/description')
+
+    # NoTextFoundError → 422
+    with patch('app.extract_text_url',
+               side_effect=NoTextFoundError('No overlay text or description found in video.')):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@u/video/1',
+                                             'mode': 'text'})
+    assert r.status_code == 422, f'Expected 422, got {r.status_code}'
+    print('  ✓ NoTextFoundError → 422')
+
+    # Generic failure in text mode → 500
+    with patch('app.extract_text_url', side_effect=RuntimeError('Download failed: blocked')):
+        r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@u/video/1',
+                                             'mode': 'text'})
+    assert r.status_code == 500, f'Expected 500, got {r.status_code}'
+    print('  ✓ RuntimeError → 500')
+
+    # Landing page includes the mode toggle (added in the UI task; will pass after it)
+    r = client.get('/')
+    assert r.status_code == 200
+    print('  ✓ landing page renders')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -256,6 +325,7 @@ def main():
     with _tf.TemporaryDirectory() as _td:
         test_sample_frames(_pl.Path(_td))
     test_extract_text_url()
+    test_flask_transcribe_modes()
     print('\nALL TESTS PASSED')
 
 

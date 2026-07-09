@@ -152,10 +152,11 @@ def test_flask_transcribe_route():
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/123'})
     assert r.status_code == 200, f'Expected 200, got {r.status_code}: {r.data}'
     body = json.loads(r.data)
-    assert body['transcript_text'] == 'Raspberry leaf tea is safe.'
+    assert body['mode'] == 'audio'
+    assert body['text'] == 'Raspberry leaf tea is safe.'
     assert body['segments'] == [{'start': 0.0, 'end': 3.2, 'text': 'Raspberry leaf tea is safe.'}]
     assert body['duration'] == 3.2
-    print('  ✓ valid TikTok URL → 200 with transcript_text, segments, duration')
+    print('  ✓ valid TikTok URL → 200 with mode, text, segments, duration')
 
     # No-speech error → 422
     with patch.object(transcription, 'download_audio', return_value=Path('/fake/audio.mp3')), \

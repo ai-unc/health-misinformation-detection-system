@@ -3,6 +3,7 @@ import math
 from flask import Flask, render_template, request, jsonify
 from pipeline import score_text
 from transcription import NoSpeechError, transcribe_url
+from text_extraction import NoTextFoundError, extract_text_url
 
 app = Flask(__name__)
 
@@ -66,24 +67,38 @@ def analyze():
 def transcribe():
     data = request.get_json(silent=True) or {}
     url = (data.get('url') or '').strip()
+    mode = (data.get('mode') or 'audio').strip().lower()
 
     if not url:
         return jsonify({'error': 'No URL provided.'}), 400
+    if mode not in ('audio', 'text'):
+        return jsonify({'error': f"Unknown mode '{mode}'. Use 'audio' or 'text'."}), 400
 
     try:
-        result = transcribe_url(url)
+        if mode == 'audio':
+            result = transcribe_url(url)
+            payload = {
+                'mode':     'audio',
+                'text':     result.text,
+                'segments': result.segments,
+                'duration': result.duration,
+            }
+        else:
+            result = extract_text_url(url)
+            payload = {
+                'mode':        'text',
+                'text':        result.text,
+                'segments':    result.overlay_segments,
+                'description': result.description,
+            }
     except ValueError as exc:
         return jsonify({'error': str(exc)}), 400
-    except NoSpeechError as exc:
+    except (NoSpeechError, NoTextFoundError) as exc:
         return jsonify({'error': str(exc)}), 422
     except Exception as exc:
         return jsonify({'error': str(exc)}), 500
 
-    return jsonify({
-        'transcript_text': result.text,
-        'segments':        result.segments,
-        'duration':        result.duration,
-    })
+    return jsonify(payload)
 
 
 if __name__ == '__main__':
