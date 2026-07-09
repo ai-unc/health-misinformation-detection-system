@@ -150,6 +150,20 @@
 <section class="flex flex-col gap-6">
 <!-- URL bar -->
 <div class="flex gap-2">
+  <div id="mode-toggle" class="flex border border-outline-variant/20" role="group" aria-label="Extraction mode">
+    <button
+      type="button"
+      data-mode="audio"
+      aria-pressed="true"
+      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors bg-surface-container-highest text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
+    >Audio</button>
+    <button
+      type="button"
+      data-mode="text"
+      aria-pressed="false"
+      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors text-outline hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
+    >Text</button>
+  </div>
   <input
     id="url-input"
     type="url"
@@ -231,6 +245,28 @@ const transcriptToggle = document.getElementById('transcript-toggle');
 const transcriptMeta   = document.getElementById('transcript-meta');
 const transcriptSegs   = document.getElementById('transcript-segments');
 
+let extractMode = 'audio';
+const modeButtons = document.querySelectorAll('#mode-toggle .mode-btn');
+
+function extractButtonLabel() {
+    return extractMode === 'audio' ? 'Transcribe' : 'Extract Text';
+}
+
+modeButtons.forEach(btn => btn.addEventListener('click', () => {
+    if (btn.dataset.mode === extractMode) return;
+    extractMode = btn.dataset.mode;
+    modeButtons.forEach(b => {
+        const active = b.dataset.mode === extractMode;
+        b.setAttribute('aria-pressed', String(active));
+        b.classList.toggle('bg-surface-container-highest', active);
+        b.classList.toggle('text-primary', active);
+        b.classList.toggle('text-outline', !active);
+    });
+    if (!transcribeBtn.querySelector('.shimmer-bar')) {
+        transcribeBtn.textContent = extractButtonLabel();
+    }
+}));
+
 let isAnalyzing = false;
 
 const MISINFO_TYPE_LABELS = {
@@ -266,21 +302,21 @@ transcribeBtn.addEventListener('click', async () => {
         const res  = await fetch('/transcribe', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ url }),
+            body:    JSON.stringify({ url, mode: extractMode }),
         });
         const data = await res.json();
 
         if (data.error) {
-            statusLabel.textContent = 'Transcription failed';
+            statusLabel.textContent = extractMode === 'audio' ? 'Transcription failed' : 'Extraction failed';
             renderTranscribeError(data.error);
-        } else if (!data.transcript_text || !data.segments) {
-            statusLabel.textContent = 'Transcription failed';
+        } else if (!data.text || !data.segments) {
+            statusLabel.textContent = extractMode === 'audio' ? 'Transcription failed' : 'Extraction failed';
             renderTranscribeError('Unexpected server response.');
         } else {
-            textarea.value = data.transcript_text;
-            charCount.textContent = `Character Count: ${data.transcript_text.length}`;
+            textarea.value = data.text;
+            charCount.textContent = `Character Count: ${data.text.length}`;
             renderTranscriptPanel(data);
-            statusLabel.textContent = 'Transcript ready';
+            statusLabel.textContent = data.mode === 'audio' ? 'Transcript ready' : 'Text extracted';
         }
     } catch (_err) {
         statusLabel.textContent = 'Connection failed';
@@ -310,7 +346,7 @@ function setTranscribeLoading(on) {
     if (on) {
         transcribeBtn.innerHTML = '<div class="shimmer-bar w-full h-1 py-[8px]"></div>';
     } else {
-        transcribeBtn.innerHTML = urlInput.value.trim() ? 'Retranscribe' : 'Transcribe';
+        transcribeBtn.innerHTML = extractButtonLabel();
         transcribeBtn.disabled  = !urlInput.value.trim();
         if (!isAnalyzing) { analyzeBtn.disabled = false; }
         textarea.readOnly       = false;
@@ -319,10 +355,18 @@ function setTranscribeLoading(on) {
 
 // ── Render transcript reference panel ─────────────────────────────────
 function renderTranscriptPanel(data) {
-    const mins   = Math.floor(data.duration / 60);
-    const secs   = Math.round(data.duration % 60);
-    const durStr = `${mins}:${String(secs).padStart(2, '0')}`;
-    transcriptMeta.textContent = `${durStr} · ${data.segments.length} segments ▾`;
+    if (!data.segments.length) {           // e.g. text mode, description only
+        transcriptPanel.hidden = true;
+        return;
+    }
+    if (data.mode === 'text') {
+        transcriptMeta.textContent = `${data.segments.length} overlay segments ▾`;
+    } else {
+        const mins   = Math.floor(data.duration / 60);
+        const secs   = Math.round(data.duration % 60);
+        const durStr = `${mins}:${String(secs).padStart(2, '0')}`;
+        transcriptMeta.textContent = `${durStr} · ${data.segments.length} segments ▾`;
+    }
 
     transcriptSegs.innerHTML = data.segments.map(seg =>
         `<div class="flex gap-3 items-baseline">
