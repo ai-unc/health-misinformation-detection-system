@@ -1,5 +1,5 @@
 """
-Tests for transcription.py — URL validation, _download_audio, _transcribe, cleanup, Flask route.
+Tests for transcription.py — URL validation, _transcribe, cleanup, Flask route.
 Run from maven_app/:  python tests/test_transcription.py
 """
 import sys
@@ -10,7 +10,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import transcription
 from transcription import TranscriptResult, transcribe_url
-from transcription import _download_audio
 from transcription import _transcribe
 
 
@@ -35,7 +34,7 @@ def test_url_validation():
         print('  ✓ empty URL raises ValueError')
 
     # Valid TikTok URL — must not raise ValueError (internals mocked)
-    with patch.object(transcription, '_download_audio', return_value=Path('/tmp/fake.mp3')), \
+    with patch.object(transcription, 'download_audio', return_value=Path('/tmp/fake.mp3')), \
          patch.object(transcription, '_transcribe',
                       return_value=TranscriptResult(text='hi', segments=[], duration=1.0)):
         result = transcribe_url('https://www.tiktok.com/@user/video/123456')
@@ -43,53 +42,12 @@ def test_url_validation():
     print('  ✓ valid TikTok URL passes validation and returns TranscriptResult')
 
     # vm.tiktok.com short link (mobile share) → must also pass validation
-    with patch.object(transcription, '_download_audio', return_value=Path('/tmp/fake.mp3')), \
+    with patch.object(transcription, 'download_audio', return_value=Path('/tmp/fake.mp3')), \
          patch.object(transcription, '_transcribe',
                       return_value=TranscriptResult(text='hi', segments=[], duration=1.0)):
         result = transcribe_url('https://vm.tiktok.com/ZMhAbcDef/')
     assert result.text == 'hi'
     print('  ✓ vm.tiktok.com short URL passes validation and returns TranscriptResult')
-
-
-# ── TEST 2 ─────────────────────────────────────────────────────────────────────
-
-def test_download_audio(tmp_path):
-    print('\n=== TEST 2: _download_audio ===')
-
-    # Success: simulate yt-dlp creating an mp3
-    def fake_run(cmd, **kwargs):
-        output_tpl = cmd[cmd.index('--output') + 1]
-        out_dir = Path(output_tpl).parent
-        (out_dir / 'fakevideo.mp3').touch()
-        return MagicMock(returncode=0, stderr='')
-
-    with patch('transcription.subprocess.run', side_effect=fake_run):
-        result = _download_audio('https://www.tiktok.com/@user/video/123', str(tmp_path))
-    assert result.suffix == '.mp3'
-    assert result.exists()
-    print('  ✓ success path returns mp3 Path')
-
-    # Failure: yt-dlp non-zero exit → RuntimeError with stderr
-    with patch('transcription.subprocess.run',
-               return_value=MagicMock(returncode=1, stderr='Video unavailable')):
-        try:
-            _download_audio('https://www.tiktok.com/@user/video/bad', str(tmp_path))
-            assert False, 'Expected RuntimeError'
-        except RuntimeError as e:
-            assert 'Video unavailable' in str(e)
-            print('  ✓ yt-dlp failure raises RuntimeError containing stderr')
-
-    # Edge case: yt-dlp exits 0 but produces no mp3 (e.g., format conversion failure)
-    empty_dir = tmp_path / 'empty'
-    empty_dir.mkdir()
-    with patch('transcription.subprocess.run',
-               return_value=MagicMock(returncode=0, stderr='')):
-        try:
-            _download_audio('https://www.tiktok.com/@user/video/empty', str(empty_dir))
-            assert False, 'Expected RuntimeError'
-        except RuntimeError as e:
-            assert 'no audio file produced' in str(e)
-            print('  ✓ zero-exit but no mp3 raises RuntimeError')
 
 
 # ── TEST 3 ─────────────────────────────────────────────────────────────────────
@@ -140,7 +98,7 @@ def test_transcribe_url_cleanup():
     # Cleanup on success
     with patch('transcription.shutil.rmtree') as mock_rmtree, \
          patch('transcription.tempfile.mkdtemp', return_value='/fake/tmp'), \
-         patch.object(transcription, '_download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
+         patch.object(transcription, 'download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
          patch.object(transcription, '_transcribe', return_value=fake_result):
         transcribe_url('https://www.tiktok.com/@user/video/123')
 
@@ -150,7 +108,7 @@ def test_transcribe_url_cleanup():
     # Cleanup on failure
     with patch('transcription.shutil.rmtree') as mock_rmtree, \
          patch('transcription.tempfile.mkdtemp', return_value='/fake/tmp'), \
-         patch.object(transcription, '_download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
+         patch.object(transcription, 'download_audio', return_value=Path('/fake/tmp/audio.mp3')), \
          patch.object(transcription, '_transcribe', side_effect=RuntimeError('boom')):
         try:
             transcribe_url('https://www.tiktok.com/@user/video/123')
@@ -189,7 +147,7 @@ def test_flask_transcribe_route():
         segments=[{'start': 0.0, 'end': 3.2, 'text': 'Raspberry leaf tea is safe.'}],
         duration=3.2,
     )
-    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+    with patch.object(transcription, 'download_audio', return_value=Path('/fake/audio.mp3')), \
          patch.object(transcription, '_transcribe', return_value=fake):
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/123'})
     assert r.status_code == 200, f'Expected 200, got {r.status_code}: {r.data}'
@@ -200,7 +158,7 @@ def test_flask_transcribe_route():
     print('  ✓ valid TikTok URL → 200 with transcript_text, segments, duration')
 
     # No-speech error → 422
-    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+    with patch.object(transcription, 'download_audio', return_value=Path('/fake/audio.mp3')), \
          patch.object(transcription, '_transcribe',
                       side_effect=transcription.NoSpeechError('No speech detected in audio.')):
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/456'})
@@ -208,7 +166,7 @@ def test_flask_transcribe_route():
     print('  ✓ no-speech → 422')
 
     # Generic download error → 500
-    with patch.object(transcription, '_download_audio', return_value=Path('/fake/audio.mp3')), \
+    with patch.object(transcription, 'download_audio', return_value=Path('/fake/audio.mp3')), \
          patch.object(transcription, '_transcribe',
                       side_effect=RuntimeError('network timeout')):
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/789'})
@@ -216,7 +174,7 @@ def test_flask_transcribe_route():
     print('  ✓ generic RuntimeError → 500')
 
     # FileNotFoundError (yt-dlp not installed) → 500
-    with patch.object(transcription, '_download_audio',
+    with patch.object(transcription, 'download_audio',
                       side_effect=FileNotFoundError('yt-dlp not found')):
         r = client.post('/transcribe', json={'url': 'https://www.tiktok.com/@user/video/789'})
     assert r.status_code == 500, f'Expected 500, got {r.status_code}'
@@ -233,9 +191,6 @@ def main():
     with _tf.TemporaryDirectory() as _td:
         _tmp = _pl.Path(_td)
         test_url_validation()
-        dl_dir = _tmp / 'dl_test'
-        dl_dir.mkdir()
-        test_download_audio(dl_dir)
         tr_dir = _tmp / 'tr_test'
         tr_dir.mkdir()
         test_transcribe(tr_dir)
