@@ -155,13 +155,13 @@
       type="button"
       data-mode="audio"
       aria-pressed="true"
-      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors bg-surface-container-highest text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
+      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors bg-surface-container-highest text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px] disabled:opacity-30 disabled:pointer-events-none"
     >Audio</button>
     <button
       type="button"
       data-mode="text"
       aria-pressed="false"
-      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors text-outline hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
+      class="mode-btn px-3 py-3 font-label font-medium uppercase tracking-widest text-[10px] transition-colors text-outline hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px] disabled:opacity-30 disabled:pointer-events-none"
     >Text</button>
   </div>
   <input
@@ -342,6 +342,7 @@ function setTranscribeLoading(on) {
     transcribeBtn.disabled = true;
     analyzeBtn.disabled    = on;
     textarea.readOnly      = on;
+    modeButtons.forEach(b => { b.disabled = on; });
 
     if (on) {
         transcribeBtn.innerHTML = '<div class="shimmer-bar w-full h-1 py-[8px]"></div>';
