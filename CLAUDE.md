@@ -15,6 +15,11 @@ A health misinformation detection system for the UNC Department of Maternal and 
 
 ## Running the Flask App
 
+Requires **Python 3.10+** — yt-dlp dropped Python 3.9 support after its
+2025.10.14 release, and older extractor versions fail against current
+Instagram ("empty media response"). The project venv is built with Homebrew
+`python3.11`.
+
 ```bash
 cd maven_app
 pip install -r requirements.txt
