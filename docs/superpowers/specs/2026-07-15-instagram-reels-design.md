@@ -130,6 +130,12 @@ Plain-script style with mocked `subprocess.run`, no network — same as today.
 ## Out of scope
 
 - Cookie/credential support for login-walled Reels.
+- Known accepted gaps (not regressions): a `/share/` link that redirects to a
+  `/p/` photo post passes validation and surfaces a raw yt-dlp error instead
+  of the friendly validation message; `m.instagram.com` mobile links are
+  rejected (only `www.` is optional); a deleted Reel's
+  "requested content is not available" error shows the login/rate-limit
+  message.
 - Other platforms (YouTube Shorts, Facebook Reels) — the `Platform` registry
   makes these ~20-line additions later.
 - Notebook changes — the notebook documents the scoring pipeline, not the
