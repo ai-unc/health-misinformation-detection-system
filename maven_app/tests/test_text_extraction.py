@@ -28,6 +28,9 @@ from text_extraction import (
 def test_is_junk():
     print('\n=== TEST 1: _is_junk ===')
 
+    TIKTOK_TERMS    = frozenset({'tiktok'})
+    INSTAGRAM_TERMS = frozenset({'instagram', 'reels', 'reel'})
+
     assert _is_junk('Perfectly good caption', 0.3)
     print('  ✓ low-confidence line dropped')
 
@@ -37,17 +40,27 @@ def test_is_junk():
     assert _is_junk('@healthmom', 0.99)
     print('  ✓ @handle line dropped')
 
-    assert _is_junk('TikTok', 0.99)
-    print('  ✓ bare "TikTok" watermark dropped')
+    assert _is_junk('TikTok', 0.99, junk_terms=TIKTOK_TERMS)
+    print('  ✓ bare "TikTok" watermark dropped with TikTok junk terms')
+
+    assert not _is_junk('TikTok', 0.99, junk_terms=INSTAGRAM_TERMS)
+    print('  ✓ junk terms are platform-specific, not global')
+
+    assert _is_junk('Instagram', 0.99, junk_terms=INSTAGRAM_TERMS)
+    assert _is_junk('Reels', 0.99, junk_terms=INSTAGRAM_TERMS)
+    print('  ✓ bare "Instagram"/"Reels" watermarks dropped with Instagram junk terms')
 
     assert _is_junk('healthmom', 0.99, uploader='healthmom')
     print('  ✓ uploader handle without @ dropped')
 
-    assert not _is_junk('Raspberry leaf tea induces labor', 0.95)
+    assert not _is_junk('Raspberry leaf tea induces labor', 0.95, junk_terms=TIKTOK_TERMS)
     print('  ✓ normal caption kept')
 
-    assert not _is_junk('I saw this on TikTok yesterday', 0.95)
+    assert not _is_junk('I saw this on TikTok yesterday', 0.95, junk_terms=TIKTOK_TERMS)
     print('  ✓ sentence merely containing "tiktok" kept')
+
+    assert not _is_junk('I saw this on Instagram yesterday', 0.95, junk_terms=INSTAGRAM_TERMS)
+    print('  ✓ sentence merely containing "instagram" kept')
 
 
 # ── TEST 2 ─────────────────────────────────────────────────────────────────────
@@ -189,7 +202,8 @@ def test_ocr_frames():
         return responses[path.replace('\\', '/')]
 
     with patch.object(text_extraction, '_get_ocr', return_value=fake_engine):
-        results = text_extraction._ocr_frames(frames, 'healthmom')
+        results = text_extraction._ocr_frames(frames, 'healthmom',
+                                              frozenset({'tiktok'}))
 
     assert results == [
         {'ts': 0, 'lines': [('Raspberry leaf tea', 0.95)]},
@@ -198,6 +212,22 @@ def test_ocr_frames():
     ]
     print('  ✓ parses [box, text, score] items, junk-filters, indexes ts from 0')
     print('  ✓ None OCR result yields an empty-lines frame')
+
+    # Instagram junk terms filter the Instagram watermark line
+    ig_responses = {
+        '/fake/frame_0001.png': ([[box, 'Instagram', 0.99],
+                                  [box, 'Castor oil starts labor', 0.95]], 0.1),
+    }
+
+    def fake_ig_engine(path):
+        return ig_responses[path.replace('\\', '/')]
+
+    with patch.object(text_extraction, '_get_ocr', return_value=fake_ig_engine):
+        results = text_extraction._ocr_frames([Path('/fake/frame_0001.png')],
+                                              'reelmom',
+                                              frozenset({'instagram', 'reels', 'reel'}))
+    assert results == [{'ts': 0, 'lines': [('Castor oil starts labor', 0.95)]}]
+    print('  ✓ Instagram watermark filtered via platform junk terms')
 
 
 # ── TEST 5 ─────────────────────────────────────────────────────────────────────
@@ -277,6 +307,15 @@ def test_extract_text_url():
             assert 'blocked' in str(e)
     mock_rmtree.assert_called_once_with('/fake/tmp', ignore_errors=True)
     print('  ✓ temp dir removed even when download fails')
+
+    # Instagram Reel URL goes through the same pipeline
+    with patch.object(text_extraction, 'fetch_metadata', return_value=fake_meta), \
+         patch.object(text_extraction, 'download_video', return_value=Path('/fake/v.mp4')), \
+         patch.object(text_extraction, '_sample_frames', return_value=fake_frames), \
+         patch.object(text_extraction, '_ocr_frames', return_value=fake_frame_results):
+        result = extract_text_url('https://www.instagram.com/reel/C8abcDEfGhi/')
+    assert result.text == 'My pregnancy hack! #fyp\nRaspberry leaf tea'
+    print('  ✓ Instagram Reel URL passes validation and composes result')
 
 
 # ── TEST 6 ─────────────────────────────────────────────────────────────────────

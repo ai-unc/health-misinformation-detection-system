@@ -37,15 +37,16 @@ def _normalize(text: str) -> str:
     return ' '.join(text.casefold().split())
 
 
-def _is_junk(text: str, confidence: float, uploader: str = '') -> bool:
-    """True for OCR noise and TikTok watermark artifacts (logo, @handle)."""
+def _is_junk(text: str, confidence: float, uploader: str = '',
+             junk_terms: frozenset = frozenset()) -> bool:
+    """True for OCR noise and platform watermark artifacts (logo, @handle)."""
     t = text.strip()
     if confidence < MIN_CONFIDENCE or len(t) < MIN_LINE_CHARS:
         return True
     if t.startswith('@'):
         return True
     low = t.casefold().lstrip('@')
-    if low == 'tiktok':
+    if low in junk_terms:
         return True
     if uploader and low == uploader.casefold().lstrip('@'):
         return True
@@ -119,7 +120,7 @@ def extract_text_url(url: str) -> TextExtractionResult:
     try:
         video_path = download_video(url, tmp_dir)
         frames = _sample_frames(video_path, tmp_dir)
-        frame_results = _ocr_frames(frames, uploader)
+        frame_results = _ocr_frames(frames, uploader, platform.junk_terms)
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)
 
@@ -170,7 +171,8 @@ def _get_ocr():
     return _ocr_engine
 
 
-def _ocr_frames(frames: List[Path], uploader: str) -> List[dict]:
+def _ocr_frames(frames: List[Path], uploader: str,
+                junk_terms: frozenset = frozenset()) -> List[dict]:
     """OCR each frame, junk-filtering lines.
 
     Returns [{'ts': int, 'lines': [(text, confidence), ...]}, ...] — one entry
@@ -183,7 +185,7 @@ def _ocr_frames(frames: List[Path], uploader: str) -> List[dict]:
         lines = []
         for item in (raw or []):
             text, conf = item[1].strip(), float(item[2])
-            if not _is_junk(text, conf, uploader):
+            if not _is_junk(text, conf, uploader, junk_terms):
                 lines.append((text, conf))
         results.append({'ts': idx, 'lines': lines})
     return results
