@@ -16,6 +16,17 @@ from typing import List, Tuple
 
 _ffmpeg_exe = None  # resolved once; '' means fall back to system ffmpeg
 
+# yt-dlp stderr fragments (casefolded) that mean Instagram blocked an
+# anonymous request rather than the video being genuinely broken.
+_INSTAGRAM_BLOCK_SIGNATURES = (
+    'login required',
+    'rate-limit reached',
+    'restricted video',
+    'requested content is not available',
+)
+INSTAGRAM_BLOCK_MESSAGE = ('Instagram requires login or has rate-limited this '
+                           'request. Try a public Reel or retry later.')
+
 
 @dataclass(frozen=True)
 class Platform:
@@ -104,7 +115,11 @@ def _base_cmd() -> List[str]:
 def _run(cmd: List[str]) -> subprocess.CompletedProcess:
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if result.returncode != 0:
-        msg = result.stderr.strip() or f'yt-dlp exited with code {result.returncode}'
+        stderr = result.stderr.strip()
+        low = stderr.casefold()
+        if any(sig in low for sig in _INSTAGRAM_BLOCK_SIGNATURES):
+            raise RuntimeError(INSTAGRAM_BLOCK_MESSAGE)
+        msg = stderr or f'yt-dlp exited with code {result.returncode}'
         raise RuntimeError(f'Download failed: {msg}')
     return result
 

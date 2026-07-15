@@ -176,6 +176,40 @@ def test_fetch_metadata():
             assert 'blocked' in str(e)
             print('  ✓ yt-dlp failure raises RuntimeError containing stderr')
 
+# ── TEST 5 ─────────────────────────────────────────────────────────────────────
+
+def test_instagram_block_translation():
+    print('\n=== TEST 5: Instagram login-wall/rate-limit translation ===')
+
+    from video_source import INSTAGRAM_BLOCK_MESSAGE
+
+    block_stderrs = [
+        'ERROR: [Instagram] C8abc: login required (use --cookies to provide account credentials)',
+        'ERROR: [Instagram] C8abc: Instagram API is not granting access: rate-limit reached',
+        'ERROR: [Instagram] C8abc: Restricted Video: You must be 18 years old or over',
+        'ERROR: [Instagram] C8abc: Requested content is not available',
+    ]
+    for stderr in block_stderrs:
+        with patch('video_source.subprocess.run',
+                   return_value=MagicMock(returncode=1, stderr=stderr)), \
+             patch.object(video_source, 'ensure_ffmpeg', return_value=''):
+            try:
+                fetch_metadata('https://www.instagram.com/reel/C8abc/')
+                assert False, 'Expected RuntimeError'
+            except RuntimeError as e:
+                assert str(e) == INSTAGRAM_BLOCK_MESSAGE, f'unexpected: {e}'
+    print('  ✓ all four block signatures translated to the friendly message')
+
+    # Non-block failures keep stderr passthrough behavior
+    with patch('video_source.subprocess.run',
+               return_value=MagicMock(returncode=1, stderr='Video unavailable')), \
+         patch.object(video_source, 'ensure_ffmpeg', return_value=''):
+        try:
+            fetch_metadata('https://www.instagram.com/reel/C8abc/')
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert 'Video unavailable' in str(e)
+            print('  ✓ other failures still pass stderr through')
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
@@ -194,6 +228,7 @@ def main():
         video_dir.mkdir()
         test_download_video(video_dir)
     test_fetch_metadata()
+    test_instagram_block_translation()
     print('\nALL TESTS PASSED')
 
 
