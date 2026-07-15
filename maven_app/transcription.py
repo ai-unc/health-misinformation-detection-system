@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
-from tiktok import download_audio, ensure_ffmpeg, validate_url
+from video_source import download_audio, ensure_ffmpeg, validate_url
 
 _model = None  # lazy-loaded on first call to _get_model()
 
@@ -25,7 +25,7 @@ class TranscriptResult:
 
 
 def transcribe_url(url: str) -> TranscriptResult:
-    url = validate_url(url)
+    url, _platform = validate_url(url)
     tmp_dir = tempfile.mkdtemp()
     try:
         audio_path = download_audio(url, tmp_dir)

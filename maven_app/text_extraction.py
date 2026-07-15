@@ -11,7 +11,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import List
 
-from tiktok import download_video, ensure_ffmpeg, fetch_metadata, validate_url
+from video_source import download_video, ensure_ffmpeg, fetch_metadata, validate_url
 
 _ocr_engine = None  # lazy-loaded on first call to _get_ocr()
 
@@ -110,7 +110,7 @@ def _assemble_text(description: str, overlay_segments: List[dict]) -> str:
 
 
 def extract_text_url(url: str) -> TextExtractionResult:
-    url = validate_url(url)
+    url, platform = validate_url(url)
     metadata = fetch_metadata(url)
     description = (metadata.get('description') or '').strip()
     uploader = (metadata.get('uploader') or '').strip()
