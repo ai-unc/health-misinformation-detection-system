@@ -381,10 +381,11 @@ def test_flask_transcribe_modes():
     assert r.status_code == 500, f'Expected 500, got {r.status_code}'
     print('  ✓ RuntimeError → 500')
 
-    # Landing page includes the mode toggle (added in the UI task; will pass after it)
+    # Landing page advertises both platforms in the URL input
     r = client.get('/')
     assert r.status_code == 200
-    print('  ✓ landing page renders')
+    assert b'TikTok or Instagram Reel URL (optional)' in r.data
+    print('  ✓ landing page renders with both-platform placeholder')
 
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────

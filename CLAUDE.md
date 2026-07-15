@@ -35,7 +35,9 @@ For local development: `jupyter notebook MAVEN_AI_UNC_SPR2026.ipynb`
 maven_app/
   app.py              # Flask routes and request handling
   pipeline.py         # Shared inference pipeline (chunk → embed → score)
-  tiktok.py           # Shared TikTok plumbing: URL validation, ffmpeg, yt-dlp helpers
+  video_source.py     # Shared plumbing: URL dispatch, ffmpeg, yt-dlp helpers
+  tiktok.py           # Thin TikTok platform definition
+  instagram.py        # Thin Instagram Reels platform definition
   transcription.py    # Audio mode: TikTok audio → faster-whisper transcript
   text_extraction.py  # Text mode: frame OCR (RapidOCR) + video description
   requirements.txt
