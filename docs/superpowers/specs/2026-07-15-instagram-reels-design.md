@@ -46,10 +46,13 @@ maven_app/
 - `_base_cmd()`, `download_audio()`, `download_video()`, `fetch_metadata()`
   — verbatim (yt-dlp handles Instagram natively; `--impersonate chrome`
   stays on every call).
-- `_run()` — gains a stderr translation step: when yt-dlp fails and stderr
-  matches Instagram's known login-wall/rate-limit signatures (case-insensitive
-  substrings such as `login required`, `rate-limit reached`,
-  `Restricted Video`, `Requested content is not available`), raise
+- `_run()` — gains a stderr translation step: when yt-dlp fails **on an
+  Instagram URL** (the URL is the last element of every yt-dlp command; gated
+  so generic phrases like `login required` in a TikTok failure never
+  mistranslate) and stderr matches Instagram's known login-wall/rate-limit
+  signatures (case-insensitive substrings such as `login required`,
+  `rate-limit reached`, `Restricted Video`,
+  `Requested content is not available`), raise
   `RuntimeError` with a friendly message — "Instagram requires login or has
   rate-limited this request. Try a public Reel or retry later." — instead of
   raw stderr. All other failures keep today's behavior (stderr passthrough).
