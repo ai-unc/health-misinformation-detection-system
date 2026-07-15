@@ -1,5 +1,6 @@
 """
-MAVEN Transcription: downloads TikTok audio and transcribes it with faster-whisper.
+MAVEN Transcription: downloads audio from a supported video URL (TikTok or
+Instagram Reel) and transcribes it with faster-whisper.
 Public entry point: transcribe_url(url) → TranscriptResult.
 """
 import shutil

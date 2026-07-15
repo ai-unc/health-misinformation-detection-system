@@ -117,12 +117,12 @@ def _is_instagram_url(url: str) -> bool:
     return bool(INSTAGRAM.url_re.match(url))
 
 
-def _run(cmd: List[str]) -> subprocess.CompletedProcess:
+def _run(cmd: List[str], url: str) -> subprocess.CompletedProcess:
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if result.returncode != 0:
         stderr = result.stderr.strip()
         low = stderr.casefold()
-        if _is_instagram_url(cmd[-1]) and any(sig in low for sig in _INSTAGRAM_BLOCK_SIGNATURES):
+        if _is_instagram_url(url) and any(sig in low for sig in _INSTAGRAM_BLOCK_SIGNATURES):
             raise RuntimeError(INSTAGRAM_BLOCK_MESSAGE)
         msg = stderr or f'yt-dlp exited with code {result.returncode}'
         raise RuntimeError(f'Download failed: {msg}')
@@ -138,7 +138,7 @@ def download_audio(url: str, tmp_dir: str) -> Path:
         '--output', output_template,
         url,
     ]
-    _run(cmd)
+    _run(cmd, url)
     mp3_files = list(Path(tmp_dir).glob('*.mp3'))
     if not mp3_files:
         raise RuntimeError('Download failed: no audio file produced.')
@@ -153,7 +153,7 @@ def download_video(url: str, tmp_dir: str) -> Path:
         '--output', output_template,
         url,
     ]
-    _run(cmd)
+    _run(cmd, url)
     mp4_files = list(Path(tmp_dir).glob('*.mp4'))
     if not mp4_files:
         raise RuntimeError('Download failed: no video file produced.')
@@ -163,7 +163,7 @@ def download_video(url: str, tmp_dir: str) -> Path:
 def fetch_metadata(url: str) -> dict:
     """Fetch video metadata (description, uploader, ...) without downloading."""
     cmd = _base_cmd() + ['--dump-json', '--skip-download', url]
-    result = _run(cmd)
+    result = _run(cmd, url)
     try:
         return json.loads(result.stdout)
     except json.JSONDecodeError:

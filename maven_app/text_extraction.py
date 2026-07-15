@@ -1,6 +1,6 @@
 """
 MAVEN Text Extraction: pulls on-screen overlay text (via frame OCR) and the
-video description from a TikTok URL.
+video description from a supported video URL (TikTok or Instagram Reel).
 Public entry point: extract_text_url(url) → TextExtractionResult.
 """
 import shutil
