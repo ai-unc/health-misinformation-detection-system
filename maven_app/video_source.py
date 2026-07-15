@@ -30,7 +30,8 @@ def _platforms() -> Tuple[Platform, ...]:
     # Imported lazily: platform modules import Platform from here, so a
     # top-level import would be circular.
     from tiktok import TIKTOK
-    return (TIKTOK,)
+    from instagram import INSTAGRAM
+    return (TIKTOK, INSTAGRAM)
 
 
 def validate_url(url: str) -> Tuple[str, Platform]:
@@ -39,7 +40,7 @@ def validate_url(url: str) -> Tuple[str, Platform]:
     for platform in _platforms():
         if platform.url_re.match(url):
             return url, platform
-    raise ValueError('URL does not appear to be a TikTok link.')
+    raise ValueError('URL is not a supported TikTok or Instagram Reels link.')
 
 
 def ensure_ffmpeg() -> str:
