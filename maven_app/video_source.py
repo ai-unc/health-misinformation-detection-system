@@ -112,12 +112,17 @@ def _base_cmd() -> List[str]:
     return cmd
 
 
+def _is_instagram_url(url: str) -> bool:
+    from instagram import INSTAGRAM  # lazy: platform modules import Platform from here
+    return bool(INSTAGRAM.url_re.match(url))
+
+
 def _run(cmd: List[str]) -> subprocess.CompletedProcess:
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if result.returncode != 0:
         stderr = result.stderr.strip()
         low = stderr.casefold()
-        if any(sig in low for sig in _INSTAGRAM_BLOCK_SIGNATURES):
+        if _is_instagram_url(cmd[-1]) and any(sig in low for sig in _INSTAGRAM_BLOCK_SIGNATURES):
             raise RuntimeError(INSTAGRAM_BLOCK_MESSAGE)
         msg = stderr or f'yt-dlp exited with code {result.returncode}'
         raise RuntimeError(f'Download failed: {msg}')

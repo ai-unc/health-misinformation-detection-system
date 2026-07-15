@@ -211,6 +211,18 @@ def test_instagram_block_translation():
             assert 'Video unavailable' in str(e)
             print('  ✓ other failures still pass stderr through')
 
+    # Block signatures on a NON-Instagram URL are never translated
+    with patch('video_source.subprocess.run',
+               return_value=MagicMock(returncode=1,
+                                      stderr='ERROR: login required to view this video')), \
+         patch.object(video_source, 'ensure_ffmpeg', return_value=''):
+        try:
+            fetch_metadata('https://www.tiktok.com/@user/video/123')
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert str(e) == 'Download failed: ERROR: login required to view this video'
+            print('  ✓ TikTok failure with block-signature stderr keeps raw passthrough')
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
