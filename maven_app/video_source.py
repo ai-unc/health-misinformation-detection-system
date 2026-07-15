@@ -23,6 +23,7 @@ _INSTAGRAM_BLOCK_SIGNATURES = (
     'rate-limit reached',
     'restricted video',
     'requested content is not available',
+    'empty media response',
 )
 INSTAGRAM_BLOCK_MESSAGE = ('Instagram requires login or has rate-limited this '
                            'request. Try a public Reel or retry later.')

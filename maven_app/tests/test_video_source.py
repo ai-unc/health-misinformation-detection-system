@@ -188,6 +188,12 @@ def test_instagram_block_translation():
         'ERROR: [Instagram] C8abc: Instagram API is not granting access: rate-limit reached',
         'ERROR: [Instagram] C8abc: Restricted Video: You must be 18 years old or over',
         'ERROR: [Instagram] C8abc: Requested content is not available',
+        # Real-world capture (2026-07, yt-dlp 2025.10.14): Python warnings
+        # prepended, cookies hint appended — the signature must match anyway.
+        'Deprecated Feature: Support for Python version 3.9 has been deprecated.\n'
+        'ERROR: [Instagram] DXkdyRxkhqz: Instagram sent an empty media response. '
+        'Check if this post is accessible in your browser without being logged-in. '
+        'If it is not, then use --cookies-from-browser or --cookies for the authentication.',
     ]
     for stderr in block_stderrs:
         with patch('video_source.subprocess.run',
@@ -198,7 +204,7 @@ def test_instagram_block_translation():
                 assert False, 'Expected RuntimeError'
             except RuntimeError as e:
                 assert str(e) == INSTAGRAM_BLOCK_MESSAGE, f'unexpected: {e}'
-    print('  ✓ all four block signatures translated to the friendly message')
+    print('  ✓ all five block signatures translated to the friendly message')
 
     # Non-block failures keep stderr passthrough behavior
     with patch('video_source.subprocess.run',
