@@ -222,6 +222,51 @@ def test_audio_mode_rejects_slideshows():
     print('  ✓ both platforms rejected in audio mode with the friendly message')
 
 
+# ── LIVE TESTS (network) ───────────────────────────────────────────────────────
+
+def test_live_tiktok_slideshow():
+    print('\n=== LIVE TEST: TikTok slideshow end-to-end ===')
+
+    from text_extraction import extract_text_url
+
+    result = extract_text_url(
+        'https://www.tiktok.com/@glowingwithgracee/photo/7618717295417756941')
+    assert result.description, 'expected a caption'
+    print(f'  ✓ caption extracted ({len(result.description)} chars)')
+    assert result.overlay_segments, 'expected OCR text from slides'
+    slides = [seg['slide'] for seg in result.overlay_segments]
+    assert slides == sorted(slides) and slides[0] >= 1
+    print(f'  ✓ {len(result.overlay_segments)} slide segments in order: {slides}')
+    assert result.text.startswith(result.description[:20])
+    print('  ✓ assembled text begins with caption')
+    preview = result.overlay_segments[0]['text'][:80]
+    print(f'  slide 1 preview: {preview!r}')
+
+
+def test_live_instagram_slideshow():
+    print('\n=== LIVE TEST: Instagram slideshow ===')
+
+    import video_source
+    from text_extraction import extract_text_url
+    from video_source import INSTAGRAM_COOKIE_MESSAGE
+
+    url = 'https://www.instagram.com/p/DRzdgElEf3N/'
+    if not video_source._instagram_cookies():
+        try:
+            extract_text_url(url)
+            assert False, 'Expected RuntimeError'
+        except RuntimeError as e:
+            assert str(e) == INSTAGRAM_COOKIE_MESSAGE
+        print('  ~ MAVEN_IG_COOKIES not set — verified friendly cookie error; '
+              'full extraction SKIPPED')
+        return
+
+    result = extract_text_url(url)
+    assert result.description, 'expected a caption'
+    assert result.overlay_segments, 'expected OCR text from slides'
+    print(f'  ✓ caption + {len(result.overlay_segments)} slide segments extracted')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -236,6 +281,11 @@ def main():
     test_metadata_normalization()
     test_text_mode_dispatches_to_slideshow()
     test_audio_mode_rejects_slideshows()
+    if '--live' in _sys.argv:
+        test_live_tiktok_slideshow()
+        test_live_instagram_slideshow()
+    else:
+        print('\n(live network tests skipped — pass --live to run them)')
     print('\nALL TESTS PASSED')
 
 

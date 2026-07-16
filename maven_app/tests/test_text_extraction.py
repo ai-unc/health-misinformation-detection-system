@@ -384,7 +384,7 @@ def test_flask_transcribe_modes():
     # Landing page advertises both platforms in the URL input
     r = client.get('/')
     assert r.status_code == 200
-    assert b'TikTok or Instagram Reel URL (optional)' in r.data
+    assert b'TikTok or Instagram video / slideshow URL (optional)' in r.data
     print('  ✓ landing page renders with both-platform placeholder')
 
 
