@@ -1,0 +1,33 @@
+#!/bin/bash
+# Refuse to commit browser cookie exports (live credentials), even via
+# `git add -f` around .gitignore. Setup after cloning:
+#   git config core.hooksPath .githooks
+# Detects (a) files starting with the Netscape cookie-export header and
+# (b) tab-separated Instagram cookie rows carrying session credentials.
+# Source code merely *mentioning* these strings does not trip the check.
+set -u
+
+TAB=$'\t'
+blocked=()
+
+while IFS= read -r -d '' f; do
+    content=$(git show ":$f" 2>/dev/null) || continue
+    if [[ $content == "# Netscape HTTP Cookie File"* ]]; then
+        blocked+=("$f — Netscape cookie-export header")
+        continue
+    fi
+    if grep -Eq "instagram\.com${TAB}.*${TAB}(sessionid|csrftoken|ds_user_id)${TAB}" <<<"$content"; then
+        blocked+=("$f — Instagram session cookie rows")
+    fi
+done < <(git diff --cached --name-only --diff-filter=ACM -z)
+
+if ((${#blocked[@]})); then
+    {
+        echo 'pre-commit: refusing to commit cookie material:'
+        printf '  - %s\n' "${blocked[@]}"
+        echo 'Cookie files are live credentials — keep them outside the repo'
+        echo '(see CLAUDE.md, "Slideshow Posts").'
+        echo 'False positive? Bypass once with: git commit --no-verify'
+    } >&2
+    exit 1
+fi

@@ -115,6 +115,9 @@ download slideshow images on either platform).
   re-export the cookies.
 - TikTok short links (`vm.tiktok.com/...`) to photo posts are not detected as
   slideshows and will fail — use the full `/photo/` URL instead.
+- After cloning, run `git config core.hooksPath .githooks` once to enable the
+  pre-commit guard that blocks cookie exports from being committed (defense
+  beyond .gitignore — catches `git add -f` and renamed cookie files).
 
 ## Pipeline Entry Point
 
