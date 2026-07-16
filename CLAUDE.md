@@ -100,14 +100,19 @@ download slideshow images on either platform).
 
 - TikTok slideshows work anonymously.
 - Instagram slideshows require login cookies: export a Netscape `cookies.txt`
-  for instagram.com (browser extension) and set `MAVEN_IG_COOKIES=/path/to/cookies.txt`
+  for instagram.com (browser extension, or
+  `~/.config/maven/export_instagram_cookies.py` on the dev machine, which pulls
+  them from Chrome via yt-dlp) and set `MAVEN_IG_COOKIES=/path/to/cookies.txt`
   before starting the app. Without it, Instagram slideshow requests return a
   friendly error. When set, the cookies are also passed to yt-dlp for Instagram
-  Reels, which reduces anonymous rate-limit failures.
-- The cookie-authenticated Instagram extraction path has only been verified up
-  to the friendly cookie error in development. Operators should run
-  `python tests/test_slideshow.py --live` once with `MAVEN_IG_COOKIES` set to
-  confirm the full end-to-end path (download → OCR → assembled text).
+  Reels, which reduces anonymous rate-limit failures. Keep the file `chmod 600`
+  and out of the repo — it is the account's live session.
+- The cookie-authenticated Instagram path was verified end-to-end on
+  2026-07-16 (`python tests/test_slideshow.py --live` with `MAVEN_IG_COOKIES`
+  set: caption + 12 ordered slide segments from a real /p/ carousel). New
+  deployments/accounts should repeat that one-time live run. If slideshow
+  requests start returning the cookie error again, the session expired —
+  re-export the cookies.
 - TikTok short links (`vm.tiktok.com/...`) to photo posts are not detected as
   slideshows and will fail — use the full `/photo/` URL instead.
 
