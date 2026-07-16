@@ -97,13 +97,22 @@ def test_login_redirect_maps_to_cookie_message():
                      stderr='[instagram][error] HTTP redirect to login page '
                             '(https://www.instagram.com/accounts/login/)')
     try:
-        with patch('video_source.subprocess.run', return_value=fake):
+        with patch('video_source.subprocess.run', return_value=fake) as mock_run:
             try:
                 download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
                 assert False, 'Expected RuntimeError'
             except RuntimeError as e:
                 assert str(e) == INSTAGRAM_COOKIE_MESSAGE
                 print('  ✓ stale/rejected cookies map to the friendly cookie message')
+
+        cmd = mock_run.call_args.args[0]
+        assert '-D' in cmd and cmd[cmd.index('-D') + 1] == tmp
+        assert '--write-metadata' in cmd
+        assert '--config-ignore' in cmd
+        assert cmd[-1] == 'https://www.instagram.com/p/DRzdgElEf3N/'
+        assert '--cookies' in cmd and cmd[cmd.index('--cookies') + 1] == str(cookie_file)
+        print('  ✓ command includes -D tmp_dir, --write-metadata, --config-ignore, '
+              '--cookies; URL is last argument')
     finally:
         if saved_env is None:
             os.environ.pop('MAVEN_IG_COOKIES', None)
@@ -118,7 +127,8 @@ def test_download_slideshow_filters_and_orders():
 
     tmp = tempfile.mkdtemp()
     # Simulate gallery-dl output layout (verified 2026-07-15): numbered jpgs,
-    # one mp3 soundtrack, one .json sidecar per file.
+    # one mp3 soundtrack, one .json sidecar per file. None of these sidecars
+    # carry a 'num' field, so ordering falls back to filename sort.
     names = ['777_01 caption [aa].jpg', '777_02 caption [bb].jpg',
              '777_10 caption [cc].jpg', '777 caption [dd].mp3']
     for n in names:
@@ -128,16 +138,103 @@ def test_download_slideshow_filters_and_orders():
             encoding='utf-8')
 
     with patch('video_source.subprocess.run',
-               return_value=MagicMock(returncode=0, stdout='', stderr='')):
+               return_value=MagicMock(returncode=0, stdout='', stderr='')) as mock_run:
         images, meta = download_slideshow('https://www.tiktok.com/@u/photo/777', tmp)
 
     assert [p.name for p in images] == ['777_01 caption [aa].jpg',
                                         '777_02 caption [bb].jpg',
                                         '777_10 caption [cc].jpg']
-    print('  ✓ mp3 and .json sidecars excluded; slides in carousel order')
+    print('  ✓ mp3 and .json sidecars excluded; slides in filename fallback order')
     assert meta['desc'] == 'the caption'
     assert meta['author']['uniqueId'] == 'someuser'
     print('  ✓ metadata read from first image sidecar')
+
+    cmd = mock_run.call_args.args[0]
+    assert '-D' in cmd and cmd[cmd.index('-D') + 1] == tmp
+    assert '--write-metadata' in cmd
+    assert '--config-ignore' in cmd
+    assert cmd[-1] == 'https://www.tiktok.com/@u/photo/777'
+    assert '--cookies' not in cmd  # TikTok: no cookie flag expected
+    print('  ✓ command includes -D tmp_dir, --write-metadata, --config-ignore; '
+          'URL is last argument')
+
+
+# ── TEST 5B ────────────────────────────────────────────────────────────────────
+
+def test_download_slideshow_orders_by_sidecar_num():
+    print('\n=== TEST 5B: download_slideshow orders by sidecar num, not filename ===')
+
+    tmp = tempfile.mkdtemp()
+    # Instagram-style media-id filenames: lexicographic order disagrees with
+    # true carousel order, which only the sidecar 'num' field carries.
+    files = [
+        ('3324422500_c.jpg', 3),   # sorts first lexicographically, but is slide 3
+        ('3324421000_a.jpg', 1),   # sorts second lexicographically, is slide 1
+        ('3324421999_b.jpg', 2),   # sorts third lexicographically, is slide 2
+        ('3324429999_d.jpg', None),  # no 'num' in sidecar: falls back to filename order
+    ]
+    for name, num in files:
+        (Path(tmp) / name).write_bytes(b'x')
+        sidecar = {'desc': 'ig caption'}
+        if num is not None:
+            sidecar['num'] = num
+        (Path(tmp) / (name + '.json')).write_text(json.dumps(sidecar), encoding='utf-8')
+
+    cookie_file = Path(tmp) / 'cookies.txt'
+    cookie_file.write_text('# Netscape HTTP Cookie File\n', encoding='utf-8')
+    saved_env = os.environ.get('MAVEN_IG_COOKIES')
+    os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
+    try:
+        with patch('video_source.subprocess.run',
+                   return_value=MagicMock(returncode=0, stdout='', stderr='')):
+            images, _ = download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
+    finally:
+        if saved_env is None:
+            os.environ.pop('MAVEN_IG_COOKIES', None)
+        else:
+            os.environ['MAVEN_IG_COOKIES'] = saved_env
+
+    assert [p.name for p in images] == [
+        '3324421000_a.jpg',  # num=1
+        '3324421999_b.jpg',  # num=2
+        '3324422500_c.jpg',  # num=3
+        '3324429999_d.jpg',  # no num: falls back after all valid-num images
+    ]
+    print('  ✓ sidecar num order wins over lexicographic filename order; '
+          'missing-num image falls back to the end')
+
+
+# ── TEST 5C ────────────────────────────────────────────────────────────────────
+
+def test_download_slideshow_empty_images_friendly_error():
+    print('\n=== TEST 5C: download_slideshow friendly error when only a video is produced ===')
+
+    tmp = tempfile.mkdtemp()
+    # A video-only /p/ post: gallery-dl produces an mp4 (filtered out by the
+    # image extension allowlist) plus its metadata sidecar, no images.
+    (Path(tmp) / '777.mp4').write_bytes(b'x')
+    (Path(tmp) / '777.mp4.json').write_text(json.dumps({'desc': 'a video post'}),
+                                             encoding='utf-8')
+
+    cookie_file = Path(tmp) / 'cookies.txt'
+    cookie_file.write_text('# Netscape HTTP Cookie File\n', encoding='utf-8')
+    saved_env = os.environ.get('MAVEN_IG_COOKIES')
+    os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
+    try:
+        with patch('video_source.subprocess.run',
+                   return_value=MagicMock(returncode=0, stdout='', stderr='')):
+            try:
+                download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
+                assert False, 'Expected RuntimeError'
+            except RuntimeError as e:
+                assert str(e) == ('No images found in this post — it may be a '
+                                  'video post rather than a slideshow.')
+                print('  ✓ video-only post raises the friendly no-images message')
+    finally:
+        if saved_env is None:
+            os.environ.pop('MAVEN_IG_COOKIES', None)
+        else:
+            os.environ['MAVEN_IG_COOKIES'] = saved_env
 
 
 # ── TEST 6 ─────────────────────────────────────────────────────────────────────
@@ -277,6 +374,8 @@ def main():
     test_instagram_slideshow_requires_cookies()
     test_login_redirect_maps_to_cookie_message()
     test_download_slideshow_filters_and_orders()
+    test_download_slideshow_orders_by_sidecar_num()
+    test_download_slideshow_empty_images_friendly_error()
     test_build_slide_segments()
     test_metadata_normalization()
     test_text_mode_dispatches_to_slideshow()

@@ -188,6 +188,21 @@ def download_video(url: str, tmp_dir: str) -> Path:
     return mp4_files[0]
 
 
+def _sidecar_num(image: Path) -> int:
+    """Carousel position from an image's --write-metadata JSON sidecar's 'num'
+    field, or -1 if the sidecar is missing, unreadable, or 'num' doesn't parse
+    as an int. Instagram filenames are media-id based (not carousel order);
+    'num' is the only field contractually tied to slide position."""
+    sidecar = image.parent / (image.name + '.json')
+    if not sidecar.exists():
+        return -1
+    try:
+        data = json.loads(sidecar.read_text(encoding='utf-8'))
+        return int(data['num'])
+    except (json.JSONDecodeError, OSError, KeyError, TypeError, ValueError):
+        return -1
+
+
 def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
     """Download a slideshow post's slide images into tmp_dir via gallery-dl.
 
@@ -195,9 +210,15 @@ def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
     image's --write-metadata JSON sidecar). Instagram requires login cookies
     (MAVEN_IG_COOKIES); missing or rejected cookies raise RuntimeError with
     INSTAGRAM_COOKIE_MESSAGE. Non-image files (TikTok's mp3 soundtrack,
-    sidecars) are filtered out.
+    sidecars) are filtered out. Images are ordered by their sidecar's 'num'
+    field (the only field contractually tied to carousel position — Instagram
+    filenames are media-id based, not order-based); images with a missing or
+    unparseable sidecar fall back to lexicographic filename order, sorted
+    after any image with a valid 'num'. --config-ignore keeps operator-local
+    gallery-dl config files (/etc/gallery-dl.conf, ~/.config/gallery-dl/config.json)
+    from silently overriding filenames/postprocessors here.
     """
-    cmd = ['gallery-dl', '-D', tmp_dir, '--write-metadata']
+    cmd = ['gallery-dl', '--config-ignore', '-D', tmp_dir, '--write-metadata']
     if _is_instagram_url(url):
         cookies = _instagram_cookies()
         if not cookies:
@@ -214,10 +235,17 @@ def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
         msg = stderr or f'gallery-dl exited with code {result.returncode}'
         raise RuntimeError(f'Slideshow download failed: {msg}')
 
-    images = sorted(p for p in Path(tmp_dir).iterdir()
-                    if p.suffix.casefold() in _IMAGE_EXTENSIONS)
-    if not images:
-        raise RuntimeError('Slideshow download failed: no images produced.')
+    unordered = [p for p in Path(tmp_dir).iterdir()
+                if p.suffix.casefold() in _IMAGE_EXTENSIONS]
+    if not unordered:
+        raise RuntimeError('No images found in this post — it may be a video '
+                           'post rather than a slideshow.')
+
+    def sort_key(image: Path):
+        num = _sidecar_num(image)
+        return (num if num >= 0 else float('inf'), image.name)
+
+    images = sorted(unordered, key=sort_key)
 
     metadata = {}
     sidecar = images[0].parent / (images[0].name + '.json')

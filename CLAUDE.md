@@ -104,6 +104,12 @@ download slideshow images on either platform).
   before starting the app. Without it, Instagram slideshow requests return a
   friendly error. When set, the cookies are also passed to yt-dlp for Instagram
   Reels, which reduces anonymous rate-limit failures.
+- The cookie-authenticated Instagram extraction path has only been verified up
+  to the friendly cookie error in development. Operators should run
+  `python tests/test_slideshow.py --live` once with `MAVEN_IG_COOKIES` set to
+  confirm the full end-to-end path (download → OCR → assembled text).
+- TikTok short links (`vm.tiktok.com/...`) to photo posts are not detected as
+  slideshows and will fail — use the full `/photo/` URL instead.
 
 ## Pipeline Entry Point
 
