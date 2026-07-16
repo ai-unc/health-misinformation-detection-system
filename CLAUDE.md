@@ -45,6 +45,7 @@ maven_app/
   instagram.py        # Thin Instagram Reels platform definition
   transcription.py    # Audio mode: TikTok audio → faster-whisper transcript
   text_extraction.py  # Text mode: frame OCR (RapidOCR) + video description
+  slideshow.py        # Slideshow posts: per-slide OCR for TikTok /photo/ and Instagram /p/
   requirements.txt
   anchors/            # Authority and misinfo anchor JSON files
   templates/          # Jinja2 HTML templates
@@ -71,6 +72,7 @@ The notebook documents the pipeline with narrative explanations, organized into 
 | `pandas` | Tabular results (DataFrames) |
 | `wikipedia-api` | Wikipedia article fetching |
 | `rapidocr-onnxruntime` | Frame OCR for TikTok text mode |
+| `gallery-dl` | Slideshow (photo post) image + metadata download |
 
 ## Running Tests
 
@@ -89,6 +91,19 @@ On Windows, test `main()` functions wrap stdout in UTF-8 to handle Unicode outpu
 - `curl_cffi` must be `>=0.10,<0.15` — yt-dlp rejects 0.15+ with `ImportError` at import time
 - `imageio-ffmpeg` ships its binary as `ffmpeg-win-x86_64-v7.1.exe`, not `ffmpeg.exe` — `tiktok.ensure_ffmpeg()` normalizes this by copying it to `%TEMP%\maven_ffmpeg\ffmpeg.exe` on first use
 - TikTok downloads require `--impersonate chrome` (handled automatically); without `curl_cffi` installed, all targets show as unavailable
+
+## Slideshow Posts (TikTok /photo/, Instagram /p/)
+
+Slideshow posts are supported in **text mode only** — each slide is OCR'd and
+combined with the caption. Images are fetched with gallery-dl (yt-dlp cannot
+download slideshow images on either platform).
+
+- TikTok slideshows work anonymously.
+- Instagram slideshows require login cookies: export a Netscape `cookies.txt`
+  for instagram.com (browser extension) and set `MAVEN_IG_COOKIES=/path/to/cookies.txt`
+  before starting the app. Without it, Instagram slideshow requests return a
+  friendly error. When set, the cookies are also passed to yt-dlp for Instagram
+  Reels, which reduces anonymous rate-limit failures.
 
 ## Pipeline Entry Point
 

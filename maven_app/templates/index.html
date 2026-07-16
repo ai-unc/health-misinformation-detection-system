@@ -168,7 +168,7 @@
     id="url-input"
     type="url"
     class="flex-1 min-w-0 px-4 py-3 bg-surface-container border border-outline-variant/20 font-label text-xs text-on-surface placeholder:text-outline/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
-    placeholder="TikTok or Instagram Reel URL (optional)"
+    placeholder="TikTok or Instagram video / slideshow URL (optional)"
   />
   <button
     id="transcribe-btn"
@@ -360,8 +360,11 @@ function renderTranscriptPanel(data) {
         transcriptPanel.hidden = true;
         return;
     }
+    const isSlideshow = data.segments[0].slide != null;
     if (data.mode === 'text') {
-        transcriptMeta.textContent = `${data.segments.length} overlay segments ▾`;
+        transcriptMeta.textContent = isSlideshow
+            ? `${data.segments.length} slides ▾`
+            : `${data.segments.length} overlay segments ▾`;
     } else {
         const mins   = Math.floor(data.duration / 60);
         const secs   = Math.round(data.duration % 60);
@@ -371,7 +374,7 @@ function renderTranscriptPanel(data) {
 
     transcriptSegs.innerHTML = data.segments.map(seg =>
         `<div class="flex gap-3 items-baseline">
-            <span class="font-label text-[9px] text-outline uppercase tracking-tighter whitespace-nowrap">${fmtTime(seg.start)} – ${fmtTime(seg.end)}</span>
+            <span class="font-label text-[9px] text-outline uppercase tracking-tighter whitespace-nowrap">${seg.slide != null ? `Slide ${seg.slide}` : `${fmtTime(seg.start)} – ${fmtTime(seg.end)}`}</span>
             <span class="font-body italic text-[12px] text-on-surface-variant leading-snug">${escapeHtml(seg.text)}</span>
         </div>`
     ).join('');
