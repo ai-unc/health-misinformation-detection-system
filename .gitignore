@@ -34,6 +34,12 @@ desktop.ini
 .env.*
 *.env
 
+# Browser session cookies (live Instagram credentials — never commit;
+# the real file belongs outside the repo, see CLAUDE.md Slideshow Posts)
+cookies.txt
+*cookie*.txt
+*cookies*
+
 # Logs
 *.log
 logs/
