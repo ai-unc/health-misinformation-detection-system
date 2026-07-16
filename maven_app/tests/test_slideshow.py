@@ -182,6 +182,46 @@ def test_metadata_normalization():
     print('  ✓ missing fields degrade to empty strings')
 
 
+# ── TEST 8 ─────────────────────────────────────────────────────────────────────
+
+def test_text_mode_dispatches_to_slideshow():
+    print('\n=== TEST 8: extract_text_url dispatches slideshow URLs ===')
+
+    import slideshow
+    import text_extraction
+
+    calls = []
+    saved = slideshow.extract_slideshow_text
+    slideshow.extract_slideshow_text = lambda url, platform: (
+        calls.append((url, platform.name)) or 'SENTINEL')
+    try:
+        result = text_extraction.extract_text_url(
+            'https://www.tiktok.com/@u/photo/777')
+    finally:
+        slideshow.extract_slideshow_text = saved
+
+    assert result == 'SENTINEL'
+    assert calls == [('https://www.tiktok.com/@u/photo/777', 'tiktok')]
+    print('  ✓ slideshow URL routed to extract_slideshow_text, video path untouched')
+
+
+# ── TEST 9 ─────────────────────────────────────────────────────────────────────
+
+def test_audio_mode_rejects_slideshows():
+    print('\n=== TEST 9: transcribe_url rejects slideshow URLs ===')
+
+    from transcription import transcribe_url
+
+    for url in ('https://www.tiktok.com/@u/photo/777',
+                'https://www.instagram.com/p/DRzdgElEf3N/'):
+        try:
+            transcribe_url(url)
+            assert False, 'Expected ValueError'
+        except ValueError as e:
+            assert str(e) == 'Slideshow posts are supported in Text mode only.'
+    print('  ✓ both platforms rejected in audio mode with the friendly message')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -194,6 +234,8 @@ def main():
     test_download_slideshow_filters_and_orders()
     test_build_slide_segments()
     test_metadata_normalization()
+    test_text_mode_dispatches_to_slideshow()
+    test_audio_mode_rejects_slideshows()
     print('\nALL TESTS PASSED')
 
 

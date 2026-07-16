@@ -1,6 +1,7 @@
 """
 MAVEN Transcription: downloads audio from a supported video URL (TikTok or
 Instagram Reel) and transcribes it with faster-whisper.
+Slideshow posts have no speech track and are rejected with a friendly error.
 Public entry point: transcribe_url(url) → TranscriptResult.
 """
 import shutil
@@ -26,7 +27,9 @@ class TranscriptResult:
 
 
 def transcribe_url(url: str) -> TranscriptResult:
-    url, _platform = validate_url(url)
+    url, platform = validate_url(url)
+    if platform.is_slideshow(url):
+        raise ValueError('Slideshow posts are supported in Text mode only.')
     tmp_dir = tempfile.mkdtemp()
     try:
         audio_path = download_audio(url, tmp_dir)

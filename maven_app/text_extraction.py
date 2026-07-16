@@ -1,6 +1,7 @@
 """
 MAVEN Text Extraction: pulls on-screen overlay text (via frame OCR) and the
 video description from a supported video URL (TikTok or Instagram Reel).
+Slideshow posts (TikTok /photo/, Instagram /p/) dispatch to slideshow.py.
 Public entry point: extract_text_url(url) → TextExtractionResult.
 """
 import shutil
@@ -29,7 +30,7 @@ class NoTextFoundError(RuntimeError):
 @dataclass
 class TextExtractionResult:
     description: str
-    overlay_segments: List[dict]  # [{"start": float, "end": float, "text": str}, ...]
+    overlay_segments: List[dict]  # [{"start","end","text"}] for video; [{"slide","text"}] for slideshows
     text: str                     # description + unique overlay lines → feeds score_text()
 
 
@@ -112,6 +113,10 @@ def _assemble_text(description: str, overlay_segments: List[dict]) -> str:
 
 def extract_text_url(url: str) -> TextExtractionResult:
     url, platform = validate_url(url)
+    if platform.is_slideshow(url):
+        # Imported lazily: slideshow.py imports helpers from this module.
+        import slideshow
+        return slideshow.extract_slideshow_text(url, platform)
     metadata = fetch_metadata(url)
     description = (metadata.get('description') or '').strip()
     uploader = (metadata.get('uploader') or '').strip()
