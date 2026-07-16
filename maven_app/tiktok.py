@@ -10,5 +10,6 @@ TIKTOK = Platform(
     name='tiktok',
     display_name='TikTok',
     url_re=re.compile(r'https?://([a-zA-Z0-9-]+\.)?tiktok\.com/'),
+    slideshow_url_re=re.compile(r'https?://(www\.)?tiktok\.com/@[^/]+/photo/'),
     junk_terms=frozenset({'tiktok'}),
 )

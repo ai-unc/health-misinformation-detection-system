@@ -40,8 +40,8 @@ def test_url_matching():
     assert INSTAGRAM.url_re.match('https://www.instagram.com/share/BAxyz123/')
     print('  ✓ /share/ redirect URL matches')
 
-    assert not INSTAGRAM.url_re.match('https://www.instagram.com/p/C8abcDEfGhi/')
-    print('  ✓ /p/ photo-post URL rejected')
+    assert INSTAGRAM.url_re.match('https://www.instagram.com/p/C8abcDEfGhi/')
+    print('  ✓ /p/ slideshow-post URL matches')
 
     assert not INSTAGRAM.url_re.match('https://www.instagram.com/tv/C8abcDEfGhi/')
     print('  ✓ /tv/ IGTV URL rejected')
@@ -64,11 +64,11 @@ def test_dispatch():
     print('  ✓ Reel URL stripped and dispatched to INSTAGRAM platform')
 
     try:
-        validate_url('https://www.instagram.com/p/C8abcDEfGhi/')
+        validate_url('https://www.instagram.com/tv/C8abcDEfGhi/')
         assert False, 'Expected ValueError'
     except ValueError as e:
-        assert str(e) == 'URL is not a supported TikTok or Instagram Reels link.'
-        print('  ✓ /p/ URL raises ValueError naming both platforms')
+        assert str(e) == 'URL is not a supported TikTok or Instagram link.'
+        print('  ✓ /tv/ URL raises ValueError naming both platforms')
 
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────

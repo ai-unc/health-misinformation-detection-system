@@ -31,11 +31,15 @@ INSTAGRAM_BLOCK_MESSAGE = ('Instagram requires login or has rate-limited this '
 
 @dataclass(frozen=True)
 class Platform:
-    """A supported video platform: URL shape + OCR watermark junk terms."""
-    name: str              # slug, e.g. 'tiktok'
-    display_name: str      # e.g. 'TikTok'
-    url_re: re.Pattern     # matches URLs belonging to this platform
-    junk_terms: frozenset  # casefolded watermark strings the OCR filter drops
+    """A supported video platform: URL shapes + OCR watermark junk terms."""
+    name: str                     # slug, e.g. 'tiktok'
+    display_name: str             # e.g. 'TikTok'
+    url_re: re.Pattern            # matches URLs belonging to this platform
+    slideshow_url_re: re.Pattern  # matches this platform's photo/slideshow posts
+    junk_terms: frozenset         # casefolded watermark strings the OCR filter drops
+
+    def is_slideshow(self, url: str) -> bool:
+        return bool(self.slideshow_url_re.match(url))
 
 
 def _platforms() -> Tuple[Platform, ...]:
@@ -52,7 +56,7 @@ def validate_url(url: str) -> Tuple[str, Platform]:
     for platform in _platforms():
         if platform.url_re.match(url):
             return url, platform
-    raise ValueError('URL is not a supported TikTok or Instagram Reels link.')
+    raise ValueError('URL is not a supported TikTok or Instagram link.')
 
 
 def ensure_ffmpeg() -> str:

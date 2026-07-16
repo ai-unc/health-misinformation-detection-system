@@ -240,7 +240,7 @@ def test_extract_text_url():
         extract_text_url('https://www.youtube.com/watch?v=abc123')
         assert False, 'Expected ValueError'
     except ValueError as e:
-        assert 'not a supported TikTok or Instagram Reels link' in str(e)
+        assert 'not a supported TikTok or Instagram link' in str(e)
         print('  ✓ non-TikTok URL raises ValueError')
 
     fake_meta = {'description': 'My pregnancy hack! #fyp', 'uploader': 'healthmom'}

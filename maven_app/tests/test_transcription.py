@@ -23,7 +23,7 @@ def test_url_validation():
         transcribe_url('https://www.youtube.com/watch?v=abc123')
         assert False, 'Expected ValueError'
     except ValueError as e:
-        assert 'not a supported TikTok or Instagram Reels link' in str(e)
+        assert 'not a supported TikTok or Instagram link' in str(e)
         print('  ✓ non-TikTok URL raises ValueError')
 
     # Empty string → ValueError
@@ -138,7 +138,7 @@ def test_flask_transcribe_route():
     # Non-TikTok URL → 400
     r = client.post('/transcribe', json={'url': 'https://youtube.com/watch?v=abc'})
     assert r.status_code == 400, f'Expected 400, got {r.status_code}'
-    assert b'not a supported TikTok or Instagram Reels link' in r.data
+    assert b'not a supported TikTok or Instagram link' in r.data
     print('  ✓ non-TikTok URL → 400')
 
     # Valid URL (mocked internals) → 200 with correct shape
