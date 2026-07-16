@@ -20,6 +20,7 @@ from video_source import (
     download_slideshow,
     validate_url,
 )
+from slideshow import _description_from, _uploader_from, build_slide_segments
 
 
 # ── TEST 1 ─────────────────────────────────────────────────────────────────────
@@ -139,6 +140,48 @@ def test_download_slideshow_filters_and_orders():
     print('  ✓ metadata read from first image sidecar')
 
 
+# ── TEST 6 ─────────────────────────────────────────────────────────────────────
+
+def test_build_slide_segments():
+    print('\n=== TEST 6: build_slide_segments ===')
+
+    frame_results = [
+        {'ts': 0, 'lines': [('First slide claim', 0.9), ('subtitle', 0.8)]},
+        {'ts': 1, 'lines': []},
+        {'ts': 2, 'lines': [('Third slide claim', 0.95)]},
+    ]
+    segments = build_slide_segments(frame_results)
+    assert segments == [
+        {'slide': 1, 'text': 'First slide claim subtitle'},
+        {'slide': 3, 'text': 'Third slide claim'},
+    ]
+    print('  ✓ one segment per non-empty slide, 1-based numbering, blank slides skipped')
+
+    assert build_slide_segments([]) == []
+    assert build_slide_segments([{'ts': 0, 'lines': []}]) == []
+    print('  ✓ empty and all-blank inputs produce no segments')
+
+
+# ── TEST 7 ─────────────────────────────────────────────────────────────────────
+
+def test_metadata_normalization():
+    print('\n=== TEST 7: gallery-dl metadata normalization ===')
+
+    tiktok_meta = {'desc': 'TikTok caption', 'author': {'uniqueId': 'ttuser'}}
+    assert _description_from(tiktok_meta) == 'TikTok caption'
+    assert _uploader_from(tiktok_meta) == 'ttuser'
+    print('  ✓ TikTok schema: desc + author.uniqueId')
+
+    ig_meta = {'description': 'IG caption', 'username': 'iguser'}
+    assert _description_from(ig_meta) == 'IG caption'
+    assert _uploader_from(ig_meta) == 'iguser'
+    print('  ✓ Instagram schema: description + username')
+
+    assert _description_from({}) == ''
+    assert _uploader_from({}) == ''
+    print('  ✓ missing fields degrade to empty strings')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -149,6 +192,8 @@ def main():
     test_instagram_slideshow_requires_cookies()
     test_login_redirect_maps_to_cookie_message()
     test_download_slideshow_filters_and_orders()
+    test_build_slide_segments()
+    test_metadata_normalization()
     print('\nALL TESTS PASSED')
 
 
