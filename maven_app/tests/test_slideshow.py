@@ -3,14 +3,23 @@ Tests for slideshow.py and the slideshow plumbing in video_source.py —
 TikTok /photo/ and Instagram /p/ slideshow-post text extraction.
 Run from maven_app/:  python tests/test_slideshow.py
 """
+import json
+import os
 import sys
+import tempfile
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import video_source
 from tiktok import TIKTOK
 from instagram import INSTAGRAM
-from video_source import validate_url
+from video_source import (
+    INSTAGRAM_COOKIE_MESSAGE,
+    download_slideshow,
+    validate_url,
+)
 
 
 # ── TEST 1 ─────────────────────────────────────────────────────────────────────
@@ -55,6 +64,81 @@ def test_slideshow_urls_validate():
         print('  ✓ unsupported URL raises updated error message')
 
 
+# ── TEST 3 ─────────────────────────────────────────────────────────────────────
+
+def test_instagram_slideshow_requires_cookies():
+    print('\n=== TEST 3: Instagram slideshow without cookies fails fast ===')
+
+    saved = os.environ.pop('MAVEN_IG_COOKIES', None)
+    try:
+        download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tempfile.mkdtemp())
+        assert False, 'Expected RuntimeError'
+    except RuntimeError as e:
+        assert str(e) == INSTAGRAM_COOKIE_MESSAGE
+        print('  ✓ missing MAVEN_IG_COOKIES raises the friendly cookie message')
+    finally:
+        if saved is not None:
+            os.environ['MAVEN_IG_COOKIES'] = saved
+
+
+# ── TEST 4 ─────────────────────────────────────────────────────────────────────
+
+def test_login_redirect_maps_to_cookie_message():
+    print('\n=== TEST 4: gallery-dl login redirect maps to cookie message ===')
+
+    tmp = tempfile.mkdtemp()
+    cookie_file = Path(tmp) / 'cookies.txt'
+    cookie_file.write_text('# Netscape HTTP Cookie File\n', encoding='utf-8')
+
+    saved_env = os.environ.get('MAVEN_IG_COOKIES')
+    os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
+    fake = MagicMock(returncode=4, stdout='',
+                     stderr='[instagram][error] HTTP redirect to login page '
+                            '(https://www.instagram.com/accounts/login/)')
+    try:
+        with patch('video_source.subprocess.run', return_value=fake):
+            try:
+                download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
+                assert False, 'Expected RuntimeError'
+            except RuntimeError as e:
+                assert str(e) == INSTAGRAM_COOKIE_MESSAGE
+                print('  ✓ stale/rejected cookies map to the friendly cookie message')
+    finally:
+        if saved_env is None:
+            os.environ.pop('MAVEN_IG_COOKIES', None)
+        else:
+            os.environ['MAVEN_IG_COOKIES'] = saved_env
+
+
+# ── TEST 5 ─────────────────────────────────────────────────────────────────────
+
+def test_download_slideshow_filters_and_orders():
+    print('\n=== TEST 5: download_slideshow filters non-images, orders slides, reads sidecar ===')
+
+    tmp = tempfile.mkdtemp()
+    # Simulate gallery-dl output layout (verified 2026-07-15): numbered jpgs,
+    # one mp3 soundtrack, one .json sidecar per file.
+    names = ['777_01 caption [aa].jpg', '777_02 caption [bb].jpg',
+             '777_10 caption [cc].jpg', '777 caption [dd].mp3']
+    for n in names:
+        (Path(tmp) / n).write_bytes(b'x')
+        (Path(tmp) / (n + '.json')).write_text(
+            json.dumps({'desc': 'the caption', 'author': {'uniqueId': 'someuser'}}),
+            encoding='utf-8')
+
+    with patch('video_source.subprocess.run',
+               return_value=MagicMock(returncode=0, stdout='', stderr='')):
+        images, meta = download_slideshow('https://www.tiktok.com/@u/photo/777', tmp)
+
+    assert [p.name for p in images] == ['777_01 caption [aa].jpg',
+                                        '777_02 caption [bb].jpg',
+                                        '777_10 caption [cc].jpg']
+    print('  ✓ mp3 and .json sidecars excluded; slides in carousel order')
+    assert meta['desc'] == 'the caption'
+    assert meta['author']['uniqueId'] == 'someuser'
+    print('  ✓ metadata read from first image sidecar')
+
+
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 
 def main():
@@ -62,6 +146,9 @@ def main():
     _sys.stdout = _io.TextIOWrapper(_sys.stdout.buffer, encoding='utf-8')
     test_slideshow_url_detection()
     test_slideshow_urls_validate()
+    test_instagram_slideshow_requires_cookies()
+    test_login_redirect_maps_to_cookie_message()
+    test_download_slideshow_filters_and_orders()
     print('\nALL TESTS PASSED')
 
 

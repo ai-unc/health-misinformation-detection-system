@@ -12,3 +12,4 @@ yt-dlp
 curl_cffi>=0.10,<0.15
 imageio-ffmpeg
 rapidocr-onnxruntime
+gallery-dl>=1.32

@@ -28,6 +28,19 @@ _INSTAGRAM_BLOCK_SIGNATURES = (
 INSTAGRAM_BLOCK_MESSAGE = ('Instagram requires login or has rate-limited this '
                            'request. Try a public Reel or retry later.')
 
+MAVEN_IG_COOKIES_ENV = 'MAVEN_IG_COOKIES'
+INSTAGRAM_COOKIE_MESSAGE = ('Instagram slideshows require login cookies. '
+                            'Export a cookies.txt for instagram.com and set '
+                            'MAVEN_IG_COOKIES to its path.')
+
+# gallery-dl stderr fragments (casefolded) that mean Instagram rejected the
+# request for lack of (valid) login cookies.
+_GALLERY_DL_LOGIN_SIGNATURES = ('redirect to login page', 'login required')
+
+# File extensions download_slideshow keeps; everything else gallery-dl
+# produces (mp3 soundtrack, .json metadata sidecars) is filtered out.
+_IMAGE_EXTENSIONS = frozenset({'.jpg', '.jpeg', '.png', '.webp'})
+
 
 @dataclass(frozen=True)
 class Platform:
@@ -105,15 +118,25 @@ def ensure_ffmpeg() -> str:
     return _ffmpeg_exe
 
 
-def _base_cmd() -> List[str]:
+def _instagram_cookies() -> str:
+    """Path to the operator's Instagram cookies.txt, or '' if not configured."""
+    return os.environ.get(MAVEN_IG_COOKIES_ENV, '').strip()
+
+
+def _base_cmd(url: str) -> List[str]:
     """Common yt-dlp arguments — every download/metadata call goes through here
-    so chrome impersonation and the normalized ffmpeg path are never missed."""
+    so chrome impersonation, the normalized ffmpeg path, and Instagram login
+    cookies (MAVEN_IG_COOKIES, when set) are never missed."""
     cmd = ['yt-dlp', '--no-playlist', '--quiet', '--impersonate', 'chrome']
     ffmpeg_exe = ensure_ffmpeg()
     if ffmpeg_exe:
         # Pass binary path directly (not parent dir) so yt-dlp uses it regardless
         # of filename — yt-dlp treats a file path as the ffmpeg executable itself.
         cmd += ['--ffmpeg-location', ffmpeg_exe]
+    if _is_instagram_url(url):
+        cookies = _instagram_cookies()
+        if cookies:
+            cmd += ['--cookies', cookies]
     return cmd
 
 
@@ -137,7 +160,7 @@ def _run(cmd: List[str], url: str) -> subprocess.CompletedProcess:
 def download_audio(url: str, tmp_dir: str) -> Path:
     """Download the video's audio track to tmp_dir as mp3. Raises RuntimeError on failure."""
     output_template = str(Path(tmp_dir) / '%(id)s.%(ext)s')
-    cmd = _base_cmd() + [
+    cmd = _base_cmd(url) + [
         '--extract-audio',
         '--audio-format', 'mp3',
         '--output', output_template,
@@ -153,7 +176,7 @@ def download_audio(url: str, tmp_dir: str) -> Path:
 def download_video(url: str, tmp_dir: str) -> Path:
     """Download the video to tmp_dir as mp4. Raises RuntimeError on failure."""
     output_template = str(Path(tmp_dir) / '%(id)s.%(ext)s')
-    cmd = _base_cmd() + [
+    cmd = _base_cmd(url) + [
         '-f', 'mp4',
         '--output', output_template,
         url,
@@ -165,9 +188,50 @@ def download_video(url: str, tmp_dir: str) -> Path:
     return mp4_files[0]
 
 
+def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
+    """Download a slideshow post's slide images into tmp_dir via gallery-dl.
+
+    Returns (image paths in carousel order, metadata dict from the first
+    image's --write-metadata JSON sidecar). Instagram requires login cookies
+    (MAVEN_IG_COOKIES); missing or rejected cookies raise RuntimeError with
+    INSTAGRAM_COOKIE_MESSAGE. Non-image files (TikTok's mp3 soundtrack,
+    sidecars) are filtered out.
+    """
+    cmd = ['gallery-dl', '-D', tmp_dir, '--write-metadata']
+    if _is_instagram_url(url):
+        cookies = _instagram_cookies()
+        if not cookies:
+            raise RuntimeError(INSTAGRAM_COOKIE_MESSAGE)
+        cmd += ['--cookies', cookies]
+    cmd.append(url)
+
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+    if result.returncode != 0:
+        stderr = result.stderr.strip()
+        low = stderr.casefold()
+        if _is_instagram_url(url) and any(sig in low for sig in _GALLERY_DL_LOGIN_SIGNATURES):
+            raise RuntimeError(INSTAGRAM_COOKIE_MESSAGE)
+        msg = stderr or f'gallery-dl exited with code {result.returncode}'
+        raise RuntimeError(f'Slideshow download failed: {msg}')
+
+    images = sorted(p for p in Path(tmp_dir).iterdir()
+                    if p.suffix.casefold() in _IMAGE_EXTENSIONS)
+    if not images:
+        raise RuntimeError('Slideshow download failed: no images produced.')
+
+    metadata = {}
+    sidecar = images[0].parent / (images[0].name + '.json')
+    if sidecar.exists():
+        try:
+            metadata = json.loads(sidecar.read_text(encoding='utf-8'))
+        except (json.JSONDecodeError, OSError):
+            metadata = {}
+    return images, metadata
+
+
 def fetch_metadata(url: str) -> dict:
     """Fetch video metadata (description, uploader, ...) without downloading."""
-    cmd = _base_cmd() + ['--dump-json', '--skip-download', url]
+    cmd = _base_cmd(url) + ['--dump-json', '--skip-download', url]
     result = _run(cmd, url)
     try:
         return json.loads(result.stdout)
