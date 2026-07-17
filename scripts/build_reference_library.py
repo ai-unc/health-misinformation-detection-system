@@ -166,6 +166,34 @@ INDEX_LINE_RE = re.compile(
 )
 
 
+# Claim-text cleanup (Task 8 live-NLI finding): one docx CLAIM line carries
+# a trailing provenance annotation after the sentence-final punctuation —
+# "...a c-section.' (Widely shared TikTok/Instagram claim, documented
+# Collective Care 2025)" — plus a stray closing quote. NLI verification
+# cannot entail hypotheses containing meta-annotations, so strip them here.
+# Applied to the claim field only, never to evidence. Parentheticals that
+# sit BEFORE the final punctuation ("(nuchal cord).", "(Plan B/...)" etc.)
+# are legitimate in-sentence clarifications and do not match.
+TRAILING_ANNOTATION_RE = re.compile(r'^(.*[.!?])[\'’"”]?\s*\([^)]*\)\s*$')
+_QUOTE_CHARS = ("'", '’', '"', '”')
+
+
+def _clean_claim(text: str) -> str:
+    # 1. Strip a trailing parenthetical annotation that begins after the
+    #    sentence-final punctuation (keep everything through that punctuation).
+    m = TRAILING_ANNOTATION_RE.match(text)
+    if m:
+        text = m.group(1)
+    # 2. Strip a stray trailing quote artifact: ".'" (or curly/double variant)
+    #    where that quote char appears an odd number of times — an unmatched
+    #    closing quote, not the end of a legitimately quoted phrase.
+    for q in _QUOTE_CHARS:
+        if text.endswith('.' + q) and text.count(q) % 2 == 1:
+            text = text[:-1]
+            break
+    return text
+
+
 def extract_authority_statements(doc_path) -> list[str]:
     """Declarative sentences from the comprehensive docx, junk-filtered."""
     from docx import Document
@@ -218,6 +246,8 @@ def extract_authority_statements(doc_path) -> list[str]:
 
 def main() -> int:
     pairs = parse_misinfo_pairs(MISINFO_DOCX)  # [{claim, evidence, domain}, ...]
+    for pair in pairs:
+        pair['claim'] = _clean_claim(pair['claim'])
 
     type_map_doc = json.loads(TYPE_MAP_PATH.read_text(encoding='utf-8'))
     type_map = {c['id']: c for c in type_map_doc['claims']}
