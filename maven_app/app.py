@@ -50,6 +50,7 @@ def analyze():
     for row in chunks:
         # numpy bool → Python bool for JSON serialization
         row['flagged'] = bool(row['flagged'])
+        row['scoreable'] = bool(row['scoreable'])
         # NaN → None for optional explainability fields (only set on flagged rows)
         for field in _OPTIONAL_FIELDS:
             row[field] = _sanitize_nan(row.get(field))

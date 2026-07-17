@@ -552,11 +552,17 @@ function renderScorePills(chunk) {
     const flagged      = chunk.flagged;
     const misinfoColor = flagged ? 'text-secondary' : 'text-tertiary';
 
-    const delta        = chunk.claim_delta;
-    const deltaRounded = Math.round(delta * 100);
-    const deltaColor   = deltaRounded > 0 ? 'text-tertiary-fixed-dim'
-                       : deltaRounded < 0 ? 'text-secondary-fixed-dim'
-                       : 'text-on-surface';
+    const STANCE_SHORT = {
+        asserts_misinfo:      'ASSERT',
+        contradicts_guidance: 'CONTRA-G',
+        debunks_misinfo:      'DEBUNK',
+        on_topic_neutral:     'NEUTRAL',
+        off_topic:            'OFF-TOPIC',
+    };
+    const stanceLabel = STANCE_SHORT[chunk.stance] ?? '—';
+    const stanceColor = chunk.stance === 'asserts_misinfo' ? 'text-secondary'
+                      : chunk.stance === 'debunks_misinfo' ? 'text-tertiary-fixed-dim'
+                      : 'text-on-surface';
 
     const pill = (label, value, valueClass = 'text-on-surface') => `
         <div class="flex flex-col items-center bg-surface-container p-2 border border-outline-variant/10">
@@ -566,10 +572,10 @@ function renderScorePills(chunk) {
 
     return `
         <div class="grid grid-cols-4 gap-2 mb-6">
-            ${pill('AUTH',    fmtPct(chunk.authority_sim))}
-            ${pill('MISINFO', fmtPct(chunk.misinfo_sim), misinfoColor)}
-            ${pill('DELTA',   fmtPct(delta, { signed: true }), deltaColor)}
-            ${pill('ISO',     fmtPct(chunk.isolation_score))}
+            ${pill('ENTAIL', fmtPct(chunk.misinfo_entail), misinfoColor)}
+            ${pill('CONTRA', fmtPct(chunk.guidance_contradict))}
+            ${pill('SIM',    fmtPct(chunk.top_claim_sim))}
+            ${pill('STANCE', stanceLabel, stanceColor)}
         </div>`;
 }
 
@@ -594,6 +600,18 @@ function renderExpandAnalysis(chunk, index) {
     const bucket  = bucketConfidence(chunk.misinfo_type_confidence ?? 0);
     const rawConf = (chunk.misinfo_type_confidence ?? 0).toFixed(2);
 
+    // contradicts_guidance rows can flag without entailing a cataloged claim:
+    // matched_claim stays null and evidence_correction falls back to the
+    // contradicted authority statement (see pipeline.score_text). Omit the
+    // claim line in that case and relabel the correction accordingly.
+    const claimSection = chunk.matched_claim
+        ? `<div>
+                <span class="font-label text-[9px] uppercase tracking-widest text-outline-variant">Matched Claim</span>
+                <p class="mt-2 font-body italic text-[13.5px] leading-relaxed text-on-surface-variant">${escapeHtml(chunk.matched_claim)}</p>
+            </div>`
+        : '';
+    const evidenceLabel = chunk.matched_claim ? 'Evidence' : 'Contradicted Guidance';
+
     return `
         <div class="mt-4 flex justify-end">
             <button type="button"
@@ -606,12 +624,9 @@ function renderExpandAnalysis(chunk, index) {
             </button>
         </div>
         <div id="${panelId}" hidden class="analysis-panel mt-6 bg-surface-container-low px-6 py-8 flex flex-col gap-8">
+            ${claimSection}
             <div>
-                <span class="font-label text-[9px] uppercase tracking-widest text-outline-variant">Matched Claim</span>
-                <p class="mt-2 font-body italic text-[13.5px] leading-relaxed text-on-surface-variant">${escapeHtml(chunk.matched_claim ?? '')}</p>
-            </div>
-            <div>
-                <span class="font-label text-[9px] uppercase tracking-widest text-outline">Evidence</span>
+                <span class="font-label text-[9px] uppercase tracking-widest text-outline">${evidenceLabel}</span>
                 <p class="mt-2 font-body text-[13.5px] leading-relaxed text-on-surface">${escapeHtml(chunk.evidence_correction ?? '')}</p>
             </div>
             <div>

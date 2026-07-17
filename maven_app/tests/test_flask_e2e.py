@@ -57,7 +57,7 @@ def main():
     print(f'  status: {status}  flagged: {body["summary"]["flagged"]}/{body["summary"]["total"]}')
     assert status == 200
     row = body['chunks'][0]
-    print(f'  isolation_score: {row["isolation_score"]:.4f}')
+    print(f'  stance: {row["stance"]}  entail: {row["misinfo_entail"]:.4f}')
     print(f'  misinfo_score:   {row["misinfo_score"]:.4f}')
     print(f'  flagged:         {row["flagged"]}')
     assert row['flagged'], (
@@ -99,8 +99,9 @@ def main():
 
     print('\n=== TEST 6: response key contract (no keys removed/renamed) ===')
     expected = {
-        'chunk', 'chunk_mode', 'authority_sim', 'misinfo_sim', 'claim_delta',
-        'isolation_score', 'misinfo_score', 'flagged',
+        'chunk', 'chunk_mode', 'misinfo_entail', 'guidance_contradict',
+        'misinfo_contradict', 'top_claim_sim', 'top_auth_sim', 'stance',
+        'scoreable', 'misinfo_score', 'flagged',
         'matched_claim', 'evidence_correction', 'misinfo_type', 'misinfo_type_confidence',
     }
     status, body = _post(client, 'Folic acid is essential during early pregnancy.')
