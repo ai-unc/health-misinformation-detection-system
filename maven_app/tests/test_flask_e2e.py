@@ -2,8 +2,9 @@
 
 Boots the Flask app in-process (no separate server) using app.test_client()
 and exercises the contract: JSON round-trip, optional-field handling for
-flagged vs non-flagged rows, single-sentence misinfo (the previously
-broken regression), and per-request latency.
+flagged vs non-flagged rows (including the authority-side explanation
+fallback), single-sentence misinfo (the previously broken regression), and
+per-request latency.
 """
 import json
 import sys
@@ -42,13 +43,28 @@ def main():
     optional = ('matched_claim', 'evidence_correction', 'misinfo_type', 'misinfo_type_confidence')
     for c in body['chunks']:
         flagged = c['flagged']
-        all_null    = all(c[k] is None      for k in optional)
-        all_present = all(c[k] is not None  for k in optional)
+        all_null = all(c[k] is None for k in optional)
         print(f'  chunk: {c["chunk"][:60]}')
         print(f'    flagged={flagged}  type={c["misinfo_type"]}  conf={c["misinfo_type_confidence"]}')
         print(f'    matched={None if c["matched_claim"] is None else c["matched_claim"][:60]}')
         if flagged:
-            assert all_present, f'Flagged row missing optional fields: {c}'
+            # Real invariant, not a strict all-or-nothing dichotomy: the
+            # Task 8 authority-side fallback (pipeline.py ~96-123) can flag
+            # a row via a contradicted authority entry with no cataloged
+            # claim entailed, so matched_claim stays null while
+            # evidence_correction is still set from the authority text
+            # (and misinfo_type/misinfo_type_confidence stay null too,
+            # unless that authority entry carries a parent_id). The
+            # matched-claim path is the only one that sets all four
+            # together. So: every flagged row ships a non-empty
+            # evidence_correction (the test_scoring.py acceptance
+            # invariant); matched_claim MAY be null; when matched_claim IS
+            # non-null, misinfo_type/misinfo_type_confidence must be set
+            # alongside it.
+            assert c['evidence_correction'], f'Flagged row missing evidence_correction: {c}'
+            if c['matched_claim'] is not None:
+                assert c['misinfo_type'] is not None, f'Matched row missing misinfo_type: {c}'
+                assert c['misinfo_type_confidence'] is not None, f'Matched row missing misinfo_type_confidence: {c}'
         else:
             assert all_null, f'Non-flagged row leaked NaN: {c}'
 
@@ -111,6 +127,37 @@ def main():
     print(f'  missing:  {expected - actual}')
     print(f'  extra:    {actual - expected}')
     assert actual == expected
+
+    print('\n=== TEST 7: authority-side fallback (flagged, matched_claim null) ===')
+    # Same probe as test_scoring.py acceptance case 2 (register-confound
+    # probe): low misinfo_entail keeps matched_claim null, but the high
+    # guidance_contradict still flags the row, so pipeline.py's fallback
+    # (~113-123) must supply evidence_correction from the contradicted
+    # authority entry.
+    status, body = _post(
+        client,
+        'Peer-reviewed evidence establishes that epidural analgesia produces '
+        'permanent neurological damage in neonates.'
+    )
+    print(f'  status: {status}  flagged: {body["summary"]["flagged"]}/{body["summary"]["total"]}')
+    assert status == 200
+    flagged_rows = [c for c in body['chunks'] if c['flagged']]
+    assert flagged_rows, f'expected at least one flagged chunk: {body["chunks"]}'
+    row = flagged_rows[0]
+    print(f'  stance: {row["stance"]}  entail: {row["misinfo_entail"]:.4f}  '
+          f'guidance_contradict: {row["guidance_contradict"]:.4f}')
+    print(f'  misinfo_score:       {row["misinfo_score"]:.4f}')
+    print(f'  matched_claim:       {row["matched_claim"]}')
+    print(f'  evidence_correction: {row["evidence_correction"]}')
+    assert isinstance(row['evidence_correction'], str) and row['evidence_correction'], (
+        f'Fallback row missing evidence_correction: {row}'
+    )
+    # matched_claim pinned to None: observed via this same test client at
+    # HEAD (aac15a9) -- tied to the current reference library + NLI
+    # checkpoint, not asserted as a permanent structural guarantee. Stance
+    # deliberately left unpinned (mirrors test_scoring.py case 2): the
+    # shape of the fallback is the contract, not the exact stance string.
+    assert row['matched_claim'] is None, f'expected fallback path (matched_claim None), got: {row}'
 
     print('\nALL FLASK E2E TESTS PASSED')
 
