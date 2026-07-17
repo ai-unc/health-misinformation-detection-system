@@ -36,10 +36,16 @@ ASSERT_TEXT = "Epidurals damage the baby's brain and always lead to a c-section.
 DEBUNK_TEXT = "No, epidurals do not damage your baby's brain — that is a myth."
 NOVEL_TEXT = "Low-dose aspirin is useless for preeclampsia prevention, skip it."
 OFFTOPIC_TEXT = 'Top 5 budget standing desks for your home office in 2026.'
+# Case-1 regression probe: entails a misinfo claim (mis-017) AND contradicts
+# its own retrieved authority correction (auth-016) at a HIGHER score than
+# the entailment — the exact shape that made the old `e_m >= c_a` guard on
+# the asserts branch unreachable (see scoring._stance()).
+CASE1_SHAPE_TEXT = ("An epidural during labor will permanently injure your "
+                     "baby's brain and force a surgical delivery.")
 
 
 def main():
-    chunks = [ASSERT_TEXT, DEBUNK_TEXT, NOVEL_TEXT, OFFTOPIC_TEXT]
+    chunks = [ASSERT_TEXT, DEBUNK_TEXT, NOVEL_TEXT, OFFTOPIC_TEXT, CASE1_SHAPE_TEXT]
     embs = embed(chunks)
 
     stub = StubNLI({
@@ -50,11 +56,16 @@ def main():
         # contradict for that authority pair would be an unfaithful stub.
         ('No, epidurals', 'Choosing an epidural'): (0.02, 0.08, 0.90),  # contradicts the claim
         ('aspirin is useless', 'aspirin'): (0.02, 0.10, 0.88), # contradicts guidance
+        # Case-1 shape regression: high entailment of a misinfo claim (mis-017)
+        # AND a HIGHER contradiction of its retrieved authority correction
+        # (auth-016). h-keys scoped the same way as the debunk row above.
+        ('An epidural during labor', 'Choosing an epidural'): (0.90, 0.08, 0.02),
+        ('An epidural during labor', 'Not supported by evidence'): (0.02, 0.01, 0.97),
     })
 
     results = score_chunks(chunks, embs, nli=stub)
-    assert len(results) == 4
-    r_assert, r_debunk, r_novel, r_off = results
+    assert len(results) == 5
+    r_assert, r_debunk, r_novel, r_off, r_case1 = results
 
     # 1) asserting misinfo: high p, asserts stance, matched base claim populated
     assert r_assert.stance == 'asserts_misinfo', r_assert
@@ -75,6 +86,16 @@ def main():
     # 4) off-topic: not scoreable, p == 0, no NLI pairs were spent on it
     assert not r_off.scoreable and r_off.p_misinfo == 0.0
     assert r_off.stance == 'off_topic'
+
+    # 5) case-1 shape regression: entailment of a misinfo claim AND a HIGHER
+    #    contradiction of its own retrieved authority correction must still
+    #    assert, not fall through to contradicts_guidance (the unreachable
+    #    asserts-branch bug fixed in scoring._stance()).
+    assert r_case1.misinfo_entail >= 0.8, r_case1
+    assert r_case1.guidance_contradict > r_case1.misinfo_entail, r_case1
+    assert r_case1.stance == 'asserts_misinfo', r_case1
+    assert r_case1.matched is not None, r_case1
+    assert r_case1.matched['correction'], r_case1
 
     # feature vector matches FEATURES order
     f = features_of(r_assert)

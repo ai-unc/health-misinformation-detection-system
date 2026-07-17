@@ -85,7 +85,7 @@ def _stance(scoreable, e_m, c_m, c_a) -> str:
         return 'off_topic'
     if c_m >= ENTAIL_MIN and c_m > e_m + DOMINANCE_MARGIN:
         return 'debunks_misinfo'
-    if e_m >= ENTAIL_MIN and e_m >= c_a:
+    if e_m >= ENTAIL_MIN:
         return 'asserts_misinfo'
     if c_a >= ENTAIL_MIN:
         return 'contradicts_guidance'

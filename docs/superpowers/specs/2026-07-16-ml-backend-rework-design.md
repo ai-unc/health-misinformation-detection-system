@@ -107,9 +107,12 @@ label: `asserts_misinfo / contradicts_guidance / debunks_misinfo /
 on_topic_neutral / off_topic`. Stance derivation (precedence order):
 `off_topic` if not scoreable; else `debunks_misinfo` if max
 P(contradict | misinfo claim) exceeds both entailment signals;
-else `asserts_misinfo` if max P(entail | misinfo claim) is the dominant
-signal; else `contradicts_guidance` if max P(contradict | authority stmt)
-dominates; else `on_topic_neutral`. The dominance margins are constants
+else `asserts_misinfo` if max P(entail | misinfo claim) meets the
+entailment minimum, regardless of the guidance-contradiction score —
+entailing a documented misinfo claim outranks the guidance-contradiction
+it logically implies, since asserting a myth always contradicts the
+guidance that debunks it; else `contradicts_guidance` if max
+P(contradict | authority stmt) dominates; else `on_topic_neutral`. The dominance margins are constants
 in scoring.py, sanity-checked on the calibration split. Stance is
 explanatory metadata; the flag itself comes only from P(misinfo) ≥ τ.
 
