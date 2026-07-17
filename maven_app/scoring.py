@@ -43,6 +43,7 @@ class ChunkScore(NamedTuple):
     top_claim_sim: float
     top_auth_sim: float
     matched: Optional[dict]
+    contradicted: Optional[dict]
 
 
 def features_of(cs: ChunkScore) -> List[float]:
@@ -157,7 +158,9 @@ def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[Ch
         top_claim_sim = max((c.sim for c in r.misinfo), default=0.0)
         top_auth_sim = max((c.sim for c in r.authority), default=0.0)
         matched: Optional[dict] = None
+        contradicted: Optional[dict] = None
         best_entail = -1.0
+        best_contra = -1.0
         for (pci, kind, cand), row in zip(index, probs):
             if pci != ci:
                 continue
@@ -170,6 +173,13 @@ def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[Ch
                 e_m = max(e_m, entail)
             else:
                 c_a = max(c_a, contradict)
+                # Argmax authority pair: the retrieved authority entry whose
+                # contradiction is highest for this chunk. Unlike `matched`,
+                # never nulled below — it's the explanation-of-last-resort
+                # for a flagged chunk that entailed no cataloged claim.
+                if contradict > best_contra:
+                    best_contra = contradict
+                    contradicted = cand.entry
 
         scoreable = r.scoreable
         features = [e_m, c_a, c_m, top_claim_sim, top_auth_sim]
@@ -181,6 +191,6 @@ def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[Ch
             p_misinfo=p, stance=stance, scoreable=scoreable,
             misinfo_entail=e_m, guidance_contradict=c_a, misinfo_contradict=c_m,
             top_claim_sim=top_claim_sim, top_auth_sim=top_auth_sim,
-            matched=matched,
+            matched=matched, contradicted=contradicted,
         ))
     return scores

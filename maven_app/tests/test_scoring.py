@@ -27,8 +27,11 @@ def _one(text):
 
 
 def main():
+    all_rows = []
+
     print('\n=== 1) misinfo, casual register -> flagged ===')
     r = _one("Epidurals damage the baby's brain and always lead to a c-section.")
+    all_rows.append(r)
     assert list(r.keys()) == EXPECTED_COLUMNS
     assert r['flagged'], r
     assert r['stance'] == 'asserts_misinfo'
@@ -39,11 +42,19 @@ def main():
     print('\n=== 2) misinfo, clinical register -> flagged (register-confound probe) ===')
     r = _one('Peer-reviewed evidence establishes that epidural analgesia produces '
              'permanent neurological damage in neonates.')
+    all_rows.append(r)
     assert r['flagged'], r
+    # Explainability gap regression: this case's low misinfo_entail nulls
+    # `matched_claim` (no cataloged claim was entailed), so a flagged row
+    # must still ship an explanation via the authority-side fallback.
+    # matched_claim itself is deliberately not pinned -- it legitimately
+    # stays None whenever the fallback is what fired.
+    assert r['evidence_correction'], r
 
     print('\n=== 3) debunk -> NOT flagged (stance-blindness probe) ===')
     r = _one('No, epidurals do NOT damage your baby\'s brain — that myth keeps '
              'scaring people out of safe pain relief.')
+    all_rows.append(r)
     assert not r['flagged'], r
     assert r['stance'] == 'debunks_misinfo', r
     assert r['matched_claim'] is None
@@ -51,11 +62,13 @@ def main():
     print('\n=== 4) accurate + casual -> NOT flagged (register-confound probe) ===')
     r = _one('girl the nausea is rough but small frequent snacks and ginger tea '
              'genuinely helped me survive the first trimester lol')
+    all_rows.append(r)
     assert not r['flagged'], r
 
     print('\n=== 5) off-topic -> not scoreable, never flagged ===')
     r = _one('Top 5 budget standing desks for your home office in 2026 — '
              'number 3 surprised me.')
+    all_rows.append(r)
     assert not r['scoreable'] and not r['flagged']
     assert r['stance'] == 'off_topic'
     assert r['misinfo_score'] == 0.0
@@ -70,6 +83,12 @@ def main():
     assert len(df) >= 2
     assert df['misinfo_score'].between(0, 1).all()
     assert not df.iloc[-1]['flagged']  # the hospital-bag sentence must never flag
+    all_rows.extend(df.to_dict('records'))
+
+    print('\n=== invariant: every flagged row ships a non-empty evidence_correction ===')
+    for row in all_rows:
+        if row['flagged']:
+            assert row['evidence_correction'], row
 
     print('\nALL TESTS PASSED')
 

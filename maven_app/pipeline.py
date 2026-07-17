@@ -15,6 +15,7 @@ import pandas as pd
 from nltk.tokenize import sent_tokenize
 
 from embedding import embed
+import retrieval
 import scoring
 
 nltk.download('punkt', quiet=True)
@@ -101,6 +102,26 @@ def score_text(
     for chunk, r in zip(chunks, results):
         flagged = bool(r.scoreable and r.p_misinfo >= tau)
         matched = r.matched if flagged and r.matched is not None else None
+
+        evidence_correction = None
+        misinfo_type = None
+        misinfo_type_confidence = None
+        if matched is not None:
+            evidence_correction = matched['correction']
+            misinfo_type = matched['type_id']
+            misinfo_type_confidence = round(r.misinfo_entail, 4)
+        elif flagged and r.contradicted is not None:
+            # No cataloged claim was entailed (matched_claim stays None), but
+            # a flagged row still needs an explanation: fall back to the
+            # authority statement whose contradiction drove the flag. If that
+            # authority entry links back to a base misinfo claim, surface its
+            # type the same way the matched path does; otherwise leave it None.
+            evidence_correction = r.contradicted['text']
+            if r.contradicted['parent_id']:
+                claim = retrieval.base_entry(r.contradicted)
+                misinfo_type = claim['type_id']
+                misinfo_type_confidence = round(r.misinfo_entail, 4)
+
         rows.append({
             'chunk':                   chunk,
             'chunk_mode':              mode_used,
@@ -114,8 +135,8 @@ def score_text(
             'misinfo_score':           round(r.p_misinfo, 4),
             'flagged':                 flagged,
             'matched_claim':           matched['text'] if matched else None,
-            'evidence_correction':     matched['correction'] if matched else None,
-            'misinfo_type':            matched['type_id'] if matched else None,
-            'misinfo_type_confidence': round(r.misinfo_entail, 4) if matched else None,
+            'evidence_correction':     evidence_correction,
+            'misinfo_type':            misinfo_type,
+            'misinfo_type_confidence': misinfo_type_confidence,
         })
     return pd.DataFrame(rows)

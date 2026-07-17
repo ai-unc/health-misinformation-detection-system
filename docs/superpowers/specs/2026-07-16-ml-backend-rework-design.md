@@ -132,6 +132,11 @@ asserts. `misinfo_type` comes from the matched claim's curated
 domain/type instead of nearest-centroid guessing. `app.py` and templates
 get the small matching update.
 
+Flagged rows where no cataloged claim was entailed (`matched_claim` stays
+null) still carry an explanation: `evidence_correction` falls back to the
+authority statement whose contradiction drove the flag, so every flag
+ships with an explanation.
+
 ## Data and evaluation
 
 ### Repo layout

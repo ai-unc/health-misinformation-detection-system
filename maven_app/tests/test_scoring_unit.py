@@ -42,10 +42,22 @@ OFFTOPIC_TEXT = 'Top 5 budget standing desks for your home office in 2026.'
 # the asserts branch unreachable (see scoring._stance()).
 CASE1_SHAPE_TEXT = ("An epidural during labor will permanently injure your "
                      "baby's brain and force a surgical delivery.")
+# Case-2 shape regression: clinical-register misinfo where NO retrieved
+# misinfo claim clears the entailment minimum, but the chunk squarely
+# contradicts its retrieved authority correction — the exact shape that
+# shipped acceptance case 2 with every explanation field empty (`matched`
+# nulled, and nothing to fall back to). Real retrieval for this text
+# (current library): misinfo=[mis-016 only, sim=0.47]; authority=[auth-016
+# sim=0.65, auth-015 sim=0.49] — two authority candidates, so the argmax
+# `contradicted` pick is meaningfully exercised, not just a default vs. a
+# single real value.
+CASE2_SHAPE_TEXT = ('Peer-reviewed evidence establishes that epidural '
+                     'analgesia produces permanent neurological damage in neonates.')
 
 
 def main():
-    chunks = [ASSERT_TEXT, DEBUNK_TEXT, NOVEL_TEXT, OFFTOPIC_TEXT, CASE1_SHAPE_TEXT]
+    chunks = [ASSERT_TEXT, DEBUNK_TEXT, NOVEL_TEXT, OFFTOPIC_TEXT, CASE1_SHAPE_TEXT,
+              CASE2_SHAPE_TEXT]
     embs = embed(chunks)
 
     stub = StubNLI({
@@ -61,11 +73,21 @@ def main():
         # (auth-016). h-keys scoped the same way as the debunk row above.
         ('An epidural during labor', 'Choosing an epidural'): (0.90, 0.08, 0.02),
         ('An epidural during labor', 'Not supported by evidence'): (0.02, 0.01, 0.97),
+        # Case-2 shape: low entailment of mis-016 (its only retrieved misinfo
+        # candidate) ...
+        ('Peer-reviewed evidence establishes', 'drug exposure'): (0.15, 0.80, 0.05),
+        # ... but high contradiction of auth-016 (its top retrieved authority
+        # candidate, sim=0.65) -- this must be the argmax `contradicted` pick.
+        ('Peer-reviewed evidence establishes',
+         'epidural space with minimal systemic absorption'): (0.02, 0.01, 0.97),
+        # auth-015 (sim=0.49) also contradicts, but at a real, lower value --
+        # it must lose the argmax to auth-016, not merely default to it.
+        ('Peer-reviewed evidence establishes', 'increased caesarean risk'): (0.10, 0.60, 0.30),
     })
 
     results = score_chunks(chunks, embs, nli=stub)
-    assert len(results) == 5
-    r_assert, r_debunk, r_novel, r_off, r_case1 = results
+    assert len(results) == 6
+    r_assert, r_debunk, r_novel, r_off, r_case1, r_case2 = results
 
     # 1) asserting misinfo: high p, asserts stance, matched base claim populated
     assert r_assert.stance == 'asserts_misinfo', r_assert
@@ -96,6 +118,18 @@ def main():
     assert r_case1.stance == 'asserts_misinfo', r_case1
     assert r_case1.matched is not None, r_case1
     assert r_case1.matched['correction'], r_case1
+
+    # 6) case-2 shape: authority-side explanation fallback. No cataloged
+    #    misinfo claim was entailed, so `matched` stays nulled -- but
+    #    `contradicted` must still identify the authority entry (auth-016)
+    #    whose contradiction drove the contradicts_guidance stance, so a
+    #    flagged row is never left without an explanation.
+    assert r_case2.misinfo_entail < 0.5, r_case2
+    assert r_case2.guidance_contradict >= 0.9, r_case2
+    assert r_case2.stance == 'contradicts_guidance', r_case2
+    assert r_case2.matched is None, r_case2
+    assert r_case2.contradicted is not None, r_case2
+    assert r_case2.contradicted['id'] == 'auth-016', r_case2.contradicted
 
     # feature vector matches FEATURES order
     f = features_of(r_assert)
