@@ -1,0 +1,2171 @@
+[
+  {
+    "id": "mis-001",
+    "text": "You must 'eat for two' during pregnancy.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "No. Caloric needs remain unchanged in the first trimester; only 200–300 additional kcal/day are needed in the second and third trimesters — roughly a small snack. Focus should be on nutrient density, not caloric doubling. Overeating increases risk of gestational diabetes, preeclampsia, and excessive gestational weight gain (ACOG; USPSTF behavioural counselling guidance).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-002",
+    "text": "All seafood must be avoided during pregnancy.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. FDA (2024 guidance) recommends 2–3 servings/week of low-mercury fish (salmon, sardines, tilapia, canned light tuna). Fish provides essential omega-3 DHA critical for fetal brain development. Blanket avoidance causes nutritional deficits. High-mercury fish (shark, swordfish, king mackerel, tilefish) should be avoided.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-003",
+    "text": "All caffeine must be eliminated entirely.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. ACOG recommends <200 mg/day; WHO recommends <300 mg/day. Evidence does not support zero-caffeine requirements; blanket prohibition creates unnecessary anxiety without reducing risk.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-004",
+    "text": "Eating peanuts during pregnancy causes peanut allergy in the child.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "Disproven. Maternal peanut consumption does NOT increase child peanut allergy risk (Canadian Medical Association Journal, 2018). Early introduction of peanut-containing foods to infants is now recommended by AAP as allergy prevention.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-005",
+    "text": "Heartburn during pregnancy means the baby will have lots of hair.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "False. No mechanistic basis for this persistent folk belief. Fetal hair is determined by genetics.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-006",
+    "text": "You should not dye your hair during pregnancy.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "Not supported by evidence. Systematic reviews find no evidence of harm from routine hair dye use in pregnancy. Professional chemical treatments in poorly ventilated spaces warrant caution in the first trimester but broad prohibition is not evidence-based.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-007",
+    "text": "Exercise during pregnancy is dangerous and should be avoided.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "False. ACOG recommends 150 minutes/week of moderate-intensity aerobic activity for uncomplicated pregnancies. Exercise reduces gestational diabetes risk, improves mood, and is associated with easier labour and faster postpartum recovery. Exercise is contraindicated only in specific high-risk conditions.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-008",
+    "text": "Lifting arms above the head causes the umbilical cord to wrap around the baby's neck (nuchal cord).",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "No evidence. Nuchal cord occurs in ~25–30% of births and is not associated with maternal arm position. This myth causes unnecessary movement restriction.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-009",
+    "text": "Sex during pregnancy causes miscarriage or harms the baby.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "Generally false for uncomplicated pregnancies. Sexual activity is safe throughout pregnancy in the absence of specific contraindications (placenta praevia, preterm labour risk, ruptured membranes). The fetus is protected by amniotic fluid and the mucus plug.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-010",
+    "text": "Morning sickness only happens in the morning and ends by 12 weeks.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "other",
+    "correction": "Misleading. Nausea and vomiting of pregnancy can occur at any time of day and persists beyond the first trimester in ~20% of cases. Hyperemesis gravidarum (severe NVP requiring hospitalisation) can last the entire pregnancy. This myth contributes to under-treatment and symptom dismissal.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-011",
+    "text": "Mild cramping and spotting in early pregnancy always mean miscarriage.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "Inaccurate and anxiety-provoking. Implantation bleeding and mild cramping from uterine growth are common and not predictive of miscarriage. However, heavy bleeding and significant pain warrant immediate evaluation.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-012",
+    "text": "Your baby will come when they're ready — induction is always unnecessary and harmful.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "discourages_evidence_based",
+    "correction": "False and dangerous. The ARRIVE trial (NEJM, 2018; Grobman et al.; n=6,106) demonstrated that elective induction at 39 weeks in low-risk nulliparous women REDUCED (not increased) caesarean delivery rates (19.4% vs. 22.2%) and hypertensive disorders of pregnancy. This finding is one of the most frequently inverted claims in social media birth content.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-013",
+    "text": "Induction with Pitocin causes more painful, dangerous contractions than natural labour.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "exaggerated_risk",
+    "correction": "Partially distorted. Oxytocin (Pitocin) induction produces physiologically similar contractions to spontaneous labour. Pain perception is subjective and individual. The narrative that induced labour is categorically more traumatic is not evidence-based.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-014",
+    "text": "Membrane sweeping causes infection or harm and should be refused.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "discourages_evidence_based",
+    "correction": "Not supported. Membrane sweeping (stretch and sweep) is a low-risk procedure associated with higher rates of spontaneous labour onset within 48 hours and reduced need for formal induction. Cochrane reviews confirm its safety and efficacy.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-015",
+    "text": "If you get an epidural, you will end up with a c-section.' (Widely shared TikTok/Instagram claim, documented Collective Care 2025)",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "exaggerated_risk",
+    "correction": "False. Epidural analgesia is NOT significantly associated with increased caesarean risk in low-risk pregnancies. Cochrane Review (Anim-Somuah et al.; updated) confirms association with longer second stage but not increased caesarean delivery. The causal claim is an inversion of a weak correlation.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-016",
+    "text": "Epidurals harm the baby through drug exposure.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "exaggerated_risk",
+    "correction": "Not supported by evidence. Epidural medications are delivered into the epidural space with minimal systemic absorption. Studies do not show clinically significant adverse neonatal outcomes attributable to epidural analgesia. ACOG affirms the patient's right to effective pain relief in labour without a requirement for justification.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-017",
+    "text": "Choosing an epidural means you failed at natural birth or are weak.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "other",
+    "correction": "Harmful social stigma with no medical basis. Evidence supports that untreated severe pain in labour is associated with PTSD, negative birth experiences, and reluctance to give birth again. The framing of pain management as moral failure is a documented social harm. ACOG and ACNM both support patient's right to choose any evidence-based pain management option.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-018",
+    "text": "All caesarean sections are the result of unnecessary medical intervention or profit motives.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "undermines_medical_trust",
+    "correction": "Overstated and harmful. While caesarean overuse is documented, caesarean delivery is life-saving when clinically indicated (placenta praevia, umbilical cord prolapse, fetal distress, malpresentation). Blanket distrust of caesarean recommendation causes patients to resist appropriate care.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-019",
+    "text": "VBAC is always more dangerous than repeat caesarean.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "exaggerated_risk",
+    "correction": "Inaccurate for many patients. VBAC has a success rate of ~60–80% in appropriate candidates. The risk of uterine rupture (0.5–1%) is real but manageable in appropriate settings. ACOG-SMFM OCC supports VBAC as a reasonable option for eligible women.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-020",
+    "text": "You cannot breastfeed successfully after a caesarean.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "exaggerated_risk",
+    "correction": "False. Caesarean delivery does not prevent breastfeeding. Early skin-to-skin contact and lactation support are achievable after caesarean. Breastfeeding challenges post-caesarean (delayed milk coming in, pain affecting positioning) are real but addressable with proper support.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-021",
+    "text": "Vitamin K injection causes leukaemia or is a pharmaceutical conspiracy.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "undermines_medical_trust",
+    "correction": "No evidence of harm. Vitamin K prophylaxis at birth prevents vitamin K deficiency bleeding (VKDB), a rare but potentially fatal or brain-damaging condition. Multiple large studies have found no association with childhood leukaemia. This misinformation has directly caused preventable deaths (AAP policy statement).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-022",
+    "text": "The hepatitis B vaccine at birth is unnecessary for newborns.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "discourages_evidence_based",
+    "correction": "False. Perinatal transmission from mother to infant is a primary route of chronic hepatitis B infection. The birth dose prevents 70–95% of perinatal transmission (AAP, CDC, WHO all recommend the birth dose).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-023",
+    "text": "Delayed cord clamping is dangerous and slows the birth team.",
+    "kind": "misinfo",
+    "domain": "intrapartum",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "False. WHO and ACOG recommend delayed cord clamping (1–3 minutes for term infants) as standard of care. Benefits: increased iron stores, reduced anaemia risk, potential neurodevelopmental benefits. Does not cause complications in term births.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-024",
+    "text": "You should be back to normal by 6 weeks postpartum.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "The '6-week clearance' is a historical artefact, not an evidence-based benchmark. ACOG CO #736 (2018) explicitly replaces it with a 12-week care model. Pelvic floor recovery, hormonal stabilisation, emotional adjustment, and breastfeeding establishment continue well beyond 6 weeks. Sexual health research documents significant dysfunction persisting at 18 months in 20% of women (PMC qualitative study, 2022).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-025",
+    "text": "Urinary leakage after birth is something you just have to accept.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "discourages_evidence_based",
+    "correction": "Harmful normalisation. Urinary incontinence is common but not inevitable and is highly treatable. Pelvic floor physiotherapy has Grade A evidence for improvement or resolution (NICE/ACOG). Normalising incontinence without offering treatment represents a clinical failure. ACOG and AWHONN both include pelvic floor assessment as a component of comprehensive postpartum care.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-026",
+    "text": "Postpartum hair loss means something is wrong and you need supplements.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "promotes_alternative_medicine",
+    "correction": "Postpartum telogen effluvium (affecting 40–50% of women, typically 3–6 months postpartum) is a normal physiological consequence of the hormonal shift at delivery. It is self-limiting, resolves without treatment in most cases by 12 months. Thyroid disease should be excluded if severe or prolonged. Biotin supplements have limited specific evidence for postpartum telogen effluvium.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-027",
+    "text": "You can resume all exercise including running as soon as you feel ready.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "discourages_evidence_based",
+    "correction": "Return to high-impact exercise requires gradual progression and pelvic floor readiness assessment. IJSPT systematic review (2022) found >1/3 of postpartum runners experience pain or urinary incontinence on return, suggesting pelvic floor physiotherapy assessment before high-impact activity is clinically indicated, not self-reported comfort alone.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-028",
+    "text": "Diastasis recti always requires surgery.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "exaggerated_risk",
+    "correction": "False. Most diastasis recti responds to specialised physiotherapy and targeted exercise. Surgical repair (abdominoplasty) is reserved for severe cases that do not respond to conservative management. The majority of women with diastasis recti do not require surgical intervention.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-029",
+    "text": "You will immediately bond with your baby and feel overwhelming love at birth.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "other",
+    "correction": "The 'love at first sight' bonding narrative is a cultural myth causing significant harm. Research shows bonding develops over time and is not always instantaneous. The absence of immediate overwhelming love does not indicate PPD, failure as a parent, or lack of love for the baby. Matrescence (the normal developmental transition of becoming a mother, coined by Dana Raphael 1973; revived by Aurelie Athan PhD, Columbia) includes ambivalence as a normal feature. ACOG CPG #4 (2023) and PSI both address the harm of this myth in preventing honest emotional disclosure.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-030",
+    "text": "Feeling sad, anxious, or overwhelmed is just 'baby blues' and will resolve on its own.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "discourages_evidence_based",
+    "correction": "Baby blues (70–80%, resolving by 2 weeks, hormonal, self-limiting) must be distinguished from PPD (10–20%, requiring treatment, persisting beyond 2 weeks or presenting after 2 weeks). Symptoms lasting beyond 2 weeks, presenting after 2 weeks, involving inability to function, thoughts of self-harm, or inability to care for the baby are NOT baby blues. They are clinical disorders requiring assessment and treatment. ACOG CPG #4 and USPSTF Grade B mandate proactive screening.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-031",
+    "text": "A good mother instinctively knows what to do and doesn't need help or support.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "This harmful cultural myth suppresses help-seeking across all domains. The 'strong Black woman' schema (Watson & Hunter, 2016; cited in Birthing Beautiful Communities doula study, 2024) specifically suppresses help-seeking in Black women, contributing to racial disparities in PPD identification and treatment. ACNM, ACOG, and AWHONN all explicitly endorse structured support as standard of care.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-032",
+    "text": "Intrusive thoughts about harming your baby mean you are dangerous and should not be left alone with your child.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "other",
+    "correction": "Ego-dystonic intrusive thoughts (thoughts that horrify the person experiencing them) are a hallmark of postpartum OCD and anxiety — NOT an indication of danger or intent. Women experiencing these thoughts are typically highly distressed precisely because the thoughts are contrary to their values. ACOG CPG #4 and PSI explicitly distinguish perinatal OCD from actual risk. Perinatal OCD is highly responsive to CBT/ERP treatment.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-033",
+    "text": "If sex is painful after birth, something is permanently wrong with you.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "discourages_evidence_based",
+    "correction": "Dyspareunia is extremely common postpartum (40% at 3 months; 20% at 18 months). It has well-understood physiological causes (hypoestrogenism, perineal trauma, pelvic floor dysfunction) and evidence-based treatments (topical oestrogen, pelvic floor physiotherapy, lubricants). Persistent dyspareunia warrants evaluation and treatment, not acceptance. Physiotherapy is underutilised and highly effective. This claim prevents women from seeking effective care.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-034",
+    "text": "Low libido after birth means your relationship is in trouble.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "Reduced libido in the fourth trimester is physiological (hypoestrogenism, sleep deprivation, prolactin, pain), not primarily relational. Current Sexual Health Reports (2022) documents that discordant desire does not predict relational distress when couples communicate openly. Reduced sexual frequency after birth is normative, not pathological.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-035",
+    "text": "The '6-week rule' for sex is evidence-based and must be strictly followed.",
+    "kind": "misinfo",
+    "domain": "fourth_trimester",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "The traditional 6-week abstinence recommendation is based on historical tissue-healing estimates for episiotomies, not on trial evidence. Current guidance (ACOG/AWHONN) supports individualised, symptom-guided return to sexual activity, which means some women can safely resume before 6 weeks and others should wait longer.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-036",
+    "text": "Emergency contraception (Plan B/morning-after pill) causes abortion.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "FALSE. Plan B and other levonorgestrel emergency contraceptive pills work primarily by PREVENTING OVULATION. Even the FDA updated the Plan B label in 2022 to clarify this primary mechanism. EC cannot affect an established pregnancy. This misinformation fuelled the Supreme Court case Burwell v. Hobby Lobby (2014) and 2024 state legislation in Missouri and Louisiana restricting EC access (KFF Health Misinformation Monitor, 2024). ACOG, SFP, and CDC all define EC as contraception, not as causing abortion.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-037",
+    "text": "IUDs cause abortions.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "FALSE. IUDs prevent fertilisation primarily by preventing sperm from reaching and fertilising an egg. Even in the rare event fertilisation might occur, the medical definition of pregnancy begins at implantation, not fertilisation. ACOG, SFP, and WHO all define IUDs as contraceptives, not abortifacients. This misinformation has directly restricted access to IUDs under state laws (KFF Monitor, 2024).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-038",
+    "text": "Hormonal contraception causes permanent infertility.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "Not supported by evidence. Return to fertility after stopping reversible hormonal contraceptives is typically rapid (1–3 months for pills/patch/ring/implant). DMPA (Depo-Provera) is the exception: return to fertility may take 12–18 months, which is temporary, not permanent. Large studies find no long-term effect on fertility from any currently available hormonal contraceptive. This myth is documented on social media by anti-hormonal wellness influencers (KFF Monitor, 2024).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-039",
+    "text": "Hormonal contraception causes severe depression / mental illness.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "exaggerated_risk",
+    "correction": "Oversimplified and frequently exaggerated. Evidence on hormonal contraceptives and mood is mixed. A large Danish cohort (JAMA Psychiatry, 2016) found modest associations; effect sizes were small and causation not demonstrated. Many women report mood improvements on hormonal contraception. KFF Monitor (2024) documents wellness influencers dramatically overstating this association. ACOG and SFP guidance: discuss individual risk-benefit with each patient; no categorical prohibitions.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-040",
+    "text": "Natural family planning methods are just as effective as hormonal contraception.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "promotes_alternative_medicine",
+    "correction": "Not accurate as a general statement. Fertility awareness-based methods (FABMs) range widely in effectiveness: perfect use of symptothermal method achieves ~0.4% failure rate; typical use failure rates are 2–23% depending on method and user. This compares to <1% for LARCs (IUD, implant) with both perfect and typical use. FABMs require consistent, precise practice; they are not equivalent to hormonal methods for the general population.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-041",
+    "text": "Medication abortion (mifepristone + misoprostol) is dangerous and frequently causes death.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "exaggerated_risk",
+    "correction": "FALSE. Mifepristone/misoprostol has been FDA-approved since 2000 and is among the most studied medications in reproductive medicine. Serious complications occur in <0.5% of cases. Deaths are extremely rare. The KFF Monitor (2024) documented extensive misinformation following the 2022 Dobbs decision, including misrepresentation of deaths caused by delayed emergency care (due to abortion restrictions, not the medications themselves) as evidence of medication danger.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-042",
+    "text": "You don't need contraception until you have your first postpartum period.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "FALSE and potentially dangerous. Ovulation occurs BEFORE the first postpartum menstrual period. In non-breastfeeding women, first ovulation occurs on average 45–94 days postpartum but can occur as early as 25 days. Women who rely on menstruation resumption as a signal to initiate contraception have no protection in the interval between first ovulation and first period. This is among the most clinically consequential postpartum contraception myths.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-043",
+    "text": "Breastfeeding reliably prevents pregnancy.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "Partially false without qualifications. Lactational Amenorrhoea Method (LAM) is approximately 98% effective ONLY when ALL THREE criteria are simultaneously met: exclusive on-demand breastfeeding day and night, amenorrhoea, and infant under 6 months. Without all three criteria, pregnancy is possible. This myth is a documented major barrier to postpartum contraception uptake (SFP, CDC US SPR 2024).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-044",
+    "text": "IUDs placed immediately after delivery are too likely to fall out and should be avoided.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "discourages_evidence_based",
+    "correction": "Misleadingly framed. Immediate postpartum IUD insertion does have a higher expulsion rate (~20%) than interval insertion (~5%). However, overall effectiveness when accounting for expulsion is still superior to not using contraception, and many patients who plan interval insertion do not return. SMFM Consult #48 endorses IPP LARC as safe and effective. Expulsion risk must be disclosed in counselling but should not be categorically discouraged.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-045",
+    "text": "Reversible contraception will prevent you from getting pregnant when you want to in the future.",
+    "kind": "misinfo",
+    "domain": "family_planning",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "FALSE. All reversible contraceptive methods allow return to fertility after discontinuation. This myth particularly discourages LARC use in women who intend future pregnancy. ACOG, SFP, and SMFM all explicitly state that reversible LARCs (IUD, implant) do not cause permanent infertility.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-046",
+    "text": "Black patients feel less pain than White patients due to biological differences.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "inaccurate_biological_mechanism",
+    "correction": "Scientifically false and documented as a harmful clinical myth (Hoffman et al., PNAS, 2016). Medical students and residents who endorsed false biological beliefs about racial differences (e.g., 'Black skin is thicker') were more likely to under-rate Black patients' pain and under-prescribe analgesics. This myth directly causes undertreated pain in perinatal settings, particularly in labour.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-047",
+    "text": "Race-based VBAC calculators accurately predict outcomes.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "other",
+    "correction": "Challenged and being replaced. SMFM is developing race-neutral VBAC calculators; Canadian and Swedish research groups have validated VBAC algorithms without race corrections that perform equivalently. Using race as a biological proxy in clinical algorithms is a form of institutionalised racial stereotyping (ACOG CO on implicit bias).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-048",
+    "text": "Maternal mortality disparities between Black and White women are primarily explained by health behaviours and pre-existing conditions.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "other",
+    "correction": "Substantially false. Structural racism, implicit bias, residential segregation, and discrimination in care settings independently predict adverse maternal outcomes even after controlling for clinical comorbidities and socioeconomic factors (Hailu et al. SR, Health Place, 2022; CDC PMSS data).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-049",
+    "text": "Asking patients about depression will upset or distress them.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "discourages_evidence_based",
+    "correction": "False. Qualitative research shows patients are willing and often relieved to be asked. Perinatal women who received no feedback after completing a screening tool interpreted it as dismissal. Provider avoidance of mental health screening is often attributed to patient sensitivity but is not supported by evidence.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-050",
+    "text": "Screening for PPD is sufficient — the screen itself constitutes care.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "discourages_evidence_based",
+    "correction": "False. Screening without follow-up, feedback, referral pathways, and care linkage is clinically indefensible. Only 25% of patients who completed a validated screening tool had results discussed with them (PMC qualitative study, 2022). A positive screen with no action creates a false sense that care was provided.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-051",
+    "text": "Perinatal depression and anxiety will resolve spontaneously after birth / after the newborn phase.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "discourages_evidence_based",
+    "correction": "False for a significant proportion. ~20% of women with PPD still have depression at one year postpartum; 13% at two years. Without treatment, PPD is associated with chronic relapsing depression, functional impairment, adverse child developmental outcomes, and increased suicide risk.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-052",
+    "text": "The comprehensive 6-week postpartum visit is sufficient to identify all postpartum needs.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Inadequate and refuted by evidence. AHRQ (2023) and ACOG both note the 6-week visit is too late for many complications. 65% of pregnancy-related deaths occur postpartum, with a significant proportion before 6 weeks. The 6-week timeframe is historical, not evidence-based. ACOG now recommends initial contact within 3 weeks.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-053",
+    "text": "If the birth was uncomplicated, postpartum follow-up doesn't need to be intensive.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Dangerously false. Postpartum haemorrhage, hypertensive crises, pulmonary embolism, mental health crises, and breastfeeding complications can all occur in patients with uncomplicated deliveries. Over 80% of pregnancy-related deaths are preventable (CDC MMR data). 'Uncomplicated delivery' does not justify reduced postpartum vigilance.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-054",
+    "text": "The fourth trimester concept is merely rebranding; clinical care doesn't need to change.",
+    "kind": "misinfo",
+    "domain": "clinical_provider",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Contradicted by evidence. ACOG CO #736 represents a paradigm shift: postpartum care should be an 'ongoing process, rather than a single encounter.' Columbia World Projects (Milbank Quarterly, 2023) documents that 1/3 of pregnancy-related deaths occur 1 week to 1 year postpartum, and more than half are preventable — directly implicating the fragmented care model that the fourth trimester framework aims to replace.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-055",
+    "text": "Implicit bias training (IBT) effectively eliminates racial bias in clinical decision-making.",
+    "kind": "misinfo",
+    "domain": "clinical_guidelines",
+    "type_id": "other",
+    "correction": "Overstated. Science Advances SR (2024; 77 studies): Most IBT trainings lack specificity; evidence for behavioural change from training alone is limited. Institutional and protocol-level interventions are necessary alongside individual training. California's Dignity in Pregnancy and Childbirth Act mandates IBT for perinatal clinicians but the evidence base for IBT effectiveness remains limited.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-056",
+    "text": "Telehealth prenatal care is lower quality and less safe than in-person care.",
+    "kind": "misinfo",
+    "domain": "clinical_guidelines",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Not supported by current evidence. Studies from the COVID-19 era show telehealth integration for low-risk prenatal care did not increase adverse outcomes. ACOG PATH 2025 specifically endorses telehealth as appropriate for certain monitoring and educational visits.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-057",
+    "text": "Group prenatal care (CenteringPregnancy) is only for high-risk patients.",
+    "kind": "misinfo",
+    "domain": "clinical_guidelines",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Incorrect. CenteringPregnancy is designed for all risk levels and has shown superior outcomes across populations, with greatest benefit for minority and low-income patients. It is not a service of last resort. ACOG PATH 2025 and ACNM both endorse group care.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-058",
+    "text": "Postpartum contraception counselling should wait until the 6-week visit.",
+    "kind": "misinfo",
+    "domain": "clinical_guidelines",
+    "type_id": "discourages_evidence_based",
+    "correction": "Evidence-based practice contradicts this. Contraceptive counselling during prenatal care PLUS hospital provision (where eligible) produces 4.25x higher LARC uptake than no counselling (Ann Intern Med SR, 2022). Many patients do not attend the 6-week visit — delaying all counselling until then leaves them without contraceptive protection during the highest-risk period for unintended pregnancy.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-059",
+    "text": "You should 'bounce back' to your pre-pregnancy body and life quickly after birth.",
+    "kind": "misinfo",
+    "domain": "social_motherhood",
+    "type_id": "other",
+    "correction": "Harmful cultural myth with no evidence basis. The 'bounce back' narrative is particularly prevalent in social media and celebrity culture. It creates unrealistic expectations about physical recovery, weight, and return to normal function. Evidence supports that postpartum recovery takes months to years. This myth contributes to body image distress, excessive exercise too soon postpartum, and failure to seek help for ongoing physical symptoms.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-060",
+    "text": "Motherhood is naturally blissful; feelings of ambivalence, frustration, or grief mean you are a bad mother.",
+    "kind": "misinfo",
+    "domain": "social_motherhood",
+    "type_id": "other",
+    "correction": "False and harmful. Matrescence (coined Dana Raphael, 1973; popularised Alexandra Sacks MD) describes the profound bio-psycho-social-political-spiritual transition of becoming a mother. Ambivalence, loss, and identity conflict are normal features of this developmental transition. The 'natural bliss' narrative suppresses disclosure of negative emotions and contributes to delayed PPD recognition.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-061",
+    "text": "Women who need support after birth are weak; 'good mothers' manage on their own.",
+    "kind": "misinfo",
+    "domain": "social_motherhood",
+    "type_id": "other",
+    "correction": "Harmful cultural myth reinforcing isolation. The 'strong Black woman' schema (Watson & Hunter, 2016) and equivalent norms in multiple cultures suppress help-seeking. Research (Rice et al., Sage, 2024) documents that internalised 'strength' norms specifically predict delayed PPD help-seeking among Black women.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-062",
+    "text": "Postpartum isolation is normal — new parents should stay home and recover quietly.",
+    "kind": "misinfo",
+    "domain": "social_motherhood",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Partially harmful when used to normalise pathological isolation. Social isolation is a strong predictor of PPD. WHO recommends social support mobilisation from early pregnancy onward. Cultural practices that restrict new mothers from seeking connection without providing family support are associated with worse mental health outcomes.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-063",
+    "text": "Sleep deprivation is just 'part of having a baby' and mothers should not complain or seek help.",
+    "kind": "misinfo",
+    "domain": "social_motherhood",
+    "type_id": "discourages_evidence_based",
+    "correction": "Normalisation of a genuine health hazard. Sleep deprivation at postpartum levels is associated with impaired cognition, immune suppression, exacerbated depression and anxiety, impaired wound healing, and glucose dysregulation. AAP patient safety guidance warns against driving while severely sleep-deprived. This is a modifiable risk factor for PPD, not an unchangeable given.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-064",
+    "text": "Babies should be put to sleep on their stomach to prevent choking / because they sleep better that way.",
+    "kind": "misinfo",
+    "domain": "social_family",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "False and dangerous. Back sleeping is the single most important safe sleep recommendation (AAP 2022, updated 2025, 159 scientific studies). Prone (stomach) sleeping significantly increases SIDS risk. This is among the most dangerous family-transmitted myths; grandparents frequently cite 'we always put babies on their stomachs and they were fine.'",
+    "parent_id": null
+  },
+  {
+    "id": "mis-065",
+    "text": "Adding cereal to bottles helps babies sleep longer (common family advice).",
+    "kind": "misinfo",
+    "domain": "social_family",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Not evidence-based and potentially harmful. Solid foods before 4–6 months are associated with increased obesity, allergy, and choking risk. Adding cereal to bottles does not reliably improve infant sleep and may cause overfeeding. AAP recommends exclusive breastfeeding or formula for 6 months.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-066",
+    "text": "Honey is safe for infants and soothes colic.",
+    "kind": "misinfo",
+    "domain": "social_family",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "False and dangerous. Honey must NEVER be given to infants under 12 months due to risk of infant botulism, which can be fatal. This persisting intergenerational myth continues to cause preventable harm.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-067",
+    "text": "Letting babies 'cry it out' causes lifelong psychological harm and destroys attachment.",
+    "kind": "misinfo",
+    "domain": "social_family",
+    "type_id": "exaggerated_risk",
+    "correction": "Overstated. Randomised controlled trials and longitudinal studies have not found that controlled crying/extinction sleep training methods cause harm to infant attachment, stress response, or mental health (Cochrane reviews). The emotional intensity of the debate online does not match the actual evidence.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-068",
+    "text": "Co-sleeping (bed sharing) is natural and always safe.",
+    "kind": "misinfo",
+    "domain": "social_family",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "Partially false. The AAP does not recommend bed-sharing due to suffocation risk, particularly with soft bedding, parental alcohol or sedative use, and prematurity. AAP 2022 (updated 2025) states 'AAP cannot support bed-sharing under any circumstances' as a policy position, while acknowledging that harm-reduction education is necessary for families who do bed-share. General endorsement of co-sleeping as universally safe is contradicted by evidence.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-069",
+    "text": "Following mommy influencers on social media accurately reflects what postpartum life will be like.",
+    "kind": "misinfo",
+    "domain": "social_media",
+    "type_id": "other",
+    "correction": "Systematically false. Influencer content presents a curated, commercialised version of motherhood not representative of typical postpartum experience. Exposure is associated with negative social comparison, body image concerns, and unrealistic expectations. Influencer content on parenting and pregnancy is entirely unregulated (BMJ Open scoping review protocol, 2024).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-070",
+    "text": "Online parenting communities are safe spaces that provide accurate, supportive information.",
+    "kind": "misinfo",
+    "domain": "social_media",
+    "type_id": "other",
+    "correction": "Oversimplified. While online communities provide genuine peer support, they are also documented sites of 'mom-shaming,' misinformation spread, and harmful group pressure on feeding and sleep decisions. Mothers are shifting to LLMs over Facebook parenting groups specifically to avoid judgment (arXiv, 2026).",
+    "parent_id": null
+  },
+  {
+    "id": "mis-071",
+    "text": "Social support is only about emotional connection; practical help is less important.",
+    "kind": "misinfo",
+    "domain": "social_media",
+    "type_id": "other",
+    "correction": "Not supported by evidence. All four dimensions of social support (emotional, instrumental/practical, informational, appraisal) independently predict better perinatal mental health outcomes. Instrumental support (help with meals, childcare, household tasks) is specifically associated with lower PPD rates and is frequently underprovided. AHRQ SR (2023) documents that postpartum care is frequently fragmented precisely because practical needs go unaddressed.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-072",
+    "text": "Fathers/partners naturally need less support and adjust more easily to parenthood.",
+    "kind": "misinfo",
+    "domain": "social_help_seeking",
+    "type_id": "other",
+    "correction": "Not supported. 5–10% of fathers experience perinatal depression; 5–15% experience perinatal anxiety (MMHLA Fact Sheet, 2023). Paternal mental illness independently affects maternal mental health and child development. Partners' own informational needs about pregnancy and postpartum are largely unaddressed in current care models.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-073",
+    "text": "Doulas are only for natural birth advocates or wealthy mothers.",
+    "kind": "misinfo",
+    "domain": "social_help_seeking",
+    "type_id": "discourages_evidence_based",
+    "correction": "False. Doula support is associated with reduced caesarean rates and improved maternal satisfaction across birth settings and birth preferences. Community doula programmes specifically serve low-income communities and communities of colour (Birthing Beautiful Communities, Rice et al., Sage, 2024). Medicaid coverage for doulas is expanding across U.S. states.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-074",
+    "text": "Peer support groups for PPD are less effective than professional mental health treatment.",
+    "kind": "misinfo",
+    "domain": "social_help_seeking",
+    "type_id": "discourages_evidence_based",
+    "correction": "Partially false. Peer support is a distinct and valuable modality, not merely a substitute for professional care. Qualitative study (BMC Pregnancy & Childbirth, 2022; n=25) found peer support provided what professional services often cannot: validation through lived experience. Peer support functions as a bridge to formal care and standalone support for sub-threshold symptoms.",
+    "parent_id": null
+  },
+  {
+    "id": "mis-001-p1",
+    "text": "pregnant mamas need double portions at every meal, you're literally feeding two people now",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "No. Caloric needs remain unchanged in the first trimester; only 200–300 additional kcal/day are needed in the second and third trimesters — roughly a small snack. Focus should be on nutrient density, not caloric doubling. Overeating increases risk of gestational diabetes, preeclampsia, and excessive gestational weight gain (ACOG; USPSTF behavioural counselling guidance).",
+    "parent_id": "mis-001"
+  },
+  {
+    "id": "mis-001-p2",
+    "text": "Nutritional requirements during gestation necessitate a twofold increase in caloric intake.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "not_aligned_with_guidelines",
+    "correction": "No. Caloric needs remain unchanged in the first trimester; only 200–300 additional kcal/day are needed in the second and third trimesters — roughly a small snack. Focus should be on nutrient density, not caloric doubling. Overeating increases risk of gestational diabetes, preeclampsia, and excessive gestational weight gain (ACOG; USPSTF behavioural counselling guidance).",
+    "parent_id": "mis-001"
+  },
+  {
+    "id": "mis-002-p1",
+    "text": "seafood is completely off the menu for nine months, no exceptions, it's not worth the risk",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. FDA (2024 guidance) recommends 2–3 servings/week of low-mercury fish (salmon, sardines, tilapia, canned light tuna). Fish provides essential omega-3 DHA critical for fetal brain development. Blanket avoidance causes nutritional deficits. High-mercury fish (shark, swordfish, king mackerel, tilefish) should be avoided.",
+    "parent_id": "mis-002"
+  },
+  {
+    "id": "mis-002-p2",
+    "text": "Current prenatal protocols require the total elimination of all fish and shellfish from the maternal diet.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. FDA (2024 guidance) recommends 2–3 servings/week of low-mercury fish (salmon, sardines, tilapia, canned light tuna). Fish provides essential omega-3 DHA critical for fetal brain development. Blanket avoidance causes nutritional deficits. High-mercury fish (shark, swordfish, king mackerel, tilefish) should be avoided.",
+    "parent_id": "mis-002"
+  },
+  {
+    "id": "mis-003-p1",
+    "text": "even one sip of coffee while pregnant is playing russian roulette with your baby",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. ACOG recommends <200 mg/day; WHO recommends <300 mg/day. Evidence does not support zero-caffeine requirements; blanket prohibition creates unnecessary anxiety without reducing risk.",
+    "parent_id": "mis-003"
+  },
+  {
+    "id": "mis-003-p2",
+    "text": "Complete abstinence from caffeine is medically mandated throughout pregnancy.",
+    "kind": "misinfo",
+    "domain": "antenatal",
+    "type_id": "exaggerated_risk",
+    "correction": "No. ACOG recommends <200 mg/day; WHO recommends <300 mg/day. Evidence does not support zero-caffeine requirements; blanket prohibition creates unnecessary anxiety without reducing risk.",
+    "parent_id": "mis-003"
+  },
+  {
+    "id": "auth-001",
+    "text": "No. Caloric needs remain unchanged in the first trimester; only 200–300 additional kcal/day are needed in the second and third trimesters — roughly a small snack. Focus should be on nutrient density, not caloric doubling. Overeating increases risk of gestational diabetes, preeclampsia, and excessive gestational weight gain (ACOG; USPSTF behavioural counselling guidance).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-002",
+    "text": "No. FDA (2024 guidance) recommends 2–3 servings/week of low-mercury fish (salmon, sardines, tilapia, canned light tuna). Fish provides essential omega-3 DHA critical for fetal brain development. Blanket avoidance causes nutritional deficits. High-mercury fish (shark, swordfish, king mackerel, tilefish) should be avoided.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-003",
+    "text": "No. ACOG recommends <200 mg/day; WHO recommends <300 mg/day. Evidence does not support zero-caffeine requirements; blanket prohibition creates unnecessary anxiety without reducing risk.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-004",
+    "text": "Disproven. Maternal peanut consumption does NOT increase child peanut allergy risk (Canadian Medical Association Journal, 2018). Early introduction of peanut-containing foods to infants is now recommended by AAP as allergy prevention.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-005",
+    "text": "False. No mechanistic basis for this persistent folk belief. Fetal hair is determined by genetics.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-006",
+    "text": "Not supported by evidence. Systematic reviews find no evidence of harm from routine hair dye use in pregnancy. Professional chemical treatments in poorly ventilated spaces warrant caution in the first trimester but broad prohibition is not evidence-based.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-007",
+    "text": "False. ACOG recommends 150 minutes/week of moderate-intensity aerobic activity for uncomplicated pregnancies. Exercise reduces gestational diabetes risk, improves mood, and is associated with easier labour and faster postpartum recovery. Exercise is contraindicated only in specific high-risk conditions.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-008",
+    "text": "No evidence. Nuchal cord occurs in ~25–30% of births and is not associated with maternal arm position. This myth causes unnecessary movement restriction.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-009",
+    "text": "Generally false for uncomplicated pregnancies. Sexual activity is safe throughout pregnancy in the absence of specific contraindications (placenta praevia, preterm labour risk, ruptured membranes). The fetus is protected by amniotic fluid and the mucus plug.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-010",
+    "text": "Misleading. Nausea and vomiting of pregnancy can occur at any time of day and persists beyond the first trimester in ~20% of cases. Hyperemesis gravidarum (severe NVP requiring hospitalisation) can last the entire pregnancy. This myth contributes to under-treatment and symptom dismissal.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-011",
+    "text": "Inaccurate and anxiety-provoking. Implantation bleeding and mild cramping from uterine growth are common and not predictive of miscarriage. However, heavy bleeding and significant pain warrant immediate evaluation.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-012",
+    "text": "False and dangerous. The ARRIVE trial (NEJM, 2018; Grobman et al.; n=6,106) demonstrated that elective induction at 39 weeks in low-risk nulliparous women REDUCED (not increased) caesarean delivery rates (19.4% vs. 22.2%) and hypertensive disorders of pregnancy. This finding is one of the most frequently inverted claims in social media birth content.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-013",
+    "text": "Partially distorted. Oxytocin (Pitocin) induction produces physiologically similar contractions to spontaneous labour. Pain perception is subjective and individual. The narrative that induced labour is categorically more traumatic is not evidence-based.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-014",
+    "text": "Not supported. Membrane sweeping (stretch and sweep) is a low-risk procedure associated with higher rates of spontaneous labour onset within 48 hours and reduced need for formal induction. Cochrane reviews confirm its safety and efficacy.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-015",
+    "text": "False. Epidural analgesia is NOT significantly associated with increased caesarean risk in low-risk pregnancies. Cochrane Review (Anim-Somuah et al.; updated) confirms association with longer second stage but not increased caesarean delivery. The causal claim is an inversion of a weak correlation.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-016",
+    "text": "Not supported by evidence. Epidural medications are delivered into the epidural space with minimal systemic absorption. Studies do not show clinically significant adverse neonatal outcomes attributable to epidural analgesia. ACOG affirms the patient's right to effective pain relief in labour without a requirement for justification.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-017",
+    "text": "Harmful social stigma with no medical basis. Evidence supports that untreated severe pain in labour is associated with PTSD, negative birth experiences, and reluctance to give birth again. The framing of pain management as moral failure is a documented social harm. ACOG and ACNM both support patient's right to choose any evidence-based pain management option.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-018",
+    "text": "Overstated and harmful. While caesarean overuse is documented, caesarean delivery is life-saving when clinically indicated (placenta praevia, umbilical cord prolapse, fetal distress, malpresentation). Blanket distrust of caesarean recommendation causes patients to resist appropriate care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-019",
+    "text": "Inaccurate for many patients. VBAC has a success rate of ~60–80% in appropriate candidates. The risk of uterine rupture (0.5–1%) is real but manageable in appropriate settings. ACOG-SMFM OCC supports VBAC as a reasonable option for eligible women.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-020",
+    "text": "False. Caesarean delivery does not prevent breastfeeding. Early skin-to-skin contact and lactation support are achievable after caesarean. Breastfeeding challenges post-caesarean (delayed milk coming in, pain affecting positioning) are real but addressable with proper support.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-021",
+    "text": "No evidence of harm. Vitamin K prophylaxis at birth prevents vitamin K deficiency bleeding (VKDB), a rare but potentially fatal or brain-damaging condition. Multiple large studies have found no association with childhood leukaemia. This misinformation has directly caused preventable deaths (AAP policy statement).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-022",
+    "text": "False. Perinatal transmission from mother to infant is a primary route of chronic hepatitis B infection. The birth dose prevents 70–95% of perinatal transmission (AAP, CDC, WHO all recommend the birth dose).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-023",
+    "text": "False. WHO and ACOG recommend delayed cord clamping (1–3 minutes for term infants) as standard of care. Benefits: increased iron stores, reduced anaemia risk, potential neurodevelopmental benefits. Does not cause complications in term births.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-024",
+    "text": "The '6-week clearance' is a historical artefact, not an evidence-based benchmark. ACOG CO #736 (2018) explicitly replaces it with a 12-week care model. Pelvic floor recovery, hormonal stabilisation, emotional adjustment, and breastfeeding establishment continue well beyond 6 weeks. Sexual health research documents significant dysfunction persisting at 18 months in 20% of women (PMC qualitative study, 2022).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-025",
+    "text": "Harmful normalisation. Urinary incontinence is common but not inevitable and is highly treatable. Pelvic floor physiotherapy has Grade A evidence for improvement or resolution (NICE/ACOG). Normalising incontinence without offering treatment represents a clinical failure. ACOG and AWHONN both include pelvic floor assessment as a component of comprehensive postpartum care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-026",
+    "text": "Postpartum telogen effluvium (affecting 40–50% of women, typically 3–6 months postpartum) is a normal physiological consequence of the hormonal shift at delivery. It is self-limiting, resolves without treatment in most cases by 12 months. Thyroid disease should be excluded if severe or prolonged. Biotin supplements have limited specific evidence for postpartum telogen effluvium.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-027",
+    "text": "Return to high-impact exercise requires gradual progression and pelvic floor readiness assessment. IJSPT systematic review (2022) found >1/3 of postpartum runners experience pain or urinary incontinence on return, suggesting pelvic floor physiotherapy assessment before high-impact activity is clinically indicated, not self-reported comfort alone.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-028",
+    "text": "False. Most diastasis recti responds to specialised physiotherapy and targeted exercise. Surgical repair (abdominoplasty) is reserved for severe cases that do not respond to conservative management. The majority of women with diastasis recti do not require surgical intervention.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-029",
+    "text": "The 'love at first sight' bonding narrative is a cultural myth causing significant harm. Research shows bonding develops over time and is not always instantaneous. The absence of immediate overwhelming love does not indicate PPD, failure as a parent, or lack of love for the baby. Matrescence (the normal developmental transition of becoming a mother, coined by Dana Raphael 1973; revived by Aurelie Athan PhD, Columbia) includes ambivalence as a normal feature. ACOG CPG #4 (2023) and PSI both address the harm of this myth in preventing honest emotional disclosure.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-030",
+    "text": "Baby blues (70–80%, resolving by 2 weeks, hormonal, self-limiting) must be distinguished from PPD (10–20%, requiring treatment, persisting beyond 2 weeks or presenting after 2 weeks). Symptoms lasting beyond 2 weeks, presenting after 2 weeks, involving inability to function, thoughts of self-harm, or inability to care for the baby are NOT baby blues. They are clinical disorders requiring assessment and treatment. ACOG CPG #4 and USPSTF Grade B mandate proactive screening.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-031",
+    "text": "This harmful cultural myth suppresses help-seeking across all domains. The 'strong Black woman' schema (Watson & Hunter, 2016; cited in Birthing Beautiful Communities doula study, 2024) specifically suppresses help-seeking in Black women, contributing to racial disparities in PPD identification and treatment. ACNM, ACOG, and AWHONN all explicitly endorse structured support as standard of care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-032",
+    "text": "Ego-dystonic intrusive thoughts (thoughts that horrify the person experiencing them) are a hallmark of postpartum OCD and anxiety — NOT an indication of danger or intent. Women experiencing these thoughts are typically highly distressed precisely because the thoughts are contrary to their values. ACOG CPG #4 and PSI explicitly distinguish perinatal OCD from actual risk. Perinatal OCD is highly responsive to CBT/ERP treatment.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-033",
+    "text": "Dyspareunia is extremely common postpartum (40% at 3 months; 20% at 18 months). It has well-understood physiological causes (hypoestrogenism, perineal trauma, pelvic floor dysfunction) and evidence-based treatments (topical oestrogen, pelvic floor physiotherapy, lubricants). Persistent dyspareunia warrants evaluation and treatment, not acceptance. Physiotherapy is underutilised and highly effective. This claim prevents women from seeking effective care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-034",
+    "text": "Reduced libido in the fourth trimester is physiological (hypoestrogenism, sleep deprivation, prolactin, pain), not primarily relational. Current Sexual Health Reports (2022) documents that discordant desire does not predict relational distress when couples communicate openly. Reduced sexual frequency after birth is normative, not pathological.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-035",
+    "text": "The traditional 6-week abstinence recommendation is based on historical tissue-healing estimates for episiotomies, not on trial evidence. Current guidance (ACOG/AWHONN) supports individualised, symptom-guided return to sexual activity, which means some women can safely resume before 6 weeks and others should wait longer.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-036",
+    "text": "FALSE. Plan B and other levonorgestrel emergency contraceptive pills work primarily by PREVENTING OVULATION. Even the FDA updated the Plan B label in 2022 to clarify this primary mechanism. EC cannot affect an established pregnancy. This misinformation fuelled the Supreme Court case Burwell v. Hobby Lobby (2014) and 2024 state legislation in Missouri and Louisiana restricting EC access (KFF Health Misinformation Monitor, 2024). ACOG, SFP, and CDC all define EC as contraception, not as causing abortion.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-037",
+    "text": "FALSE. IUDs prevent fertilisation primarily by preventing sperm from reaching and fertilising an egg. Even in the rare event fertilisation might occur, the medical definition of pregnancy begins at implantation, not fertilisation. ACOG, SFP, and WHO all define IUDs as contraceptives, not abortifacients. This misinformation has directly restricted access to IUDs under state laws (KFF Monitor, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-038",
+    "text": "Not supported by evidence. Return to fertility after stopping reversible hormonal contraceptives is typically rapid (1–3 months for pills/patch/ring/implant). DMPA (Depo-Provera) is the exception: return to fertility may take 12–18 months, which is temporary, not permanent. Large studies find no long-term effect on fertility from any currently available hormonal contraceptive. This myth is documented on social media by anti-hormonal wellness influencers (KFF Monitor, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-039",
+    "text": "Oversimplified and frequently exaggerated. Evidence on hormonal contraceptives and mood is mixed. A large Danish cohort (JAMA Psychiatry, 2016) found modest associations; effect sizes were small and causation not demonstrated. Many women report mood improvements on hormonal contraception. KFF Monitor (2024) documents wellness influencers dramatically overstating this association. ACOG and SFP guidance: discuss individual risk-benefit with each patient; no categorical prohibitions.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-040",
+    "text": "Not accurate as a general statement. Fertility awareness-based methods (FABMs) range widely in effectiveness: perfect use of symptothermal method achieves ~0.4% failure rate; typical use failure rates are 2–23% depending on method and user. This compares to <1% for LARCs (IUD, implant) with both perfect and typical use. FABMs require consistent, precise practice; they are not equivalent to hormonal methods for the general population.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-041",
+    "text": "FALSE. Mifepristone/misoprostol has been FDA-approved since 2000 and is among the most studied medications in reproductive medicine. Serious complications occur in <0.5% of cases. Deaths are extremely rare. The KFF Monitor (2024) documented extensive misinformation following the 2022 Dobbs decision, including misrepresentation of deaths caused by delayed emergency care (due to abortion restrictions, not the medications themselves) as evidence of medication danger.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-042",
+    "text": "FALSE and potentially dangerous. Ovulation occurs BEFORE the first postpartum menstrual period. In non-breastfeeding women, first ovulation occurs on average 45–94 days postpartum but can occur as early as 25 days. Women who rely on menstruation resumption as a signal to initiate contraception have no protection in the interval between first ovulation and first period. This is among the most clinically consequential postpartum contraception myths.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-043",
+    "text": "Partially false without qualifications. Lactational Amenorrhoea Method (LAM) is approximately 98% effective ONLY when ALL THREE criteria are simultaneously met: exclusive on-demand breastfeeding day and night, amenorrhoea, and infant under 6 months. Without all three criteria, pregnancy is possible. This myth is a documented major barrier to postpartum contraception uptake (SFP, CDC US SPR 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-044",
+    "text": "Misleadingly framed. Immediate postpartum IUD insertion does have a higher expulsion rate (~20%) than interval insertion (~5%). However, overall effectiveness when accounting for expulsion is still superior to not using contraception, and many patients who plan interval insertion do not return. SMFM Consult #48 endorses IPP LARC as safe and effective. Expulsion risk must be disclosed in counselling but should not be categorically discouraged.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-045",
+    "text": "FALSE. All reversible contraceptive methods allow return to fertility after discontinuation. This myth particularly discourages LARC use in women who intend future pregnancy. ACOG, SFP, and SMFM all explicitly state that reversible LARCs (IUD, implant) do not cause permanent infertility.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-046",
+    "text": "Scientifically false and documented as a harmful clinical myth (Hoffman et al., PNAS, 2016). Medical students and residents who endorsed false biological beliefs about racial differences (e.g., 'Black skin is thicker') were more likely to under-rate Black patients' pain and under-prescribe analgesics. This myth directly causes undertreated pain in perinatal settings, particularly in labour.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-047",
+    "text": "Challenged and being replaced. SMFM is developing race-neutral VBAC calculators; Canadian and Swedish research groups have validated VBAC algorithms without race corrections that perform equivalently. Using race as a biological proxy in clinical algorithms is a form of institutionalised racial stereotyping (ACOG CO on implicit bias).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-048",
+    "text": "Substantially false. Structural racism, implicit bias, residential segregation, and discrimination in care settings independently predict adverse maternal outcomes even after controlling for clinical comorbidities and socioeconomic factors (Hailu et al. SR, Health Place, 2022; CDC PMSS data).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-049",
+    "text": "False. Qualitative research shows patients are willing and often relieved to be asked. Perinatal women who received no feedback after completing a screening tool interpreted it as dismissal. Provider avoidance of mental health screening is often attributed to patient sensitivity but is not supported by evidence.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-050",
+    "text": "False. Screening without follow-up, feedback, referral pathways, and care linkage is clinically indefensible. Only 25% of patients who completed a validated screening tool had results discussed with them (PMC qualitative study, 2022). A positive screen with no action creates a false sense that care was provided.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-051",
+    "text": "False for a significant proportion. ~20% of women with PPD still have depression at one year postpartum; 13% at two years. Without treatment, PPD is associated with chronic relapsing depression, functional impairment, adverse child developmental outcomes, and increased suicide risk.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-052",
+    "text": "Inadequate and refuted by evidence. AHRQ (2023) and ACOG both note the 6-week visit is too late for many complications. 65% of pregnancy-related deaths occur postpartum, with a significant proportion before 6 weeks. The 6-week timeframe is historical, not evidence-based. ACOG now recommends initial contact within 3 weeks.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-053",
+    "text": "Dangerously false. Postpartum haemorrhage, hypertensive crises, pulmonary embolism, mental health crises, and breastfeeding complications can all occur in patients with uncomplicated deliveries. Over 80% of pregnancy-related deaths are preventable (CDC MMR data). 'Uncomplicated delivery' does not justify reduced postpartum vigilance.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-054",
+    "text": "Contradicted by evidence. ACOG CO #736 represents a paradigm shift: postpartum care should be an 'ongoing process, rather than a single encounter.' Columbia World Projects (Milbank Quarterly, 2023) documents that 1/3 of pregnancy-related deaths occur 1 week to 1 year postpartum, and more than half are preventable — directly implicating the fragmented care model that the fourth trimester framework aims to replace.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-055",
+    "text": "Overstated. Science Advances SR (2024; 77 studies): Most IBT trainings lack specificity; evidence for behavioural change from training alone is limited. Institutional and protocol-level interventions are necessary alongside individual training. California's Dignity in Pregnancy and Childbirth Act mandates IBT for perinatal clinicians but the evidence base for IBT effectiveness remains limited.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-056",
+    "text": "Not supported by current evidence. Studies from the COVID-19 era show telehealth integration for low-risk prenatal care did not increase adverse outcomes. ACOG PATH 2025 specifically endorses telehealth as appropriate for certain monitoring and educational visits.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-057",
+    "text": "Incorrect. CenteringPregnancy is designed for all risk levels and has shown superior outcomes across populations, with greatest benefit for minority and low-income patients. It is not a service of last resort. ACOG PATH 2025 and ACNM both endorse group care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-058",
+    "text": "Evidence-based practice contradicts this. Contraceptive counselling during prenatal care PLUS hospital provision (where eligible) produces 4.25x higher LARC uptake than no counselling (Ann Intern Med SR, 2022). Many patients do not attend the 6-week visit — delaying all counselling until then leaves them without contraceptive protection during the highest-risk period for unintended pregnancy.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-059",
+    "text": "Harmful cultural myth with no evidence basis. The 'bounce back' narrative is particularly prevalent in social media and celebrity culture. It creates unrealistic expectations about physical recovery, weight, and return to normal function. Evidence supports that postpartum recovery takes months to years. This myth contributes to body image distress, excessive exercise too soon postpartum, and failure to seek help for ongoing physical symptoms.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-060",
+    "text": "False and harmful. Matrescence (coined Dana Raphael, 1973; popularised Alexandra Sacks MD) describes the profound bio-psycho-social-political-spiritual transition of becoming a mother. Ambivalence, loss, and identity conflict are normal features of this developmental transition. The 'natural bliss' narrative suppresses disclosure of negative emotions and contributes to delayed PPD recognition.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-061",
+    "text": "Harmful cultural myth reinforcing isolation. The 'strong Black woman' schema (Watson & Hunter, 2016) and equivalent norms in multiple cultures suppress help-seeking. Research (Rice et al., Sage, 2024) documents that internalised 'strength' norms specifically predict delayed PPD help-seeking among Black women.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-062",
+    "text": "Partially harmful when used to normalise pathological isolation. Social isolation is a strong predictor of PPD. WHO recommends social support mobilisation from early pregnancy onward. Cultural practices that restrict new mothers from seeking connection without providing family support are associated with worse mental health outcomes.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-063",
+    "text": "Normalisation of a genuine health hazard. Sleep deprivation at postpartum levels is associated with impaired cognition, immune suppression, exacerbated depression and anxiety, impaired wound healing, and glucose dysregulation. AAP patient safety guidance warns against driving while severely sleep-deprived. This is a modifiable risk factor for PPD, not an unchangeable given.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-064",
+    "text": "False and dangerous. Back sleeping is the single most important safe sleep recommendation (AAP 2022, updated 2025, 159 scientific studies). Prone (stomach) sleeping significantly increases SIDS risk. This is among the most dangerous family-transmitted myths; grandparents frequently cite 'we always put babies on their stomachs and they were fine.'",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-065",
+    "text": "Not evidence-based and potentially harmful. Solid foods before 4–6 months are associated with increased obesity, allergy, and choking risk. Adding cereal to bottles does not reliably improve infant sleep and may cause overfeeding. AAP recommends exclusive breastfeeding or formula for 6 months.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-066",
+    "text": "False and dangerous. Honey must NEVER be given to infants under 12 months due to risk of infant botulism, which can be fatal. This persisting intergenerational myth continues to cause preventable harm.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-067",
+    "text": "Overstated. Randomised controlled trials and longitudinal studies have not found that controlled crying/extinction sleep training methods cause harm to infant attachment, stress response, or mental health (Cochrane reviews). The emotional intensity of the debate online does not match the actual evidence.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-068",
+    "text": "Partially false. The AAP does not recommend bed-sharing due to suffocation risk, particularly with soft bedding, parental alcohol or sedative use, and prematurity. AAP 2022 (updated 2025) states 'AAP cannot support bed-sharing under any circumstances' as a policy position, while acknowledging that harm-reduction education is necessary for families who do bed-share. General endorsement of co-sleeping as universally safe is contradicted by evidence.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-069",
+    "text": "Systematically false. Influencer content presents a curated, commercialised version of motherhood not representative of typical postpartum experience. Exposure is associated with negative social comparison, body image concerns, and unrealistic expectations. Influencer content on parenting and pregnancy is entirely unregulated (BMJ Open scoping review protocol, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-070",
+    "text": "Oversimplified. While online communities provide genuine peer support, they are also documented sites of 'mom-shaming,' misinformation spread, and harmful group pressure on feeding and sleep decisions. Mothers are shifting to LLMs over Facebook parenting groups specifically to avoid judgment (arXiv, 2026).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-071",
+    "text": "Not supported by evidence. All four dimensions of social support (emotional, instrumental/practical, informational, appraisal) independently predict better perinatal mental health outcomes. Instrumental support (help with meals, childcare, household tasks) is specifically associated with lower PPD rates and is frequently underprovided. AHRQ SR (2023) documents that postpartum care is frequently fragmented precisely because practical needs go unaddressed.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-072",
+    "text": "Not supported. 5–10% of fathers experience perinatal depression; 5–15% experience perinatal anxiety (MMHLA Fact Sheet, 2023). Paternal mental illness independently affects maternal mental health and child development. Partners' own informational needs about pregnancy and postpartum are largely unaddressed in current care models.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-073",
+    "text": "False. Doula support is associated with reduced caesarean rates and improved maternal satisfaction across birth settings and birth preferences. Community doula programmes specifically serve low-income communities and communities of colour (Birthing Beautiful Communities, Rice et al., Sage, 2024). Medicaid coverage for doulas is expanding across U.S. states.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-074",
+    "text": "Partially false. Peer support is a distinct and valuable modality, not merely a substitute for professional care. Qualitative study (BMC Pregnancy & Childbirth, 2022; n=25) found peer support provided what professional services often cannot: validation through lived experience. Peer support functions as a bridge to formal care and standalone support for sub-threshold symptoms.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-075",
+    "text": "SCOPE: The perinatal period is defined as pregnancy confirmation through 12 months postpartum.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-076",
+    "text": "This document provides a merged, comprehensive evidence base across four domains: (1) Patient Concerns & Questions, (2) Clinical Encounters & Care Engagement, (3) Social Support, and (4) External Information Sources.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-077",
+    "text": "The fourth trimester (first 12 weeks postpartum) and family planning/contraception are integrated throughout each domain rather than treated as isolated topics.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-078",
+    "text": "Understanding which body speaks authoritatively to each topic is foundational for a quality-detection model.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-079",
+    "text": "This section profiles the primary clinical organisations, federal bodies, and consumer-facing resources whose guidance is woven throughout all four domains.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-080",
+    "text": "ACNM represents approximately 14,000 Certified Nurse-Midwives (CNMs) and Certified Midwives (CMs) who attend 10.9% of U.S. births.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-081",
+    "text": "The 2022 Standards update replaced mandatory CPG language with evidence-informed practice, shared decision-making, and the hallmarks of midwifery.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-082",
+    "text": "ACNM distinctively emphasises physiologic birth, relationship-centred care, and independent practice for low-risk pregnancies.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-083",
+    "text": "AWHONN represents 25,000+ perinatal nurses and is the standard-bearer for nursing practice across the perinatal continuum.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-084",
+    "text": "(JOGNN, 2024); evidence-based CPGs on fetal monitoring, second-stage management, late preterm infant care, neonatal skin care, breastfeeding, safe sleep; Save Your Life maternal warning-signs programme; Newborn Warning Signs programme.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-085",
+    "text": "The AAP (67,000 members) governs paediatric and newborn care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-086",
+    "text": "Its guidance is essential for the fourth trimester from the infant's perspective and for postpartum parenting.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-087",
+    "text": "SMFM (6,500+ members) is the subspecialty body for high-risk pregnancy.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-088",
+    "text": "It now publishes in its open-access journal PREGNANCY (launched 2025, replacing AJOG affiliation).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-089",
+    "text": "NAF publishes Clinical Policy Guidelines for Abortion Care (CPGs, annual, 2024 ed.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-090",
+    "text": "), the comprehensive clinical standard for abortion facility practice.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-091",
+    "text": "Issues Grade A/B recommendations that ACA mandates insurers cover.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-092",
+    "text": "MedlinePlus is the U.S. government's primary consumer health information website, curated by NLM medical librarians.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-093",
+    "text": "It links exclusively to government and evidence-based non-commercial sources; contains no advertising or product endorsement; is available in 40+ languages.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-094",
+    "text": "It is explicitly endorsed by NICHD as the authoritative patient-facing resource for pregnancy and perinatal information.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-095",
+    "text": "HealthyChildren.org: AAP's patient-facing site; all content reflects current AAP policy; primary reference for safe sleep, newborn care, and infant development.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-096",
+    "text": "CDC.gov: government-sourced patient information aligned with CDC recommendations; Hear Her campaign; safe sleep materials.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-097",
+    "text": "womenshealth.gov (HHS Office on Women's Health): stages of pregnancy, prenatal care, complications; evidence-aligned.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-098",
+    "text": "This domain covers the evidence-based landscape of what perinatal people most want and need to know, across pregnancy, birth, the fourth trimester, and the full postpartum year.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-099",
+    "text": "90–97% of pregnant people use the internet for perinatal information (Henrich et al., JMIR, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-100",
+    "text": "The most frequently sought topics are labour and delivery, laboratory tests, medication safety, and newborn care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-101",
+    "text": "Three structural barriers recur across studies: information is absent, not readily accessible, or cannot be interpreted by lay readers (Jackson GP, AHRQ, 2019).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-102",
+    "text": "Women actively seek information about normal vs. abnormal symptoms.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-103",
+    "text": "found that alarming 'horror stories' about perinatal events are among the most criticised features of online content — directly relevant to quality detection.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-104",
+    "text": "Cell-free fetal DNA (cfDNA/NIPT): ACOG and SMFM — cfDNA is a SCREENING test, not diagnostic; all positive screens require confirmatory diagnostic testing.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-105",
+    "text": "The FDA 2015 rule replaced letter categories (A/B/C/D/X) with narrative labelling; many patients and some providers still reference the outdated system.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-106",
+    "text": "Postpartum return to exercise: ACOG 2020 opinion supports gradual, individualised return based on individual recovery — not a fixed 6-week prohibition.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-107",
+    "text": "A systematic review (IJSPT, 2022) found >1/3 of postpartum runners experience pain or incontinence on return, supporting physiotherapy assessment before high-impact activity.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-108",
+    "text": "The intrapartum period is the most information-saturated and emotionally charged phase of the perinatal experience.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-109",
+    "text": "Social media disproportionately distorts decision-making by framing clinical interventions as assaults on autonomy rather than evidence-based options.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-110",
+    "text": "The ARRIVE trial finding — that elective induction at 39 weeks REDUCES (not increases) caesarean risk — is one of the most frequently misrepresented findings in online birth content.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-111",
+    "text": "The fourth trimester — ACOG's formal term for the 12 weeks following birth (CO #736, 2018, reaffirmed 2022) — is a period of simultaneous physical recovery, hormonal reorganisation, identity reconstruction, and heightened vulnerability to preventable mortality.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-112",
+    "text": "One third of all pregnancy-related deaths occur from one week to one year postpartum; more than half are preventable (Columbia World Projects / Health Affairs, 2023).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-113",
+    "text": "The BUBBLE-LE nursing assessment framework (Breasts, Uterus, Bladder, Bowels, Lochia, Episiotomy/perineum, Legs, Emotional status) provides a systematic structure for physical fourth-trimester assessment (Duke Nursing/AWHONN, Nursing Clinics of North America, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-114",
+    "text": "Lochia: Rubra (days 1–3, bright red), serosa (days 3–10, pink-brown), alba (up to 6 weeks, yellow-white).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-115",
+    "text": "Research consistently documents significant worsening in all sexual domains postpartum, yet sexual health is one of the least-addressed topics in postpartum clinical care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-116",
+    "text": "Dyspareunia: 40% at 3 months; 28% at 12 months; 1 in 5 at 18 months.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-117",
+    "text": "Current Sexual Health Reports (Springer, 2022): 'Breastfeeding and pre-existing sexual health issues are strongly predictive of sexual health issues at 6 and 12 months after birth.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-118",
+    "text": "Calls for a holistic approach encompassing emotional, relational, and psychological dimensions.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-119",
+    "text": "Family planning intersects the perinatal period at multiple points: preconception planning, prenatal contraception counselling, immediate postpartum contraception, and interpregnancy interval (IPI) optimisation for future pregnancies.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-120",
+    "text": "The SFP US MEC 2024 (MMWR 73/RR-3) is the definitive eligibility reference.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-121",
+    "text": "The 2024 update added chronic kidney disease guidance, new method formulations, and expanded postpartum/breastfeeding tables.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-122",
+    "text": "Cochrane SR (2022, Sothornwit et al., CD011913) confirms safety and high continuation rates for immediate postpartum LARC insertion.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-123",
+    "text": "Combined hormonal (pill/patch/ring): Avoid first 3 weeks (elevated VTE risk postpartum); with additional risk factors (prior DVT, smoking, obesity), avoid to 6 weeks.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-124",
+    "text": "SFP US MEC Category 4 (<3 weeks), Category 3 (3–6 weeks with risk factors).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-125",
+    "text": "Lactational Amenorrhoea Method (LAM): Effective only when ALL THREE criteria simultaneously met: exclusive on-demand breastfeeding day and night, amenorrhoea, and infant under 6 months.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-126",
+    "text": "Failure rate rises sharply if any criterion is absent.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-127",
+    "text": "Must transition to another method by 6 months or when any criterion is no longer met.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-128",
+    "text": "Emergency contraception: Levonorgestrel (Plan B) safe in breastfeeding; ulipristal acetate (ella): pump-and-discard for 24 hours recommended.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-129",
+    "text": "The IPI is the time from delivery to conception of the next pregnancy.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-130",
+    "text": "Both very short and very long intervals carry adverse outcome risks, making the IPI directly relevant to fourth-trimester contraceptive counselling.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-131",
+    "text": "Mental health is the leading cause of pregnancy-related deaths in high-income countries (suicide and overdose exceed haemorrhage, embolism, and preeclampsia as causes of maternal death in several U.S. states, per state MMRCs documented in Contemporary OB/GYN).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-132",
+    "text": "Despite this, 40% of women with PPD symptoms fail to seek help (AMWA, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-133",
+    "text": "Understanding what patients know, believe, and fear about perinatal mental health is essential for quality detection.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-134",
+    "text": "Baby blues vs PPD: Baby blues affect 70–80%; peak days 3–5; resolve by 2 weeks; hormonal, self-limiting.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-135",
+    "text": "); CDC (immunisation schedule); MedlinePlus (Infant and Newborn Care topic pages).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-136",
+    "text": "This domain covers the evidence-based landscape of how perinatal people engage with formal healthcare — prenatal visits, intrapartum care, postpartum follow-up, screening, mental health integration, and the structural and equity-related factors that shape care quality.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-137",
+    "text": "It covers both what good care looks like per guideline standards and what patients actually experience in clinical encounters.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-138",
+    "text": "The 2025 ACOG PATH (Tailored Prenatal Care Delivery for Pregnant Individuals) framework is the most current authoritative revision to prenatal care structure.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-139",
+    "text": "It explicitly acknowledges that the traditional 12–14 visit schedule was established nearly a century ago without evidence linking specific visit number to outcomes.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-140",
+    "text": "Individual, risk-stratified schedules with telehealth integration are recommended.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-141",
+    "text": "ACOG endorses group prenatal care through the PATH 2025 framework.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-142",
+    "text": "ACNM has a position statement supporting midwifery-led group care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-143",
+    "text": "A 2022 report summarising data from nine MMRCs found that >80% of maternal deaths are preventable (CDC, ACOG).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-144",
+    "text": "The gap between this preventability and actual outcomes is substantially explained by structural racism, implicit bias, and disparities in care quality.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-145",
+    "text": "AHRQ SR (2023): 65% of pregnancy-related deaths occur postpartum; care is often fragmented across maternal and paediatric providers with no single care provider addressing needs holistically.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-146",
+    "text": "ACOG CO #736 formalises the fourth trimester framework to address this.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-147",
+    "text": "Social support is one of the most powerful and modifiable determinants of perinatal mental health, physical recovery, breastfeeding success, and birth outcomes.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-148",
+    "text": "A prospective cohort (Zyrek et al., Sci Rep, 2024; n=932) found that higher social support during pregnancy significantly reduces PPD risk.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-149",
+    "text": "Research distinguishes four dimensions of social support: emotional (feeling cared for), instrumental (practical help), informational (guidance and advice), and appraisal (feedback for self-evaluation).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-150",
+    "text": "ALL four dimensions independently predict better perinatal outcomes.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-151",
+    "text": "CenteringPregnancy is endorsed by ACOG (PATH 2025), ACNM, AWHONN, and SMFM as an equitable care model.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-152",
+    "text": "RCT (2007) documented 33% reduction in preterm birth; EleVATE GC (Health Equity, 2024) documented specific benefits for Black birthing people.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-153",
+    "text": "Return to work: The U.S. has no universal paid parental leave; FMLA provides only 12 weeks of unpaid leave for ~60% of workers; the return to work is a known risk point for breastfeeding cessation and PPD exacerbation.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-154",
+    "text": "PUMP for Nursing Mothers Act (2022) expanded workplace pumping protections to nearly all employees.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-155",
+    "text": "This domain covers the ecosystem of information sources beyond direct clinical care: social media, pregnancy apps, online communities, search engines, friends and family, and clinical counselling outside primary OB care.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-156",
+    "text": "90–97% of pregnant people use the internet for pregnancy-related information (Henrich et al., JMIR, 2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-157",
+    "text": "Understanding this ecosystem is essential for an AI tool designed to detect perinatal information quality.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-158",
+    "text": "is the most comprehensive synthesis of evidence on perinatal women's quality assessment criteria (30 studies, 5,290 records, 2000–2024).",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-159",
+    "text": "It identifies 17 quality features across four dimensions.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-160",
+    "text": "For quality-detection model training: information should be assessed for alignment with the authoritative bodies detailed in Part I.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  },
+  {
+    "id": "auth-161",
+    "text": "The following table maps quality signals to guideline concordance.",
+    "kind": "authority",
+    "domain": null,
+    "type_id": null,
+    "correction": null,
+    "parent_id": null
+  }
+]

@@ -1,0 +1,385 @@
+{
+  "_status": "draft — needs team review with Dr. Bazzano",
+  "_type_table": {
+    "unattributed_risk": "vague hidden dangers, \"they won't tell you\"",
+    "not_aligned_with_guidelines": "contradicts ACOG/WHO/CDC/AAP guidance",
+    "promotes_alternative_medicine": "pushes unproven alternatives over standard care",
+    "exaggerated_risk": "a real risk inflated far beyond evidence",
+    "discourages_evidence_based": "discourages recommended screening/treatment/vaccines",
+    "undermines_medical_trust": "claims providers/system act on hidden motives",
+    "inaccurate_biological_mechanism": "false physiology or mechanism",
+    "other": "none of the above"
+  },
+  "claims": [
+    {
+      "id": "mis-001",
+      "claim": "You must 'eat for two' during pregnancy.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-002",
+      "claim": "All seafood must be avoided during pregnancy.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-003",
+      "claim": "All caffeine must be eliminated entirely.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-004",
+      "claim": "Eating peanuts during pregnancy causes peanut allergy in the child.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-005",
+      "claim": "Heartburn during pregnancy means the baby will have lots of hair.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-006",
+      "claim": "You should not dye your hair during pregnancy.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-007",
+      "claim": "Exercise during pregnancy is dangerous and should be avoided.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-008",
+      "claim": "Lifting arms above the head causes the umbilical cord to wrap around the baby's neck (nuchal cord).",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-009",
+      "claim": "Sex during pregnancy causes miscarriage or harms the baby.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-010",
+      "claim": "Morning sickness only happens in the morning and ends by 12 weeks.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-011",
+      "claim": "Mild cramping and spotting in early pregnancy always mean miscarriage.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-012",
+      "claim": "Your baby will come when they're ready — induction is always unnecessary and harmful.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-013",
+      "claim": "Induction with Pitocin causes more painful, dangerous contractions than natural labour.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-014",
+      "claim": "Membrane sweeping causes infection or harm and should be refused.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-015",
+      "claim": "If you get an epidural, you will end up with a c-section.' (Widely shared TikTok/Instagram claim, documented Collective Care 2025)",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-016",
+      "claim": "Epidurals harm the baby through drug exposure.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-017",
+      "claim": "Choosing an epidural means you failed at natural birth or are weak.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-018",
+      "claim": "All caesarean sections are the result of unnecessary medical intervention or profit motives.",
+      "type_id": "undermines_medical_trust"
+    },
+    {
+      "id": "mis-019",
+      "claim": "VBAC is always more dangerous than repeat caesarean.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-020",
+      "claim": "You cannot breastfeed successfully after a caesarean.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-021",
+      "claim": "Vitamin K injection causes leukaemia or is a pharmaceutical conspiracy.",
+      "type_id": "undermines_medical_trust"
+    },
+    {
+      "id": "mis-022",
+      "claim": "The hepatitis B vaccine at birth is unnecessary for newborns.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-023",
+      "claim": "Delayed cord clamping is dangerous and slows the birth team.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-024",
+      "claim": "You should be back to normal by 6 weeks postpartum.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-025",
+      "claim": "Urinary leakage after birth is something you just have to accept.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-026",
+      "claim": "Postpartum hair loss means something is wrong and you need supplements.",
+      "type_id": "promotes_alternative_medicine"
+    },
+    {
+      "id": "mis-027",
+      "claim": "You can resume all exercise including running as soon as you feel ready.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-028",
+      "claim": "Diastasis recti always requires surgery.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-029",
+      "claim": "You will immediately bond with your baby and feel overwhelming love at birth.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-030",
+      "claim": "Feeling sad, anxious, or overwhelmed is just 'baby blues' and will resolve on its own.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-031",
+      "claim": "A good mother instinctively knows what to do and doesn't need help or support.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-032",
+      "claim": "Intrusive thoughts about harming your baby mean you are dangerous and should not be left alone with your child.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-033",
+      "claim": "If sex is painful after birth, something is permanently wrong with you.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-034",
+      "claim": "Low libido after birth means your relationship is in trouble.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-035",
+      "claim": "The '6-week rule' for sex is evidence-based and must be strictly followed.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-036",
+      "claim": "Emergency contraception (Plan B/morning-after pill) causes abortion.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-037",
+      "claim": "IUDs cause abortions.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-038",
+      "claim": "Hormonal contraception causes permanent infertility.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-039",
+      "claim": "Hormonal contraception causes severe depression / mental illness.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-040",
+      "claim": "Natural family planning methods are just as effective as hormonal contraception.",
+      "type_id": "promotes_alternative_medicine"
+    },
+    {
+      "id": "mis-041",
+      "claim": "Medication abortion (mifepristone + misoprostol) is dangerous and frequently causes death.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-042",
+      "claim": "You don't need contraception until you have your first postpartum period.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-043",
+      "claim": "Breastfeeding reliably prevents pregnancy.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-044",
+      "claim": "IUDs placed immediately after delivery are too likely to fall out and should be avoided.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-045",
+      "claim": "Reversible contraception will prevent you from getting pregnant when you want to in the future.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-046",
+      "claim": "Black patients feel less pain than White patients due to biological differences.",
+      "type_id": "inaccurate_biological_mechanism"
+    },
+    {
+      "id": "mis-047",
+      "claim": "Race-based VBAC calculators accurately predict outcomes.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-048",
+      "claim": "Maternal mortality disparities between Black and White women are primarily explained by health behaviours and pre-existing conditions.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-049",
+      "claim": "Asking patients about depression will upset or distress them.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-050",
+      "claim": "Screening for PPD is sufficient — the screen itself constitutes care.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-051",
+      "claim": "Perinatal depression and anxiety will resolve spontaneously after birth / after the newborn phase.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-052",
+      "claim": "The comprehensive 6-week postpartum visit is sufficient to identify all postpartum needs.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-053",
+      "claim": "If the birth was uncomplicated, postpartum follow-up doesn't need to be intensive.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-054",
+      "claim": "The fourth trimester concept is merely rebranding; clinical care doesn't need to change.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-055",
+      "claim": "Implicit bias training (IBT) effectively eliminates racial bias in clinical decision-making.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-056",
+      "claim": "Telehealth prenatal care is lower quality and less safe than in-person care.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-057",
+      "claim": "Group prenatal care (CenteringPregnancy) is only for high-risk patients.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-058",
+      "claim": "Postpartum contraception counselling should wait until the 6-week visit.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-059",
+      "claim": "You should 'bounce back' to your pre-pregnancy body and life quickly after birth.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-060",
+      "claim": "Motherhood is naturally blissful; feelings of ambivalence, frustration, or grief mean you are a bad mother.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-061",
+      "claim": "Women who need support after birth are weak; 'good mothers' manage on their own.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-062",
+      "claim": "Postpartum isolation is normal — new parents should stay home and recover quietly.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-063",
+      "claim": "Sleep deprivation is just 'part of having a baby' and mothers should not complain or seek help.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-064",
+      "claim": "Babies should be put to sleep on their stomach to prevent choking / because they sleep better that way.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-065",
+      "claim": "Adding cereal to bottles helps babies sleep longer (common family advice).",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-066",
+      "claim": "Honey is safe for infants and soothes colic.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-067",
+      "claim": "Letting babies 'cry it out' causes lifelong psychological harm and destroys attachment.",
+      "type_id": "exaggerated_risk"
+    },
+    {
+      "id": "mis-068",
+      "claim": "Co-sleeping (bed sharing) is natural and always safe.",
+      "type_id": "not_aligned_with_guidelines"
+    },
+    {
+      "id": "mis-069",
+      "claim": "Following mommy influencers on social media accurately reflects what postpartum life will be like.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-070",
+      "claim": "Online parenting communities are safe spaces that provide accurate, supportive information.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-071",
+      "claim": "Social support is only about emotional connection; practical help is less important.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-072",
+      "claim": "Fathers/partners naturally need less support and adjust more easily to parenthood.",
+      "type_id": "other"
+    },
+    {
+      "id": "mis-073",
+      "claim": "Doulas are only for natural birth advocates or wealthy mothers.",
+      "type_id": "discourages_evidence_based"
+    },
+    {
+      "id": "mis-074",
+      "claim": "Peer support groups for PPD are less effective than professional mental health treatment.",
+      "type_id": "discourages_evidence_based"
+    }
+  ]
+}

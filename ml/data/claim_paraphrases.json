@@ -1,0 +1,15 @@
+{
+  "_note": "Assertion paraphrases of base claims (casual + clinical register). Expand offline (LLM-assisted, human-reviewed) — every paraphrase must ASSERT the claim, never debunk it. Keys are base claim ids from reference_library.json. Verified against maven_app/anchors/misinfo_anchors.json: mis-001 = 'eat for two', mis-002 = 'all seafood must be avoided', mis-003 = 'all caffeine must be eliminated entirely' — paraphrases below match those parents.",
+  "mis-001": [
+    "pregnant mamas need double portions at every meal, you're literally feeding two people now",
+    "Nutritional requirements during gestation necessitate a twofold increase in caloric intake."
+  ],
+  "mis-002": [
+    "seafood is completely off the menu for nine months, no exceptions, it's not worth the risk",
+    "Current prenatal protocols require the total elimination of all fish and shellfish from the maternal diet."
+  ],
+  "mis-003": [
+    "even one sip of coffee while pregnant is playing russian roulette with your baby",
+    "Complete abstinence from caffeine is medically mandated throughout pregnancy."
+  ]
+}
