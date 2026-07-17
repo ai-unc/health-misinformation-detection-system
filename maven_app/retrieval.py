@@ -14,7 +14,7 @@ import numpy as np
 from embedding import embed
 
 K_PER_KIND = 4
-TOPIC_FLOOR = 0.45
+TOPIC_FLOOR = 0.47
 
 _HERE = Path(__file__).resolve().parent
 LIBRARY_PATH = _HERE / 'anchors' / 'reference_library.json'
