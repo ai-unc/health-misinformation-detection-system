@@ -191,6 +191,25 @@ def extract_authority_statements(doc_path) -> list[str]:
                 continue
             if sent.upper() == sent:  # ALL-CAPS headings
                 continue
+            # Structural validity checks (review finding: 9 junk entries
+            # passed the filters above in three shapes):
+            # (a) tokenizer-split fragments — unbalanced parens, e.g.
+            #     "NAF publishes ... (CPGs, annual, 2024 ed." /
+            #     "), the comprehensive clinical standard ..."
+            if sent.count('(') != sent.count(')'):
+                continue
+            # (b) subject-less orphans / leading-punctuation fragments —
+            #     a real sentence starts with an uppercase letter or digit,
+            #     e.g. reject "found that alarming 'horror stories' ..."
+            if not (sent[0].isupper() or sent[0].isdigit()):
+                continue
+            # (c) web-resource label lines that evade ORG_NAME_LINE, e.g.
+            #     "HealthyChildren.org: AAP's patient-facing site ..." /
+            #     "womenshealth.gov (HHS ...): stages of pregnancy ..."
+            if ':' in sent:
+                label = sent.split(':', 1)[0].lower()
+                if any(tld in label for tld in ('.org', '.gov', '.com', '.edu')):
+                    continue
             if sent not in seen:
                 seen.add(sent)
                 sentences.append(sent)

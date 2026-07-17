@@ -1468,15 +1468,6 @@
   },
   {
     "id": "auth-084",
-    "text": "(JOGNN, 2024); evidence-based CPGs on fetal monitoring, second-stage management, late preterm infant care, neonatal skin care, breastfeeding, safe sleep; Save Your Life maternal warning-signs programme; Newborn Warning Signs programme.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-085",
     "text": "The AAP (67,000 members) governs paediatric and newborn care.",
     "kind": "authority",
     "domain": null,
@@ -1485,7 +1476,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-086",
+    "id": "auth-085",
     "text": "Its guidance is essential for the fourth trimester from the infant's perspective and for postpartum parenting.",
     "kind": "authority",
     "domain": null,
@@ -1494,7 +1485,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-087",
+    "id": "auth-086",
     "text": "SMFM (6,500+ members) is the subspecialty body for high-risk pregnancy.",
     "kind": "authority",
     "domain": null,
@@ -1503,7 +1494,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-088",
+    "id": "auth-087",
     "text": "It now publishes in its open-access journal PREGNANCY (launched 2025, replacing AJOG affiliation).",
     "kind": "authority",
     "domain": null,
@@ -1512,25 +1503,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-089",
-    "text": "NAF publishes Clinical Policy Guidelines for Abortion Care (CPGs, annual, 2024 ed.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-090",
-    "text": "), the comprehensive clinical standard for abortion facility practice.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-091",
+    "id": "auth-088",
     "text": "Issues Grade A/B recommendations that ACA mandates insurers cover.",
     "kind": "authority",
     "domain": null,
@@ -1539,7 +1512,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-092",
+    "id": "auth-089",
     "text": "MedlinePlus is the U.S. government's primary consumer health information website, curated by NLM medical librarians.",
     "kind": "authority",
     "domain": null,
@@ -1548,7 +1521,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-093",
+    "id": "auth-090",
     "text": "It links exclusively to government and evidence-based non-commercial sources; contains no advertising or product endorsement; is available in 40+ languages.",
     "kind": "authority",
     "domain": null,
@@ -1557,7 +1530,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-094",
+    "id": "auth-091",
     "text": "It is explicitly endorsed by NICHD as the authoritative patient-facing resource for pregnancy and perinatal information.",
     "kind": "authority",
     "domain": null,
@@ -1566,34 +1539,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-095",
-    "text": "HealthyChildren.org: AAP's patient-facing site; all content reflects current AAP policy; primary reference for safe sleep, newborn care, and infant development.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-096",
-    "text": "CDC.gov: government-sourced patient information aligned with CDC recommendations; Hear Her campaign; safe sleep materials.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-097",
-    "text": "womenshealth.gov (HHS Office on Women's Health): stages of pregnancy, prenatal care, complications; evidence-aligned.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-098",
+    "id": "auth-092",
     "text": "This domain covers the evidence-based landscape of what perinatal people most want and need to know, across pregnancy, birth, the fourth trimester, and the full postpartum year.",
     "kind": "authority",
     "domain": null,
@@ -1602,7 +1548,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-099",
+    "id": "auth-093",
     "text": "90–97% of pregnant people use the internet for perinatal information (Henrich et al., JMIR, 2024).",
     "kind": "authority",
     "domain": null,
@@ -1611,7 +1557,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-100",
+    "id": "auth-094",
     "text": "The most frequently sought topics are labour and delivery, laboratory tests, medication safety, and newborn care.",
     "kind": "authority",
     "domain": null,
@@ -1620,7 +1566,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-101",
+    "id": "auth-095",
     "text": "Three structural barriers recur across studies: information is absent, not readily accessible, or cannot be interpreted by lay readers (Jackson GP, AHRQ, 2019).",
     "kind": "authority",
     "domain": null,
@@ -1629,7 +1575,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-102",
+    "id": "auth-096",
     "text": "Women actively seek information about normal vs. abnormal symptoms.",
     "kind": "authority",
     "domain": null,
@@ -1638,16 +1584,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-103",
-    "text": "found that alarming 'horror stories' about perinatal events are among the most criticised features of online content — directly relevant to quality detection.",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-104",
+    "id": "auth-097",
     "text": "Cell-free fetal DNA (cfDNA/NIPT): ACOG and SMFM — cfDNA is a SCREENING test, not diagnostic; all positive screens require confirmatory diagnostic testing.",
     "kind": "authority",
     "domain": null,
@@ -1656,7 +1593,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-105",
+    "id": "auth-098",
     "text": "The FDA 2015 rule replaced letter categories (A/B/C/D/X) with narrative labelling; many patients and some providers still reference the outdated system.",
     "kind": "authority",
     "domain": null,
@@ -1665,7 +1602,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-106",
+    "id": "auth-099",
     "text": "Postpartum return to exercise: ACOG 2020 opinion supports gradual, individualised return based on individual recovery — not a fixed 6-week prohibition.",
     "kind": "authority",
     "domain": null,
@@ -1674,7 +1611,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-107",
+    "id": "auth-100",
     "text": "A systematic review (IJSPT, 2022) found >1/3 of postpartum runners experience pain or incontinence on return, supporting physiotherapy assessment before high-impact activity.",
     "kind": "authority",
     "domain": null,
@@ -1683,7 +1620,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-108",
+    "id": "auth-101",
     "text": "The intrapartum period is the most information-saturated and emotionally charged phase of the perinatal experience.",
     "kind": "authority",
     "domain": null,
@@ -1692,7 +1629,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-109",
+    "id": "auth-102",
     "text": "Social media disproportionately distorts decision-making by framing clinical interventions as assaults on autonomy rather than evidence-based options.",
     "kind": "authority",
     "domain": null,
@@ -1701,7 +1638,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-110",
+    "id": "auth-103",
     "text": "The ARRIVE trial finding — that elective induction at 39 weeks REDUCES (not increases) caesarean risk — is one of the most frequently misrepresented findings in online birth content.",
     "kind": "authority",
     "domain": null,
@@ -1710,7 +1647,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-111",
+    "id": "auth-104",
     "text": "The fourth trimester — ACOG's formal term for the 12 weeks following birth (CO #736, 2018, reaffirmed 2022) — is a period of simultaneous physical recovery, hormonal reorganisation, identity reconstruction, and heightened vulnerability to preventable mortality.",
     "kind": "authority",
     "domain": null,
@@ -1719,7 +1656,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-112",
+    "id": "auth-105",
     "text": "One third of all pregnancy-related deaths occur from one week to one year postpartum; more than half are preventable (Columbia World Projects / Health Affairs, 2023).",
     "kind": "authority",
     "domain": null,
@@ -1728,7 +1665,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-113",
+    "id": "auth-106",
     "text": "The BUBBLE-LE nursing assessment framework (Breasts, Uterus, Bladder, Bowels, Lochia, Episiotomy/perineum, Legs, Emotional status) provides a systematic structure for physical fourth-trimester assessment (Duke Nursing/AWHONN, Nursing Clinics of North America, 2024).",
     "kind": "authority",
     "domain": null,
@@ -1737,7 +1674,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-114",
+    "id": "auth-107",
     "text": "Lochia: Rubra (days 1–3, bright red), serosa (days 3–10, pink-brown), alba (up to 6 weeks, yellow-white).",
     "kind": "authority",
     "domain": null,
@@ -1746,7 +1683,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-115",
+    "id": "auth-108",
     "text": "Research consistently documents significant worsening in all sexual domains postpartum, yet sexual health is one of the least-addressed topics in postpartum clinical care.",
     "kind": "authority",
     "domain": null,
@@ -1755,7 +1692,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-116",
+    "id": "auth-109",
     "text": "Dyspareunia: 40% at 3 months; 28% at 12 months; 1 in 5 at 18 months.",
     "kind": "authority",
     "domain": null,
@@ -1764,7 +1701,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-117",
+    "id": "auth-110",
     "text": "Current Sexual Health Reports (Springer, 2022): 'Breastfeeding and pre-existing sexual health issues are strongly predictive of sexual health issues at 6 and 12 months after birth.",
     "kind": "authority",
     "domain": null,
@@ -1773,7 +1710,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-118",
+    "id": "auth-111",
     "text": "Calls for a holistic approach encompassing emotional, relational, and psychological dimensions.",
     "kind": "authority",
     "domain": null,
@@ -1782,7 +1719,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-119",
+    "id": "auth-112",
     "text": "Family planning intersects the perinatal period at multiple points: preconception planning, prenatal contraception counselling, immediate postpartum contraception, and interpregnancy interval (IPI) optimisation for future pregnancies.",
     "kind": "authority",
     "domain": null,
@@ -1791,7 +1728,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-120",
+    "id": "auth-113",
     "text": "The SFP US MEC 2024 (MMWR 73/RR-3) is the definitive eligibility reference.",
     "kind": "authority",
     "domain": null,
@@ -1800,7 +1737,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-121",
+    "id": "auth-114",
     "text": "The 2024 update added chronic kidney disease guidance, new method formulations, and expanded postpartum/breastfeeding tables.",
     "kind": "authority",
     "domain": null,
@@ -1809,7 +1746,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-122",
+    "id": "auth-115",
     "text": "Cochrane SR (2022, Sothornwit et al., CD011913) confirms safety and high continuation rates for immediate postpartum LARC insertion.",
     "kind": "authority",
     "domain": null,
@@ -1818,7 +1755,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-123",
+    "id": "auth-116",
     "text": "Combined hormonal (pill/patch/ring): Avoid first 3 weeks (elevated VTE risk postpartum); with additional risk factors (prior DVT, smoking, obesity), avoid to 6 weeks.",
     "kind": "authority",
     "domain": null,
@@ -1827,7 +1764,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-124",
+    "id": "auth-117",
     "text": "SFP US MEC Category 4 (<3 weeks), Category 3 (3–6 weeks with risk factors).",
     "kind": "authority",
     "domain": null,
@@ -1836,7 +1773,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-125",
+    "id": "auth-118",
     "text": "Lactational Amenorrhoea Method (LAM): Effective only when ALL THREE criteria simultaneously met: exclusive on-demand breastfeeding day and night, amenorrhoea, and infant under 6 months.",
     "kind": "authority",
     "domain": null,
@@ -1845,7 +1782,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-126",
+    "id": "auth-119",
     "text": "Failure rate rises sharply if any criterion is absent.",
     "kind": "authority",
     "domain": null,
@@ -1854,7 +1791,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-127",
+    "id": "auth-120",
     "text": "Must transition to another method by 6 months or when any criterion is no longer met.",
     "kind": "authority",
     "domain": null,
@@ -1863,7 +1800,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-128",
+    "id": "auth-121",
     "text": "Emergency contraception: Levonorgestrel (Plan B) safe in breastfeeding; ulipristal acetate (ella): pump-and-discard for 24 hours recommended.",
     "kind": "authority",
     "domain": null,
@@ -1872,7 +1809,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-129",
+    "id": "auth-122",
     "text": "The IPI is the time from delivery to conception of the next pregnancy.",
     "kind": "authority",
     "domain": null,
@@ -1881,7 +1818,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-130",
+    "id": "auth-123",
     "text": "Both very short and very long intervals carry adverse outcome risks, making the IPI directly relevant to fourth-trimester contraceptive counselling.",
     "kind": "authority",
     "domain": null,
@@ -1890,7 +1827,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-131",
+    "id": "auth-124",
     "text": "Mental health is the leading cause of pregnancy-related deaths in high-income countries (suicide and overdose exceed haemorrhage, embolism, and preeclampsia as causes of maternal death in several U.S. states, per state MMRCs documented in Contemporary OB/GYN).",
     "kind": "authority",
     "domain": null,
@@ -1899,7 +1836,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-132",
+    "id": "auth-125",
     "text": "Despite this, 40% of women with PPD symptoms fail to seek help (AMWA, 2024).",
     "kind": "authority",
     "domain": null,
@@ -1908,7 +1845,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-133",
+    "id": "auth-126",
     "text": "Understanding what patients know, believe, and fear about perinatal mental health is essential for quality detection.",
     "kind": "authority",
     "domain": null,
@@ -1917,7 +1854,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-134",
+    "id": "auth-127",
     "text": "Baby blues vs PPD: Baby blues affect 70–80%; peak days 3–5; resolve by 2 weeks; hormonal, self-limiting.",
     "kind": "authority",
     "domain": null,
@@ -1926,16 +1863,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-135",
-    "text": "); CDC (immunisation schedule); MedlinePlus (Infant and Newborn Care topic pages).",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-136",
+    "id": "auth-128",
     "text": "This domain covers the evidence-based landscape of how perinatal people engage with formal healthcare — prenatal visits, intrapartum care, postpartum follow-up, screening, mental health integration, and the structural and equity-related factors that shape care quality.",
     "kind": "authority",
     "domain": null,
@@ -1944,7 +1872,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-137",
+    "id": "auth-129",
     "text": "It covers both what good care looks like per guideline standards and what patients actually experience in clinical encounters.",
     "kind": "authority",
     "domain": null,
@@ -1953,7 +1881,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-138",
+    "id": "auth-130",
     "text": "The 2025 ACOG PATH (Tailored Prenatal Care Delivery for Pregnant Individuals) framework is the most current authoritative revision to prenatal care structure.",
     "kind": "authority",
     "domain": null,
@@ -1962,7 +1890,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-139",
+    "id": "auth-131",
     "text": "It explicitly acknowledges that the traditional 12–14 visit schedule was established nearly a century ago without evidence linking specific visit number to outcomes.",
     "kind": "authority",
     "domain": null,
@@ -1971,7 +1899,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-140",
+    "id": "auth-132",
     "text": "Individual, risk-stratified schedules with telehealth integration are recommended.",
     "kind": "authority",
     "domain": null,
@@ -1980,7 +1908,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-141",
+    "id": "auth-133",
     "text": "ACOG endorses group prenatal care through the PATH 2025 framework.",
     "kind": "authority",
     "domain": null,
@@ -1989,7 +1917,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-142",
+    "id": "auth-134",
     "text": "ACNM has a position statement supporting midwifery-led group care.",
     "kind": "authority",
     "domain": null,
@@ -1998,7 +1926,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-143",
+    "id": "auth-135",
     "text": "A 2022 report summarising data from nine MMRCs found that >80% of maternal deaths are preventable (CDC, ACOG).",
     "kind": "authority",
     "domain": null,
@@ -2007,7 +1935,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-144",
+    "id": "auth-136",
     "text": "The gap between this preventability and actual outcomes is substantially explained by structural racism, implicit bias, and disparities in care quality.",
     "kind": "authority",
     "domain": null,
@@ -2016,7 +1944,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-145",
+    "id": "auth-137",
     "text": "AHRQ SR (2023): 65% of pregnancy-related deaths occur postpartum; care is often fragmented across maternal and paediatric providers with no single care provider addressing needs holistically.",
     "kind": "authority",
     "domain": null,
@@ -2025,7 +1953,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-146",
+    "id": "auth-138",
     "text": "ACOG CO #736 formalises the fourth trimester framework to address this.",
     "kind": "authority",
     "domain": null,
@@ -2034,7 +1962,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-147",
+    "id": "auth-139",
     "text": "Social support is one of the most powerful and modifiable determinants of perinatal mental health, physical recovery, breastfeeding success, and birth outcomes.",
     "kind": "authority",
     "domain": null,
@@ -2043,7 +1971,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-148",
+    "id": "auth-140",
     "text": "A prospective cohort (Zyrek et al., Sci Rep, 2024; n=932) found that higher social support during pregnancy significantly reduces PPD risk.",
     "kind": "authority",
     "domain": null,
@@ -2052,7 +1980,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-149",
+    "id": "auth-141",
     "text": "Research distinguishes four dimensions of social support: emotional (feeling cared for), instrumental (practical help), informational (guidance and advice), and appraisal (feedback for self-evaluation).",
     "kind": "authority",
     "domain": null,
@@ -2061,7 +1989,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-150",
+    "id": "auth-142",
     "text": "ALL four dimensions independently predict better perinatal outcomes.",
     "kind": "authority",
     "domain": null,
@@ -2070,7 +1998,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-151",
+    "id": "auth-143",
     "text": "CenteringPregnancy is endorsed by ACOG (PATH 2025), ACNM, AWHONN, and SMFM as an equitable care model.",
     "kind": "authority",
     "domain": null,
@@ -2079,7 +2007,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-152",
+    "id": "auth-144",
     "text": "RCT (2007) documented 33% reduction in preterm birth; EleVATE GC (Health Equity, 2024) documented specific benefits for Black birthing people.",
     "kind": "authority",
     "domain": null,
@@ -2088,7 +2016,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-153",
+    "id": "auth-145",
     "text": "Return to work: The U.S. has no universal paid parental leave; FMLA provides only 12 weeks of unpaid leave for ~60% of workers; the return to work is a known risk point for breastfeeding cessation and PPD exacerbation.",
     "kind": "authority",
     "domain": null,
@@ -2097,7 +2025,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-154",
+    "id": "auth-146",
     "text": "PUMP for Nursing Mothers Act (2022) expanded workplace pumping protections to nearly all employees.",
     "kind": "authority",
     "domain": null,
@@ -2106,7 +2034,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-155",
+    "id": "auth-147",
     "text": "This domain covers the ecosystem of information sources beyond direct clinical care: social media, pregnancy apps, online communities, search engines, friends and family, and clinical counselling outside primary OB care.",
     "kind": "authority",
     "domain": null,
@@ -2115,7 +2043,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-156",
+    "id": "auth-148",
     "text": "90–97% of pregnant people use the internet for pregnancy-related information (Henrich et al., JMIR, 2024).",
     "kind": "authority",
     "domain": null,
@@ -2124,7 +2052,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-157",
+    "id": "auth-149",
     "text": "Understanding this ecosystem is essential for an AI tool designed to detect perinatal information quality.",
     "kind": "authority",
     "domain": null,
@@ -2133,16 +2061,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-158",
-    "text": "is the most comprehensive synthesis of evidence on perinatal women's quality assessment criteria (30 studies, 5,290 records, 2000–2024).",
-    "kind": "authority",
-    "domain": null,
-    "type_id": null,
-    "correction": null,
-    "parent_id": null
-  },
-  {
-    "id": "auth-159",
+    "id": "auth-150",
     "text": "It identifies 17 quality features across four dimensions.",
     "kind": "authority",
     "domain": null,
@@ -2151,7 +2070,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-160",
+    "id": "auth-151",
     "text": "For quality-detection model training: information should be assessed for alignment with the authoritative bodies detailed in Part I.",
     "kind": "authority",
     "domain": null,
@@ -2160,7 +2079,7 @@
     "parent_id": null
   },
   {
-    "id": "auth-161",
+    "id": "auth-152",
     "text": "The following table maps quality signals to guideline concordance.",
     "kind": "authority",
     "domain": null,
