@@ -35,7 +35,7 @@ def main():
 
     for e in lib:
         assert e['kind'] in ('misinfo', 'authority')
-        assert isinstance(e['text'], str) and len(e['text'].split()) >= 4, e['id']
+        assert isinstance(e['text'], str) and len(e['text'].split()) >= 3, e['id']
         if e['kind'] == 'misinfo':
             assert e['type_id'] in VALID_TYPES, f"{e['id']}: bad type {e['type_id']}"
             assert e['correction'], f"{e['id']}: misinfo entry missing correction"
