@@ -16,9 +16,11 @@ class StubNLI:
     def __init__(self, table):
         self.table = table
         self.calls = []
+        self.seen_pairs = []
 
     def predict(self, pairs, batch_size=16):
         self.calls.append(len(pairs))
+        self.seen_pairs.extend(pairs)
         out = np.zeros((len(pairs), 3))
         for i, (premise, hypothesis) in enumerate(pairs):
             row = None
@@ -86,6 +88,11 @@ def main():
         stub2 = StubNLI({})
         score_chunks(chunks, embs, nli=stub2)
         assert sum(stub2.calls) <= 4, stub2.calls
+        # round-robin allocation: even under the tiny cap, every scoreable
+        # chunk still gets at least one NLI pair (no positional starvation)
+        seen_premises = {premise for premise, _ in stub2.seen_pairs}
+        for text in (ASSERT_TEXT, DEBUNK_TEXT, NOVEL_TEXT):
+            assert text in seen_premises, f'chunk starved under cap: {text[:40]!r}'
     finally:
         scoring.PAIR_CAP_ACTIVE = old_cap
 

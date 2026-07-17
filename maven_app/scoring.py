@@ -56,7 +56,6 @@ _calibration_loaded = False
 def _get_calibration():
     global _calibration, _calibration_loaded
     if not _calibration_loaded:
-        _calibration_loaded = True
         if CALIBRATION_PATH.exists():
             artifact = joblib.load(CALIBRATION_PATH)
             if artifact.get('features') != FEATURES:
@@ -69,6 +68,10 @@ def _get_calibration():
         else:
             print('[MAVEN] No calibration artifact; using heuristic score '
                   f'(tau={TAU}).')
+        # Marked only on success so a bad artifact keeps raising on every
+        # call instead of silently degrading to the heuristic after the
+        # first failure. Prints above still happen once per process.
+        _calibration_loaded = True
     return _calibration
 
 
@@ -98,6 +101,36 @@ def _p_misinfo(features: List[float]) -> float:
     return float(np.clip(max(e_m, c_a) - DEBUNK_DAMP * c_m, 0.0, 1.0))
 
 
+def _allocate_pairs(chunks, results, cap):
+    """Round-robin (premise, hypothesis) allocation under the pair cap.
+
+    Each chunk's candidates are ordered [mis[0], auth[0], mis[1], auth[1], ...];
+    round r hands every chunk its r-th candidate (chunks in order) before any
+    chunk gets its (r+1)-th, so a tight cap trims candidate depth everywhere
+    instead of starving tail chunks of their first pair. Deterministic.
+    """
+    per_chunk = []
+    for ci, r in enumerate(results):
+        cands = []
+        for i in range(max(len(r.misinfo), len(r.authority))):
+            if i < len(r.misinfo):
+                cands.append((ci, 'misinfo', r.misinfo[i]))
+            if i < len(r.authority):
+                cands.append((ci, 'authority', r.authority[i]))
+        per_chunk.append(cands)
+
+    pairs, index = [], []  # index[i] = (chunk_idx, kind, Retrieved)
+    for rank in range(max((len(c) for c in per_chunk), default=0)):
+        for cands in per_chunk:
+            if len(pairs) >= cap:
+                return pairs, index
+            if rank < len(cands):
+                ci, kind, cand = cands[rank]
+                pairs.append((chunks[ci], cand.entry['text']))
+                index.append((ci, kind, cand))
+    return pairs, index
+
+
 def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[ChunkScore]:
     if not chunks:
         return []
@@ -110,20 +143,10 @@ def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[Ch
         results = [type(r)(misinfo=r.misinfo[:k_eff], authority=r.authority[:k_eff])
                    for r in results]
 
-    pairs, index = [], []  # index[i] = (chunk_idx, kind, Retrieved)
-    for ci, (chunk, r) in enumerate(zip(chunks, results)):
-        for cand in r.misinfo:
-            pairs.append((chunk, cand.entry['text']))
-            index.append((ci, 'misinfo', cand))
-        for cand in r.authority:
-            pairs.append((chunk, cand.entry['text']))
-            index.append((ci, 'authority', cand))
-
     # k_eff floors at 1 per kind, so enough scoreable chunks can still exceed
-    # the cap (PAIR_CAP_ACTIVE < 2 * n_scoreable). Enforce it hard: later
-    # chunks lose their pairs and fall back to zero features / p = 0.
-    if len(pairs) > PAIR_CAP_ACTIVE:
-        pairs, index = pairs[:PAIR_CAP_ACTIVE], index[:PAIR_CAP_ACTIVE]
+    # the cap; the round-robin allocator enforces it by trimming candidate
+    # depth everywhere rather than dropping tail chunks wholesale.
+    pairs, index = _allocate_pairs(chunks, results, PAIR_CAP_ACTIVE)
 
     nli = nli or verifier_mod.get_verifier()
     probs = nli.predict(pairs) if pairs else np.empty((0, 3))
