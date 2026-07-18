@@ -58,3 +58,12 @@
 | seed-022 | off_topic | 0 | 0.346 | False |
 | seed-023 | off_topic | 0 | 0.452 | False |
 | seed-024 | off_topic | 0 | 0.573 | True |
+
+## Reading this vs the retrieve-and-verify reports
+
+This baseline's F1 (0.538) exceeds the adopted retrieve-and-verify system's F1
+(0.364, see `2026-07-18-retrieve-verify-finetuned.md`), but only by scoring
+stance-blind embedding proximity: it flags 3/4 debunks and 5/6 accurate items,
+at precision 0.389. Per-stance flag rates, not cross-report F1, are the M4
+evidence — they show this baseline flagging the exact content (debunks,
+accurate posts) the retrieve-and-verify system exists to leave unflagged.

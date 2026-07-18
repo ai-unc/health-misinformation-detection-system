@@ -1,4 +1,4 @@
-"""End-to-end Flask test after iso_score calibration fix.
+"""End-to-end Flask test.
 
 Boots the Flask app in-process (no separate server) using app.test_client()
 and exercises the contract: JSON round-trip, optional-field handling for

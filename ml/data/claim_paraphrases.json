@@ -1,5 +1,5 @@
 {
-  "_note": "Assertion paraphrases of base claims (casual + clinical register). Expand offline (LLM-assisted, human-reviewed) — every paraphrase must ASSERT the claim, never debunk it. Keys are base claim ids from reference_library.json. Verified against maven_app/anchors/misinfo_anchors.json: mis-001 = 'eat for two', mis-002 = 'all seafood must be avoided', mis-003 = 'all caffeine must be eliminated entirely' — paraphrases below match those parents.",
+  "_note": "Assertion paraphrases of base claims (casual + clinical register). Expand offline (LLM-assisted, human-reviewed) — every paraphrase must ASSERT the claim, never debunk it. Keys are base claim ids from reference_library.json. Verified against maven_app/anchors/reference_library.json: mis-001 = 'eat for two', mis-002 = 'all seafood must be avoided', mis-003 = 'all caffeine must be eliminated entirely' — paraphrases below match those parents.",
   "mis-001": [
     "pregnant mamas need double portions at every meal, you're literally feeding two people now",
     "Nutritional requirements during gestation necessitate a twofold increase in caloric intake."

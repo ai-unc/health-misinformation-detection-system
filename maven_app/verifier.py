@@ -27,10 +27,13 @@ class Verifier:
                            or DEFAULT_CHECKPOINT)
         self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
         print(f'[MAVEN] Loading NLI verifier {self.checkpoint!r} on {self.device}...')
+        if not os.environ.get('MAVEN_VERIFIER_PATH'):
+            print('[MAVEN] Note: using base zero-shot checkpoint; the production '
+                  'checkpoint is maven-verifier-v1 (see ml/training/README.md).')
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(self.checkpoint)
             self.model = AutoModelForSequenceClassification.from_pretrained(
-                self.checkpoint, torch_dtype=torch.float32).to(self.device).eval()
+                self.checkpoint, dtype=torch.float32).to(self.device).eval()
         except Exception as exc:
             raise RuntimeError(
                 f'Failed to load NLI verifier {self.checkpoint!r} '
@@ -43,6 +46,12 @@ class Verifier:
             if key not in _COLUMN_FOR_LABEL:
                 raise RuntimeError(f'Unrecognized NLI label {label!r} in {self.checkpoint!r}')
             self._col_of[int(idx)] = _COLUMN_FOR_LABEL[key]
+        if sorted(self._col_of.tolist()) != [0, 1, 2]:
+            raise RuntimeError(
+                f'NLI label mapping for {self.checkpoint!r} is not a permutation of '
+                f'[entail, neutral, contradict] (id2label={dict(self.model.config.id2label)!r}); '
+                'refusing to leave predict() output columns uninitialized.'
+            )
         print('[MAVEN] Verifier ready.')
 
     @torch.no_grad()

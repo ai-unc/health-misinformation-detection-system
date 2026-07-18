@@ -1,4 +1,5 @@
 {
+  "_note": "Curation input for the misinfo claim-type vocabulary, not read by any code path. Keys are the same seven categories defined in claim_type_map.json's _type_table (plus 'other'); each list is example sentences illustrating that category, used as reference when hand-typing/reviewing type_id assignments in claim_type_map.json.",
   "unattributed_risk": [
     "There are hidden long-term risks to this procedure that doctors will not tell you about.",
     "Many women suffer side effects from this medication but the data is being suppressed.",

@@ -627,7 +627,7 @@ function renderExpandAnalysis(chunk, index) {
             ${claimSection}
             <div>
                 <span class="font-label text-[9px] uppercase tracking-widest text-outline">${evidenceLabel}</span>
-                <p class="mt-2 font-body text-[13.5px] leading-relaxed text-on-surface">${escapeHtml(chunk.evidence_correction ?? '')}</p>
+                <p class="mt-2 font-body text-[13.5px] leading-relaxed text-on-surface">${escapeHtml(chunk.evidence_correction || 'No specific reference matched — review manually.')}</p>
             </div>
             <div>
                 <span class="badge-radius ${bucket.cls} px-2 py-1 font-label font-bold text-[9px] tracking-widest uppercase"

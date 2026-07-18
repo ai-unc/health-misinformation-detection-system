@@ -15,7 +15,6 @@ from typing import List, NamedTuple, Optional
 import joblib
 import numpy as np
 
-import retrieval
 import verifier as verifier_mod
 from retrieval import base_entry, retrieve
 
@@ -29,8 +28,9 @@ FEATURES = ['misinfo_entail', 'guidance_contradict', 'misinfo_contradict',
             'top_claim_sim', 'top_auth_sim']
 
 _HERE = Path(__file__).resolve().parent
-CALIBRATION_PATH = Path(os.environ.get('MAVEN_CALIBRATION_PATH',
-                                       _HERE / 'models' / 'calibration_head.joblib'))
+_CALIBRATION_PATH_ENV = os.environ.get('MAVEN_CALIBRATION_PATH')
+CALIBRATION_PATH = (Path(_CALIBRATION_PATH_ENV) if _CALIBRATION_PATH_ENV
+                    else _HERE / 'models' / 'calibration_head.joblib')
 
 
 class ChunkScore(NamedTuple):
@@ -66,6 +66,15 @@ def _get_calibration():
                 )
             _calibration = artifact
             print(f'[MAVEN] Calibration head loaded (tau={artifact["tau"]:.3f}).')
+        elif _CALIBRATION_PATH_ENV:
+            # Explicitly set but missing is an operator error, not the normal
+            # dormant state -- mirror verifier.py's hard-fail pattern instead
+            # of quietly degrading to the heuristic score.
+            raise RuntimeError(
+                f'MAVEN_CALIBRATION_PATH={_CALIBRATION_PATH_ENV!r} does not exist. '
+                'Fit a calibration artifact first with ml/training/fit_calibration.py, '
+                'or unset MAVEN_CALIBRATION_PATH to use the heuristic score.'
+            )
         else:
             print('[MAVEN] No calibration artifact; using heuristic score '
                   f'(tau={TAU}).')

@@ -37,6 +37,13 @@ def fit_head(X, y) -> LogisticRegression:
     return model
 
 
+def has_two_classes(y) -> bool:
+    """True if y contains both classes. fit_head cannot fit a meaningful
+    decision boundary from a single-class sample, so callers must check
+    this before calling it."""
+    return len(set(y)) >= 2
+
+
 def choose_tau(y_true, probs) -> float:
     """Threshold maximizing F1 on the calibration split."""
     y_true = np.asarray(y_true)
@@ -90,6 +97,10 @@ def main() -> int:
 
     if len(y) < 12:
         sys.exit(f'Only {len(y)} items scored (of {len(items)} candidates) - need at least 12. Grow the eval set (ml/eval/LABELING_GUIDE.md).')
+
+    if not has_two_classes(y):
+        sys.exit(f'All {len(y)} scored items share a single label - need both classes to fit '
+                 'a calibration head. Grow the eval set (ml/eval/LABELING_GUIDE.md).')
 
     model = fit_head(X, y)
     probs = model.predict_proba(np.asarray(X))[:, 1]

@@ -7,7 +7,7 @@ import joblib
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # ml/training
-from fit_calibration import choose_tau, fit_head, save_artifact
+from fit_calibration import choose_tau, fit_head, has_two_classes, save_artifact
 
 FEATURES = ['misinfo_entail', 'guidance_contradict', 'misinfo_contradict',
             'top_claim_sim', 'top_auth_sim']
@@ -29,6 +29,14 @@ def main():
     probs = model.predict_proba(X)[:, 1]
     # Separable synthetic data -> strong fit, monotone in entail
     assert ((probs > 0.5) == (y == 1)).mean() > 0.9
+
+    # Single-class guard: main() must refuse to call fit_head when the
+    # scored sample has only one label (fit_head itself has no way to
+    # produce a meaningful decision boundary from one class).
+    assert has_two_classes(y.tolist()) is True
+    assert has_two_classes([1, 1, 1, 1]) is False
+    assert has_two_classes([0, 0]) is False
+    assert has_two_classes([0, 1, 0, 1]) is True
 
     tau = choose_tau(y, probs)
     assert 0.05 <= tau <= 0.95
