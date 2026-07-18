@@ -77,3 +77,6 @@ perinatal_knowledge_base/Fw_*
 
 # Brainstorming session files (visual companion mockups)
 .superpowers/
+
+# fine-tuned verifier checkpoints stay out of git (ml/training/README.md)
+ml/training/checkpoints/

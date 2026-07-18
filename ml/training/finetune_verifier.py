@@ -61,10 +61,15 @@ def main() -> int:
     parser.add_argument('--epochs', type=float, default=2)
     parser.add_argument('--lr', type=float, default=2e-5)
     parser.add_argument('--batch', type=int, default=16)
+    parser.add_argument('--cpu', action='store_true',
+                        help='force CPU training (DeBERTa-v3 NaNs on Apple MPS)')
     args = parser.parse_args()
 
     tokenizer = AutoTokenizer.from_pretrained(args.base)
-    model = AutoModelForSequenceClassification.from_pretrained(args.base)
+    # The base checkpoint ships fp16 weights; training in pure fp16 NaNs out
+    # (same pin maven_app/verifier.py carries for inference).
+    model = AutoModelForSequenceClassification.from_pretrained(
+        args.base, dtype=torch.float32)
     label2id = {label.lower(): int(idx)
                 for idx, label in model.config.id2label.items()}
     # tolerate 'entail'/'contradiction' naming variants in the config
@@ -97,7 +102,7 @@ def main() -> int:
             per_device_eval_batch_size=args.batch, eval_strategy='epoch',
             save_strategy='epoch', save_total_limit=1,
             load_best_model_at_end=True, metric_for_best_model='accuracy',
-            logging_steps=50, report_to=[],
+            logging_steps=50, report_to=[], use_cpu=args.cpu,
         ),
         train_dataset=PairDataset(train_rows, tokenizer, label2id),
         eval_dataset=PairDataset(eval_rows, tokenizer, label2id),
