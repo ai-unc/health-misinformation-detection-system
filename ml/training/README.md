@@ -11,7 +11,7 @@
    extra --train files. Map SUPPORTS→entailment, REFUTES→contradiction,
    NOINFO/NEI→neutral.
 3. Train on Colab GPU (see finetune_verifier.py docstring for the pip cell):
-   `python ml/training/finetune_verifier.py --train ml/data/nli_pairs.jsonl --out ml/training/checkpoints/maven-verifier-v1`
+   `python ml/training/finetune_verifier.py --train ml/data/nli_pairs.jsonl --out ml/training/checkpoints/maven-verifier-v1 --cpu`
 4. Adoption gate — measure before adopting:
    `MAVEN_VERIFIER_PATH=ml/training/checkpoints/maven-verifier-v1 python ml/eval/run_eval.py --split test --out ml/eval/reports/<date>-finetuned.md`
    Adopt (export MAVEN_VERIFIER_PATH in the app environment) only if

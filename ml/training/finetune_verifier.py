@@ -7,7 +7,7 @@ Then:
         --train ml/data/nli_pairs.jsonl [path/to/healthver.jsonl ...] \
         --out ml/training/checkpoints/maven-verifier-v1 \
         [--base MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli] \
-        [--epochs 2] [--lr 2e-5] [--batch 16]
+        [--epochs 2] [--lr 2e-5] [--batch 16] [--cpu]
 
 Every --train file is JSONL with {"premise", "hypothesis", "label"} where
 label is entailment|neutral|contradiction. 10% is held out for eval.
