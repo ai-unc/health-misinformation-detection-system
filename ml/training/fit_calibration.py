@@ -9,6 +9,11 @@ Uses ONLY items whose id hashes into the calibration split (harness.split_of)
 and which are not marked "disputed". Doc-level features = the features of the
 chunk with max misinfo_score. Rerun whenever the eval set grows; report
 test-split metrics separately via ml/eval/run_eval.py --split test.
+
+IMPORTANT: A calibrated head can flag rows where both misinfo_entail and
+guidance_contradict are low, producing flagged rows with an empty evidence_correction.
+Before adopting a fitted artifact, verify flagged calibration-split rows keep
+non-empty evidence_correction to avoid breaking the heuristic's guarantee.
 """
 import argparse
 import sys
@@ -67,7 +72,7 @@ def main() -> int:
     items = [it for it in load_eval_set(args.eval_set)
              if split_of(it['id']) == 'calibration' and not it.get('disputed')]
     if len(items) < 12:
-        sys.exit(f'Only {len(items)} calibration items — need at least 12. '
+        sys.exit(f'Only {len(items)} calibration items - need at least 12. '
                  'Grow the eval set before fitting.')
     print(f'[fit_calibration] {len(items)} calibration items; importing pipeline...')
 
@@ -83,6 +88,9 @@ def main() -> int:
         X.append([best[name] for name in scoring.FEATURES])
         y.append(1 if item['label'] == 'misinfo' else 0)
 
+    if len(y) < 12:
+        sys.exit(f'Only {len(y)} items scored (of {len(items)} candidates) - need at least 12. Grow the eval set (ml/eval/LABELING_GUIDE.md).')
+
     model = fit_head(X, y)
     probs = model.predict_proba(np.asarray(X))[:, 1]
     tau = choose_tau(y, probs)
@@ -93,9 +101,9 @@ def main() -> int:
     print(f'[fit_calibration] wrote {args.out} (n={len(y)}, tau={tau})')
     print('[fit_calibration] Restart the app / rerun eval to pick it up. '
           'Report metrics with: python ml/eval/run_eval.py --split test --out ...')
-    # Adoption check: remind operator to verify flagged calibration rows have non-empty explanations.
+    # Adoption check: remind operator to verify flagged calibration rows have non-empty evidence_correction.
     print('[fit_calibration] ** Adoption check: verify flagged calibration-split rows retain '
-          'non-empty explanations before deploying. Calibration may break the heuristic\'s '
+          'non-empty evidence_correction before deploying. Calibration may break the heuristic\'s '
           'guarantee that all flagged rows have supporting evidence. **')
     return 0
 
