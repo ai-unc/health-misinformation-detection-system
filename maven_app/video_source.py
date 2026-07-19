@@ -29,9 +29,14 @@ INSTAGRAM_BLOCK_MESSAGE = ('Instagram requires login or has rate-limited this '
                            'request. Try a public Reel or retry later.')
 
 MAVEN_IG_COOKIES_ENV = 'MAVEN_IG_COOKIES'
-INSTAGRAM_COOKIE_MESSAGE = ('Instagram slideshows require login cookies. '
-                            'Export a cookies.txt for instagram.com and set '
-                            'MAVEN_IG_COOKIES to its path.')
+INSTAGRAM_COOKIE_MESSAGE = ('Instagram blocked anonymous access to this post '
+                            '— it may be private, removed, or rate-limited. '
+                            'Retry later, or set MAVEN_IG_COOKIES to a '
+                            'logged-in cookies.txt for instagram.com to '
+                            'access it with your account.')
+
+NO_IMAGES_MESSAGE = ('No images found in this post — it may be a video post '
+                     'rather than a slideshow.')
 
 # gallery-dl stderr fragments (casefolded) that mean Instagram rejected the
 # request for lack of (valid) login cookies.
@@ -204,13 +209,40 @@ def _sidecar_num(image: Path) -> int:
 
 
 def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
-    """Download a slideshow post's slide images into tmp_dir via gallery-dl.
+    """Download a slideshow post's slide images into tmp_dir.
+
+    TikTok goes straight to gallery-dl (anonymous). Instagram tries the
+    anonymous embed path first (instagram_embed.py — no cookies needed for
+    public posts); on EmbedUnavailableError it falls back to gallery-dl with
+    MAVEN_IG_COOKIES when set, else raises INSTAGRAM_COOKIE_MESSAGE. A
+    GraphVideo post raises NO_IMAGES_MESSAGE outright — no fallback exists
+    that would make it a slideshow.
+    Returns (image paths in carousel order, metadata dict).
+    """
+    if _is_instagram_url(url):
+        return _download_slideshow_instagram(url, tmp_dir)
+    return _download_slideshow_gallery_dl(url, tmp_dir)
+
+
+def _download_slideshow_instagram(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
+    import instagram_embed  # lazy, matching the platform-module import pattern
+    try:
+        return instagram_embed.download_slideshow_anonymous(url, tmp_dir)
+    except instagram_embed.NotASlideshowError:
+        raise RuntimeError(NO_IMAGES_MESSAGE)
+    except instagram_embed.EmbedUnavailableError:
+        if not _instagram_cookies():
+            raise RuntimeError(INSTAGRAM_COOKIE_MESSAGE)
+        return _download_slideshow_gallery_dl(url, tmp_dir)
+
+
+def _download_slideshow_gallery_dl(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
+    """gallery-dl leg of download_slideshow: TikTok always; Instagram only as
+    the cookie-authenticated fallback.
 
     Returns (image paths in carousel order, metadata dict from the first
-    image's --write-metadata JSON sidecar). Instagram requires login cookies
-    (MAVEN_IG_COOKIES); missing or rejected cookies raise RuntimeError with
-    INSTAGRAM_COOKIE_MESSAGE. Non-image files (TikTok's mp3 soundtrack,
-    sidecars) are filtered out. Images are ordered by their sidecar's 'num'
+    image's --write-metadata JSON sidecar). Non-image files (TikTok's mp3
+    soundtrack, sidecars) are filtered out. Images are ordered by their sidecar's 'num'
     field (the only field contractually tied to carousel position — Instagram
     filenames are media-id based, not order-based); images with a missing or
     unparseable sidecar fall back to lexicographic filename order, sorted
@@ -238,8 +270,7 @@ def download_slideshow(url: str, tmp_dir: str) -> Tuple[List[Path], dict]:
     unordered = [p for p in Path(tmp_dir).iterdir()
                 if p.suffix.casefold() in _IMAGE_EXTENSIONS]
     if not unordered:
-        raise RuntimeError('No images found in this post — it may be a video '
-                           'post rather than a slideshow.')
+        raise RuntimeError(NO_IMAGES_MESSAGE)
 
     def sort_key(image: Path):
         num = _sidecar_num(image)

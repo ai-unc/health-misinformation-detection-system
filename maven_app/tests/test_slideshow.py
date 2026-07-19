@@ -17,6 +17,7 @@ from tiktok import TIKTOK
 from instagram import INSTAGRAM
 from video_source import (
     INSTAGRAM_COOKIE_MESSAGE,
+    NO_IMAGES_MESSAGE,
     download_slideshow,
     validate_url,
 )
@@ -81,19 +82,80 @@ def test_slideshow_urls_validate():
 
 # ── TEST 3 ─────────────────────────────────────────────────────────────────────
 
-def test_instagram_slideshow_requires_cookies():
-    print('\n=== TEST 3: Instagram slideshow without cookies fails fast ===')
+def test_instagram_anon_failure_without_cookies():
+    print('\n=== TEST 3: anonymous failure + no cookies → friendly message, '
+          'no gallery-dl call ===')
 
     saved = os.environ.pop('MAVEN_IG_COOKIES', None)
     try:
-        download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tempfile.mkdtemp())
-        assert False, 'Expected RuntimeError'
-    except RuntimeError as e:
-        assert str(e) == INSTAGRAM_COOKIE_MESSAGE
-        print('  ✓ missing MAVEN_IG_COOKIES raises the friendly cookie message')
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   side_effect=instagram_embed.EmbedUnavailableError('blocked')), \
+             patch('video_source.subprocess.run') as mock_run:
+            try:
+                download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/',
+                                   tempfile.mkdtemp())
+                assert False, 'Expected RuntimeError'
+            except RuntimeError as e:
+                assert str(e) == INSTAGRAM_COOKIE_MESSAGE
+        mock_run.assert_not_called()
+        print('  ✓ EmbedUnavailableError without cookies raises the friendly '
+              'message and never invokes gallery-dl')
     finally:
         if saved is not None:
             os.environ['MAVEN_IG_COOKIES'] = saved
+
+
+# ── TEST 3B ────────────────────────────────────────────────────────────────────
+
+def test_instagram_anonymous_success_skips_gallery_dl():
+    print('\n=== TEST 3B: anonymous success bypasses gallery-dl entirely ===')
+
+    sentinel = ([Path('/x/embed/01.jpg')],
+                {'description': 'cap', 'username': 'user'})
+    saved = os.environ.pop('MAVEN_IG_COOKIES', None)
+    try:
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   return_value=sentinel) as mock_anon, \
+             patch('video_source.subprocess.run') as mock_run:
+            result = download_slideshow(
+                'https://www.instagram.com/p/DRzdgElEf3N/', '/x')
+        assert result == sentinel
+        mock_anon.assert_called_once_with(
+            'https://www.instagram.com/p/DRzdgElEf3N/', '/x')
+        mock_run.assert_not_called()
+        print('  ✓ anonymous result returned as-is; no cookies, no gallery-dl')
+    finally:
+        if saved is not None:
+            os.environ['MAVEN_IG_COOKIES'] = saved
+
+
+# ── TEST 3C ────────────────────────────────────────────────────────────────────
+
+def test_instagram_video_post_no_fallback():
+    print('\n=== TEST 3C: video post is terminal — no cookie fallback ===')
+
+    tmp = tempfile.mkdtemp()
+    cookie_file = Path(tmp) / 'cookies.txt'
+    cookie_file.write_text('# Netscape HTTP Cookie File\n', encoding='utf-8')
+    saved_env = os.environ.get('MAVEN_IG_COOKIES')
+    os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
+    try:
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   side_effect=instagram_embed.NotASlideshowError('video')), \
+             patch('video_source.subprocess.run') as mock_run:
+            try:
+                download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
+                assert False, 'Expected RuntimeError'
+            except RuntimeError as e:
+                assert str(e) == NO_IMAGES_MESSAGE
+        mock_run.assert_not_called()
+        print('  ✓ NotASlideshowError maps to the video-post message even '
+              'with cookies configured')
+    finally:
+        if saved_env is None:
+            os.environ.pop('MAVEN_IG_COOKIES', None)
+        else:
+            os.environ['MAVEN_IG_COOKIES'] = saved_env
 
 
 # ── TEST 4 ─────────────────────────────────────────────────────────────────────
@@ -111,7 +173,9 @@ def test_login_redirect_maps_to_cookie_message():
                      stderr='[instagram][error] HTTP redirect to login page '
                             '(https://www.instagram.com/accounts/login/)')
     try:
-        with patch('video_source.subprocess.run', return_value=fake) as mock_run:
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   side_effect=instagram_embed.EmbedUnavailableError('blocked')), \
+             patch('video_source.subprocess.run', return_value=fake) as mock_run:
             try:
                 download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
                 assert False, 'Expected RuntimeError'
@@ -199,7 +263,9 @@ def test_download_slideshow_orders_by_sidecar_num():
     saved_env = os.environ.get('MAVEN_IG_COOKIES')
     os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
     try:
-        with patch('video_source.subprocess.run',
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   side_effect=instagram_embed.EmbedUnavailableError('blocked')), \
+             patch('video_source.subprocess.run',
                    return_value=MagicMock(returncode=0, stdout='', stderr='')):
             images, _ = download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
     finally:
@@ -235,14 +301,15 @@ def test_download_slideshow_empty_images_friendly_error():
     saved_env = os.environ.get('MAVEN_IG_COOKIES')
     os.environ['MAVEN_IG_COOKIES'] = str(cookie_file)
     try:
-        with patch('video_source.subprocess.run',
+        with patch('instagram_embed.download_slideshow_anonymous',
+                   side_effect=instagram_embed.EmbedUnavailableError('blocked')), \
+             patch('video_source.subprocess.run',
                    return_value=MagicMock(returncode=0, stdout='', stderr='')):
             try:
                 download_slideshow('https://www.instagram.com/p/DRzdgElEf3N/', tmp)
                 assert False, 'Expected RuntimeError'
             except RuntimeError as e:
-                assert str(e) == ('No images found in this post — it may be a '
-                                  'video post rather than a slideshow.')
+                assert str(e) == NO_IMAGES_MESSAGE
                 print('  ✓ video-only post raises the friendly no-images message')
     finally:
         if saved_env is None:
@@ -479,7 +546,9 @@ def main():
     _sys.stdout = _io.TextIOWrapper(_sys.stdout.buffer, encoding='utf-8')
     test_slideshow_url_detection()
     test_slideshow_urls_validate()
-    test_instagram_slideshow_requires_cookies()
+    test_instagram_anon_failure_without_cookies()
+    test_instagram_anonymous_success_skips_gallery_dl()
+    test_instagram_video_post_no_fallback()
     test_login_redirect_maps_to_cookie_message()
     test_download_slideshow_filters_and_orders()
     test_download_slideshow_orders_by_sidecar_num()
