@@ -47,6 +47,7 @@ maven_app/
   video_source.py     # Shared plumbing: URL dispatch, ffmpeg, yt-dlp helpers
   tiktok.py           # Thin TikTok platform definition
   instagram.py        # Thin Instagram Reels platform definition
+  instagram_embed.py  # Anonymous Instagram /p/ ingestion via public embed endpoint
   transcription.py    # Audio mode: TikTok audio → faster-whisper transcript
   text_extraction.py  # Text mode: frame OCR (RapidOCR) + video description
   slideshow.py        # Slideshow posts: per-slide OCR for TikTok /photo/ and Instagram /p/
@@ -76,7 +77,8 @@ The notebook documents the pipeline with narrative explanations, organized into 
 | `nltk` (punkt) | Sentence tokenization |
 | `pandas` | Tabular results (DataFrames) |
 | `rapidocr-onnxruntime` | Frame OCR for TikTok text mode |
-| `gallery-dl` | Slideshow (photo post) image + metadata download |
+| `gallery-dl` | Slideshow image + metadata download (TikTok; Instagram cookie fallback) |
+| `curl_cffi` | Chrome TLS impersonation (yt-dlp downloads + anonymous Instagram embed fetch) |
 
 ## Running Tests
 
@@ -99,24 +101,28 @@ On Windows, test `main()` functions wrap stdout in UTF-8 to handle Unicode outpu
 ## Slideshow Posts (TikTok /photo/, Instagram /p/)
 
 Slideshow posts are supported in **text mode only** — each slide is OCR'd and
-combined with the caption. Images are fetched with gallery-dl (yt-dlp cannot
-download slideshow images on either platform).
+combined with the caption. TikTok images are fetched with gallery-dl; Instagram
+images come from the anonymous embed path below, with gallery-dl as the
+cookie-authenticated fallback (yt-dlp cannot download slideshow images on
+either platform).
 
-- TikTok slideshows work anonymously.
-- Instagram slideshows require login cookies: export a Netscape `cookies.txt`
-  for instagram.com (browser extension, or
-  `~/.config/maven/export_instagram_cookies.py` on the dev machine, which pulls
-  them from Chrome via yt-dlp) and set `MAVEN_IG_COOKIES=/path/to/cookies.txt`
-  before starting the app. Without it, Instagram slideshow requests return a
-  friendly error. When set, the cookies are also passed to yt-dlp for Instagram
-  Reels, which reduces anonymous rate-limit failures. Keep the file `chmod 600`
-  and out of the repo — it is the account's live session.
-- The cookie-authenticated Instagram path was verified end-to-end on
-  2026-07-16 (`python tests/test_slideshow.py --live` with `MAVEN_IG_COOKIES`
-  set: caption + 12 ordered slide segments from a real /p/ carousel). New
-  deployments/accounts should repeat that one-time live run. If slideshow
-  requests start returning the cookie error again, the session expired —
-  re-export the cookies.
+- Slideshows on both platforms work anonymously out of the box. Instagram
+  caption + slides come from the public embed endpoint
+  (`/p/<shortcode>/embed/captioned/`) fetched with curl_cffi Chrome TLS
+  impersonation (`maven_app/instagram_embed.py`) — no account or cookies.
+  Verified live 2026-07-18 (12-slide and 7-slide public carousels; plain
+  curl without TLS impersonation gets a decoy error page, so keep curl_cffi
+  healthy).
+- `MAVEN_IG_COOKIES` is an optional fallback used only when the anonymous
+  path fails (private/removed posts, rate-limiting): export a Netscape
+  `cookies.txt` for instagram.com (browser extension, or
+  `~/.config/maven/export_instagram_cookies.py` on the dev machine) and set
+  `MAVEN_IG_COOKIES=/path/to/cookies.txt`. When set, the cookies are also
+  passed to yt-dlp for Instagram Reels, which reduces anonymous rate-limit
+  failures. Keep the file `chmod 600` and out of the repo — it is the
+  account's live session. The cookie-authenticated path was last verified
+  end-to-end 2026-07-16; if fallback requests return the cookie error, the
+  session expired — re-export.
 - TikTok short links (`vm.tiktok.com/...`) to photo posts are not detected as
   slideshows and will fail — use the full `/photo/` URL instead.
 - After cloning, run `git config core.hooksPath .githooks` once to enable the

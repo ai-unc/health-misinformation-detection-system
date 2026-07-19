@@ -516,27 +516,26 @@ def test_live_tiktok_slideshow():
 
 
 def test_live_instagram_slideshow():
-    print('\n=== LIVE TEST: Instagram slideshow ===')
+    print('\n=== LIVE TEST: Instagram slideshow (anonymous) ===')
 
-    import video_source
     from text_extraction import extract_text_url
-    from video_source import INSTAGRAM_COOKIE_MESSAGE
 
-    url = 'https://www.instagram.com/p/DRzdgElEf3N/'
-    if not video_source._instagram_cookies():
-        try:
-            extract_text_url(url)
-            assert False, 'Expected RuntimeError'
-        except RuntimeError as e:
-            assert str(e) == INSTAGRAM_COOKIE_MESSAGE
-        print('  ~ MAVEN_IG_COOKIES not set — verified friendly cookie error; '
-              'full extraction SKIPPED')
-        return
+    # Unset cookies for the call to prove the anonymous path works alone.
+    saved = os.environ.pop('MAVEN_IG_COOKIES', None)
+    try:
+        result = extract_text_url('https://www.instagram.com/p/DRzdgElEf3N/')
+    finally:
+        if saved is not None:
+            os.environ['MAVEN_IG_COOKIES'] = saved
 
-    result = extract_text_url(url)
     assert result.description, 'expected a caption'
+    print(f'  ✓ caption extracted anonymously ({len(result.description)} chars)')
     assert result.overlay_segments, 'expected OCR text from slides'
-    print(f'  ✓ caption + {len(result.overlay_segments)} slide segments extracted')
+    slides = [seg['slide'] for seg in result.overlay_segments]
+    assert slides == sorted(slides) and slides[0] >= 1
+    print(f'  ✓ {len(result.overlay_segments)} slide segments in order: {slides}')
+    assert result.text.startswith(result.description[:20])
+    print('  ✓ assembled text begins with caption')
 
 
 # ── MAIN ───────────────────────────────────────────────────────────────────────
