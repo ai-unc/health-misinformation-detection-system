@@ -21,6 +21,20 @@ from video_source import (
     validate_url,
 )
 from slideshow import _description_from, _uploader_from, build_slide_segments
+import instagram_embed
+
+
+def _embed_page(media: dict) -> str:
+    """Minified embed-page fixture mirroring the real page's JSON-in-string
+    shape (verified 2026-07-18), including Instagram's \\/ slash escaping and
+    a decoy contextJSON that must be skipped."""
+    context = {'context': {'type': media.get('__typename')},
+               'gql_data': {'shortcode_media': media}}
+    inner = json.dumps(context, separators=(',', ':')).replace('/', '\\/')
+    blob = '{"contextJSON":' + json.dumps(inner) + '}'
+    return ('<html><head><script>{"contextJSON":"not-json"}</script></head>'
+            '<body><script type="application/json">{"require":[[' + blob +
+            ']]}</script></body></html>')
 
 
 # ── TEST 1 ─────────────────────────────────────────────────────────────────────
@@ -319,6 +333,100 @@ def test_audio_mode_rejects_slideshows():
     print('  ✓ both platforms rejected in audio mode with the friendly message')
 
 
+# ── TEST 10 ────────────────────────────────────────────────────────────────────
+
+def test_embed_parse_carousel():
+    print('\n=== TEST 10: embed page parse — carousel ===')
+
+    media = {
+        '__typename': 'GraphSidecar',
+        'owner': {'username': 'healthaccount'},
+        'edge_media_to_caption': {'edges': [{'node': {'text': 'the caption'}}]},
+        'edge_sidecar_to_children': {'edges': [
+            {'node': {'display_url': 'https://cdn.example/1.jpg'}},
+            {'node': {'display_url': 'https://cdn.example/2.jpg'}},
+            {'node': {'display_url': 'https://cdn.example/3.jpg'}},
+        ]},
+    }
+    parsed = instagram_embed._parse_shortcode_media(_embed_page(media))
+    assert parsed['__typename'] == 'GraphSidecar'
+    assert parsed['owner']['username'] == 'healthaccount'
+    print('  ✓ shortcode_media recovered through double-encoded contextJSON')
+
+    urls = instagram_embed._slide_urls(parsed)
+    assert urls == ['https://cdn.example/1.jpg', 'https://cdn.example/2.jpg',
+                    'https://cdn.example/3.jpg']
+    print('  ✓ slide URLs in carousel order with \\/ escapes decoded')
+
+
+# ── TEST 11 ────────────────────────────────────────────────────────────────────
+
+def test_embed_parse_edge_shapes():
+    print('\n=== TEST 11: embed parse — single image, video post, missing data ===')
+
+    single = {'__typename': 'GraphImage', 'owner': {'username': 'u'},
+              'edge_media_to_caption': {'edges': []},
+              'display_url': 'https://cdn.example/only.jpg'}
+    urls = instagram_embed._slide_urls(
+        instagram_embed._parse_shortcode_media(_embed_page(single)))
+    assert urls == ['https://cdn.example/only.jpg']
+    print('  ✓ single GraphImage post yields its one display_url')
+
+    video = {'__typename': 'GraphVideo', 'owner': {'username': 'u'},
+             'display_url': 'https://cdn.example/poster.jpg'}
+    try:
+        instagram_embed._slide_urls(video)
+        assert False, 'Expected NotASlideshowError'
+    except instagram_embed.NotASlideshowError:
+        print('  ✓ GraphVideo post raises NotASlideshowError')
+
+    try:
+        instagram_embed._parse_shortcode_media('<html><body>no data</body></html>')
+        assert False, 'Expected EmbedUnavailableError'
+    except instagram_embed.EmbedUnavailableError:
+        print('  ✓ page without contextJSON raises EmbedUnavailableError')
+
+
+# ── TEST 12 ────────────────────────────────────────────────────────────────────
+
+def test_download_slideshow_anonymous():
+    print('\n=== TEST 12: download_slideshow_anonymous writes ordered slides ===')
+
+    media = {
+        '__typename': 'GraphSidecar',
+        'owner': {'username': 'healthaccount'},
+        'edge_media_to_caption': {'edges': [{'node': {'text': 'the caption'}}]},
+        'edge_sidecar_to_children': {'edges': [
+            {'node': {'display_url': 'https://cdn.example/1.jpg'}},
+            {'node': {'display_url': 'https://cdn.example/2.jpg'}},
+            {'node': {'display_url': 'https://cdn.example/3.jpg'}},
+        ]},
+    }
+    html = _embed_page(media)
+    tmp = tempfile.mkdtemp()
+
+    def fake_download(url, dest):
+        dest.write_bytes(url.encode())
+
+    with patch('instagram_embed._fetch_embed_page',
+               return_value=html) as mock_fetch, \
+         patch('instagram_embed._download_image', side_effect=fake_download):
+        images, meta = instagram_embed.download_slideshow_anonymous(
+            'https://www.instagram.com/p/ABC123xyz_-/', tmp)
+
+    mock_fetch.assert_called_once_with('ABC123xyz_-')
+    print('  ✓ shortcode extracted from URL')
+    assert [p.name for p in images] == ['01.jpg', '02.jpg', '03.jpg']
+    assert all(p.parent.name == 'embed' for p in images)
+    print('  ✓ slides written to tmp_dir/embed/ as zero-padded NN.jpg in order')
+    assert [p.read_bytes().decode() for p in images] == [
+        'https://cdn.example/1.jpg', 'https://cdn.example/2.jpg',
+        'https://cdn.example/3.jpg']
+    print('  ✓ each slide downloaded from its carousel-ordered display_url')
+    assert meta == {'description': 'the caption', 'username': 'healthaccount'}
+    print('  ✓ metadata uses the Instagram schema slideshow.py already reads')
+
+
 # ── LIVE TESTS (network) ───────────────────────────────────────────────────────
 
 def test_live_tiktok_slideshow():
@@ -380,6 +488,9 @@ def main():
     test_metadata_normalization()
     test_text_mode_dispatches_to_slideshow()
     test_audio_mode_rejects_slideshows()
+    test_embed_parse_carousel()
+    test_embed_parse_edge_shapes()
+    test_download_slideshow_anonymous()
     if '--live' in _sys.argv:
         test_live_tiktok_slideshow()
         test_live_instagram_slideshow()
