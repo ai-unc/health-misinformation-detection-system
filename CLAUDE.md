@@ -132,8 +132,11 @@ either platform).
 ## Pipeline Entry Point
 
 `score_text(text)` in `maven_app/pipeline.py` is the end-to-end function:
-chunk → PubMedBERT embed → retrieve reference claims (misinfo + authority,
-on-topic gate) → DeBERTa-v3 NLI stance verification → P(misinfo) with
+chunk → PubMedBERT embed → lexical content gate
+(`scoring.has_scoreable_content` — hashtag blocks, mention runs, URLs,
+emoji runs become stance `non_content`, never retrieved or verified) →
+retrieve reference claims (misinfo + authority, on-topic gate) →
+DeBERTa-v3 NLI stance verification → P(misinfo) with
 threshold τ (heuristic 0.5 until `maven_app/models/calibration_head.joblib`
 exists — fit it with `ml/training/fit_calibration.py`). Returns a
 DataFrame: `chunk, chunk_mode, misinfo_entail, guidance_contradict,

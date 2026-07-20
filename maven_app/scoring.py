@@ -9,6 +9,7 @@ head and tau from the artifact. The flag decision itself lives in
 pipeline.score_text (p >= tau); stance here is explanatory metadata only.
 """
 import os
+import re
 from pathlib import Path
 from typing import List, NamedTuple, Optional
 
@@ -16,7 +17,7 @@ import joblib
 import numpy as np
 
 import verifier as verifier_mod
-from retrieval import base_entry, retrieve
+from retrieval import RetrievalResult, base_entry, retrieve
 
 TAU = 0.5                 # heuristic flag threshold (calibration overrides)
 ENTAIL_MIN = 0.5          # min prob for a stance to be claimed at all
@@ -27,10 +28,34 @@ PAIR_CAP_ACTIVE = verifier_mod.PAIR_CAP
 FEATURES = ['misinfo_entail', 'guidance_contradict', 'misinfo_contradict',
             'top_claim_sim', 'top_auth_sim']
 
+MIN_CONTENT_WORDS = 3     # words a chunk must keep after junk-stripping
+_NON_CONTENT = re.compile(
+    r'https?://\S+'       # schemed URLs
+    r'|www\.\S+'          # www URLs
+    r'|\S+\.\S+/\S+'      # bare domain with path (linktr.ee/x)
+    r'|[#@][\w.]+'        # hashtags and @handles
+)
+_WORD = re.compile(r'[A-Za-z]{2,}')
+
 _HERE = Path(__file__).resolve().parent
 _CALIBRATION_PATH_ENV = os.environ.get('MAVEN_CALIBRATION_PATH')
 CALIBRATION_PATH = (Path(_CALIBRATION_PATH_ENV) if _CALIBRATION_PATH_ENV
                     else _HERE / 'models' / 'calibration_head.joblib')
+
+
+def has_scoreable_content(text: str) -> bool:
+    """False for chunks with no propositional residue: hashtag blocks,
+    mention runs, bare URLs, emoji/symbol runs.
+
+    Topically dense junk ('#firsttrimester #pregnancy') clears the retrieval
+    similarity floor, and NLI verifiers emit spurious contradiction for
+    non-sentential premises (base checkpoint and fine-tune alike) — so these
+    chunks must be gated lexically, before retrieval or NLI. Word-joined
+    junk (pipe-separated keyword lists, SWIPE-FOR-MORE nav text) deliberately
+    passes: gating real words would false-negative legit OCR slides.
+    """
+    residue = _NON_CONTENT.sub(' ', text)
+    return len(_WORD.findall(residue)) >= MIN_CONTENT_WORDS
 
 
 class ChunkScore(NamedTuple):
@@ -144,7 +169,11 @@ def _allocate_pairs(chunks, results, cap):
 def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[ChunkScore]:
     if not chunks:
         return []
-    results = retrieve(chunk_embs)
+    # Lexical content gate: blank retrieval for non-content chunks so they
+    # are non-scoreable and consume no NLI pairs (see has_scoreable_content).
+    is_content = [has_scoreable_content(c) for c in chunks]
+    results = [r if ok else RetrievalResult(misinfo=[], authority=[])
+               for r, ok in zip(retrieve(chunk_embs), is_content)]
 
     # Latency guard: shrink per-kind k so total pairs stay under the cap.
     n_pairs = sum(len(r.misinfo) + len(r.authority) for r in results)
@@ -193,7 +222,8 @@ def score_chunks(chunks: List[str], chunk_embs: np.ndarray, nli=None) -> List[Ch
         scoreable = r.scoreable
         features = [e_m, c_a, c_m, top_claim_sim, top_auth_sim]
         p = _p_misinfo(features) if scoreable else 0.0
-        stance = _stance(scoreable, e_m, c_m, c_a)
+        stance = ('non_content' if not is_content[ci]
+                  else _stance(scoreable, e_m, c_m, c_a))
         if stance != 'asserts_misinfo' and e_m < ENTAIL_MIN:
             matched = None  # only surface a matched claim the chunk plausibly asserts
         scores.append(ChunkScore(

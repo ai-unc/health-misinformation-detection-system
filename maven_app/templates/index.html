@@ -558,6 +558,7 @@ function renderScorePills(chunk) {
         debunks_misinfo:      'DEBUNK',
         on_topic_neutral:     'NEUTRAL',
         off_topic:            'OFF-TOPIC',
+        non_content:          'NON-CONTENT',
     };
     const stanceLabel = STANCE_SHORT[chunk.stance] ?? '—';
     const stanceColor = chunk.stance === 'asserts_misinfo' ? 'text-secondary'

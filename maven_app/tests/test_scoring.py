@@ -73,6 +73,25 @@ def main():
     assert r['stance'] == 'off_topic'
     assert r['misinfo_score'] == 0.0
 
+    print('\n=== 6) hashtag block -> non_content, never flagged ===')
+    r = _one('#firsttrimester #pregnancy #momlife #babybump #newmom')
+    all_rows.append(r)
+    assert r['stance'] == 'non_content', r
+    assert not r['scoreable'] and not r['flagged'], r
+    assert r['misinfo_score'] == 0.0, r
+
+    print('\n=== 6b) caption hashtag tail gated; sentence chunk unaffected ===')
+    df = score_text('No coffee for me this week! '
+                    '😅 #firsttrimester #pregnancy #caffeinefree #momtok #fyp')
+    print(df[['chunk', 'stance', 'misinfo_score', 'flagged']].to_string())
+    assert len(df) == 2, df
+    tail = df[df['stance'] == 'non_content']
+    assert len(tail) == 1, 'hashtag tail chunk must be non_content'
+    assert not tail.iloc[0]['flagged'] and tail.iloc[0]['misinfo_score'] == 0.0
+    sentence = df[df['stance'] != 'non_content'].iloc[0]
+    assert sentence['scoreable'] and not sentence['flagged'], sentence
+    all_rows.extend(df.to_dict('records'))
+
     print('\n=== multi-chunk mixed text keeps per-chunk behavior ===')
     df = score_text(
         'Doctors push induction for billing convenience, not for patient safety. '

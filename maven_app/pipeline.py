@@ -88,7 +88,8 @@ def score_text(
     flag_threshold overrides both). matched_claim / evidence_correction /
     misinfo_type / misinfo_type_confidence populate only on flagged rows.
     stance is explanatory metadata: asserts_misinfo / contradicts_guidance /
-    debunks_misinfo / on_topic_neutral / off_topic.
+    debunks_misinfo / on_topic_neutral / off_topic / non_content (lexical
+    junk — hashtag blocks, mention runs, URLs, emoji — never scored).
     """
     chunks, mode_used = chunk_text(text, mode=chunk_mode, window=window, stride=stride)
     if not chunks:
